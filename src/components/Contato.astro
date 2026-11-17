@@ -1,0 +1,105 @@
+---
+import { Mail, Copy, Check, MessageCircle, FileDown, ArrowUpRight } from '@lucide/astro';
+import { contato, site } from '../data/site';
+---
+<section id="contato" class="bg-blue-grad on-blue relative overflow-hidden text-white" aria-labelledby="contato-titulo">
+  <span class="pointer-events-none absolute -right-24 -top-24 aspect-square w-[420px] rounded-full border-[1.5px] border-white/25" aria-hidden="true"></span>
+  <span class="pointer-events-none absolute -bottom-40 right-[18%] aspect-square w-[320px] rounded-full bg-white/[0.08]" aria-hidden="true"></span>
+
+  <div class="container-x relative py-20 sm:py-28 lg:py-36">
+    <div class="reveal">
+      <p class="eyebrow">{contato.eyebrow}</p>
+      <h2 id="contato-titulo" class="mt-4 text-[3rem] font-bold leading-[0.95] tracking-[-0.035em] sm:text-7xl lg:text-[7.5rem]">{contato.titulo}</h2>
+    </div>
+
+    <div class="reveal mt-12 grid grid-cols-[minmax(0,1fr)] gap-4 lg:mt-16 lg:grid-cols-2" style="transition-delay:100ms">
+      <!-- E-mail com copiar -->
+      <div class="row">
+        <Mail class="size-5 shrink-0" aria-hidden="true" />
+        <div class="min-w-0 flex-1">
+          <p class="text-[0.82rem] font-medium text-white">E-mail</p>
+          <a href={`mailto:${contato.email}`} class="block text-[1.05rem] [overflow-wrap:anywhere] font-semibold underline-offset-4 hover:underline">{contato.email}</a>
+        </div>
+        <button type="button" class="copy-btn" data-copy={contato.email} aria-label="Copiar e-mail">
+          <Copy class="i-copy size-4" aria-hidden="true" />
+          <Check class="i-check hidden size-4" aria-hidden="true" />
+          <span data-copy-label class="hidden min-[400px]:inline">copiar</span>
+        </button>
+        <span class="sr-only" role="status" aria-live="polite" data-copy-status></span>
+      </div>
+
+      <a href={contato.whatsapp.href} target="_blank" rel="noopener" class="row group">
+        <MessageCircle class="size-5 shrink-0" aria-hidden="true" />
+        <span class="min-w-0 flex-1">
+          <span class="block text-[0.82rem] font-medium text-white">WhatsApp</span>
+          <span class="block text-[1.05rem] [overflow-wrap:anywhere] font-semibold">{contato.whatsapp.rotulo}</span>
+        </span>
+        <ArrowUpRight class="size-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+        <span class="sr-only">(abre em nova aba)</span>
+      </a>
+
+      <a href={contato.linkedin.href} target="_blank" rel="noopener" class="row group">
+        <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        <span class="min-w-0 flex-1">
+          <span class="block text-[0.82rem] font-medium text-white">LinkedIn</span>
+          <span class="block text-[1.05rem] [overflow-wrap:anywhere] font-semibold">{contato.linkedin.rotulo}</span>
+        </span>
+        <ArrowUpRight class="size-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+        <span class="sr-only">(abre em nova aba)</span>
+      </a>
+
+      <a href={contato.github.href} target="_blank" rel="noopener" class="row group">
+        <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3"/></svg>
+        <span class="min-w-0 flex-1">
+          <span class="block text-[0.82rem] font-medium text-white">GitHub</span>
+          <span class="block text-[1.05rem] [overflow-wrap:anywhere] font-semibold">{contato.github.rotulo}</span>
+        </span>
+        <ArrowUpRight class="size-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+        <span class="sr-only">(abre em nova aba)</span>
+      </a>
+    </div>
+
+    <div class="reveal mt-10" style="transition-delay:160ms">
+      <a href={contato.pdf.href} download class="btn bg-white text-blue-ink hover:bg-white/90">
+        <FileDown class="size-5" aria-hidden="true" />
+        {contato.pdf.rotulo}
+      </a>
+    </div>
+  </div>
+
+  <footer class="container-x relative flex flex-col gap-2 border-t border-white/20 py-6 text-[0.85rem] text-white sm:flex-row sm:justify-between">
+    <p>{site.titulo}</p>
+    <p>{site.local}</p>
+  </footer>
+</section>
+
+<style>
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 76px;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-card);
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.18);
+    transition: background-color 0.2s;
+  }
+  a.row:hover { background: rgb(255 255 255 / 0.14); }
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 40px;
+    padding: 0 0.9rem;
+    border-radius: 9999px;
+    background: #fff;
+    color: var(--color-blue-ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .copy-btn.is-copied { background: var(--color-green); color: var(--color-ink); }
+  .copy-btn.is-copied .i-copy { display: none; }
+  .copy-btn.is-copied .i-check { display: block; }
+</style>

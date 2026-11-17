@@ -1,0 +1,52 @@
+---
+import { Wrench, Database, CodeXml, Server, Activity, Users } from '@lucide/astro';
+import { servicos, servicosIntro } from '../data/servicos';
+
+const icones = { Wrench, Database, CodeXml, Server, Activity, Users };
+
+const tons = {
+  azul: {
+    card: 'bg-blue-grad text-white border-transparent on-blue',
+    icon: 'bg-white text-blue',
+    desc: 'text-white/90',
+    num: 'text-white/25',
+  },
+  claro: {
+    card: 'bg-paper-2 text-ink border-line',
+    icon: 'bg-[#e6ecfd] text-blue',
+    desc: 'text-muted',
+    num: 'text-ink/[0.09]',
+  },
+  escuro: {
+    card: 'bg-ink text-white border-transparent on-dark',
+    icon: 'bg-blue text-white',
+    desc: 'text-on-dark-muted',
+    num: 'text-white/[0.12]',
+  },
+} as const;
+---
+<section id="servicos" class="pb-20 sm:pb-28 lg:pb-36" aria-labelledby="servicos-titulo">
+  <div class="container-x">
+    <div class="reveal">
+      <p class="eyebrow">{servicosIntro.eyebrow}</p>
+      <h2 id="servicos-titulo" class="mt-4 text-[2.3rem] font-bold leading-[1.05] sm:text-5xl lg:text-[3.6rem]">{servicosIntro.titulo}</h2>
+    </div>
+
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-5">
+      {servicos.map((s, i) => {
+        const Icone = icones[s.icone];
+        const t = tons[s.tom];
+        return (
+          <li class={`reveal relative flex min-h-[220px] flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 sm:p-7 ${t.card}`} style={`transition-delay:${(i % 3) * 70}ms`}>
+            <span class={`big-num absolute right-5 top-5 text-[3.2rem] ${t.num}`} data-num={s.numero} aria-hidden="true"></span>
+            <span class={`grid size-11 place-items-center rounded-xl ${t.icon}`}>
+              <Icone class="size-5" stroke-width={1.8} aria-hidden="true" />
+            </span>
+            <h3 class="mt-auto pt-10 text-[1.45rem] font-bold">{s.titulo}</h3>
+            <p class={`mt-2 leading-relaxed ${t.desc}`}>{s.descricao}</p>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

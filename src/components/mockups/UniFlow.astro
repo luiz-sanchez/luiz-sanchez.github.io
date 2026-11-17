@@ -1,0 +1,47 @@
+---
+import { uniflowMock as m } from '../../data/projetos';
+const max = Math.max(...m.grafico.barras);
+---
+<div class="win" role="img" aria-label="Ilustração do UniFlow: painel com 18 chamados abertos, 7 em andamento, 142 resolvidos e gráfico de chamados por semana">
+  <div class="win-bar" aria-hidden="true">
+    <span class="dot bg-[#ff5f57]"></span><span class="dot bg-[#febc2e]"></span><span class="dot bg-[#28c840]"></span>
+    <span class="url">{m.url}</span>
+  </div>
+  <div class="grid grid-cols-[minmax(0,92px)_1fr] sm:grid-cols-[minmax(0,120px)_1fr]" aria-hidden="true">
+    <aside class="border-r border-white/5 p-3 sm:p-4">
+      <p class="mb-3 font-display text-[0.95rem] font-bold text-white">UniFlow</p>
+      <ul class="space-y-1 text-[0.72rem] sm:text-[0.8rem]">
+        {m.menu.map((item, i) => (
+          <li class={i === 0 ? 'rounded-md bg-blue px-2 py-1.5 font-semibold text-white' : 'px-2 py-1.5 text-on-dark-muted'}>{item}</li>
+        ))}
+      </ul>
+    </aside>
+    <div class="space-y-3 p-3 sm:p-4">
+      <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        {m.cards.map((c) => (
+          <div class={`rounded-lg p-2.5 sm:p-3 ${c.tom === 'azul' ? 'bg-blue' : 'bg-ink-3'}`}>
+            <p class={`text-[0.66rem] sm:text-[0.75rem] ${c.tom === 'azul' ? 'text-white/90' : 'text-on-dark-muted'}`}>{c.rotulo}</p>
+            <p class={`mt-1 font-display text-xl font-bold sm:text-2xl ${c.tom === 'amarelo' ? 'text-yellow' : 'text-white'}`}>{c.valor}</p>
+          </div>
+        ))}
+      </div>
+      <div class="rounded-lg bg-ink-3 p-3">
+        <p class="text-[0.7rem] text-on-dark-muted sm:text-[0.78rem]">{m.grafico.titulo}</p>
+        <div class="bars mt-3 flex h-24 items-end gap-1.5 sm:h-28 sm:gap-2.5">
+          {m.grafico.barras.map((b, i) => (
+            <span
+              class="bar flex-1 rounded-t-[4px]"
+              style={`height:${(b / max) * 100}%;--i:${i};background:${i === m.grafico.destaque ? 'var(--color-blue)' : i === m.grafico.barras.length - 1 ? 'var(--color-lilac)' : '#3b4562'}`}
+            ></span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bar { transform-origin: bottom; transform: scaleY(0.04); transition: transform 0.9s var(--ease-out-soft); transition-delay: calc(var(--i) * 70ms + 150ms); }
+  :global(.is-in) .bar, :global(.no-js) .bar { transform: none; }
+  @media (prefers-reduced-motion: reduce) { .bar { transform: none; } }
+</style>

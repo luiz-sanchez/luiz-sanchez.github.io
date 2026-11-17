@@ -1,0 +1,27 @@
+---
+import { sobre } from '../data/site';
+
+const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-ink">$1</strong>');
+---
+<section id="sobre" class="py-20 sm:py-28 lg:py-36" aria-labelledby="sobre-titulo">
+  <div class="container-x grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+    <div class="reveal bg-blue-grad on-blue rounded-[var(--radius-card)] p-7 text-white shadow-[0_30px_60px_-30px_rgb(31_69_201/0.6)] sm:p-9 lg:col-span-5">
+      <p class="eyebrow">{sobre.eyebrow}</p>
+      <h2 id="sobre-titulo" class="mt-4 text-[2.4rem] font-bold leading-[1.05] sm:text-5xl">{sobre.titulo}</h2>
+      <dl class="mt-8 flex flex-wrap gap-x-8 gap-y-4 border-t sm:gap-x-10 border-white/30 pt-6">
+        {sobre.numeros.map((n) => (
+          <div class="flex flex-col-reverse">
+            <dt class="mt-1 text-[0.85rem] font-medium text-white">{n.rotulo}</dt>
+            <dd class="font-display text-[2.1rem] font-bold leading-none tabular-nums sm:text-[2.6rem]">
+              <span data-count={n.valor} data-from={n.valor > 1000 ? n.valor - 25 : 0}>{n.valor}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="reveal space-y-5 text-[1.08rem] leading-[1.75] text-muted sm:text-[1.15rem] lg:col-span-7 lg:max-w-[60ch]">
+      {sobre.paragrafos.map((p) => <p set:html={rich(p)} />)}
+    </div>
+  </div>
+</section>

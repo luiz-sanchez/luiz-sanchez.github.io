@@ -1,0 +1,66 @@
+---
+import { glpiMock as m } from '../../data/projetos';
+
+const badge = {
+  novo: 'bg-lilac text-ink',
+  analise: 'bg-yellow text-ink',
+  resolvido: 'bg-green text-ink',
+  andamento: 'bg-blue text-white',
+} as const;
+---
+<div class="win" data-tabs>
+  <div class="win-bar" aria-hidden="true">
+    <span class="dot bg-[#ff5f57]"></span><span class="dot bg-[#febc2e]"></span><span class="dot bg-[#28c840]"></span>
+    <span class="url">{m.titulo}</span>
+  </div>
+
+  <div class="p-3 sm:p-4">
+    <p class="sr-only">Ilustração interativa do GLPI. Escolha um setor para ver os chamados de exemplo.</p>
+    <div role="tablist" aria-label="Setores" class="flex flex-wrap gap-1.5">
+      {m.abas.map((aba, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`glpi-tab-${i}`}
+          aria-controls={`glpi-panel-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="tab min-h-10 rounded-full px-3.5 text-[0.8rem] font-semibold transition-colors"
+        >
+          {aba.nome}
+        </button>
+      ))}
+    </div>
+
+    {m.abas.map((aba, i) => (
+      <div
+        role="tabpanel"
+        id={`glpi-panel-${i}`}
+        aria-labelledby={`glpi-tab-${i}`}
+        tabindex="0"
+        class="panel mt-3 rounded-lg"
+        hidden={i !== 0}
+      >
+      <ul class="space-y-2.5">
+        {aba.itens.map((it) => (
+          <li class="flex items-center justify-between gap-3 rounded-lg bg-ink-3 px-4 py-3">
+            <span class="min-w-0">
+              <span class="block truncate text-[0.88rem] font-semibold text-white">{it.titulo}</span>
+              <span class="block truncate text-[0.75rem] text-on-dark-muted">{it.sub}</span>
+            </span>
+            <span class={`shrink-0 rounded-full px-2.5 py-0.5 text-[0.72rem] font-bold ${badge[it.tom]}`}>{it.status}</span>
+          </li>
+        ))}
+      </ul>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .tab { background: var(--color-ink-3); color: var(--color-on-dark); }
+  .tab:hover { background: #343947; }
+  .tab[aria-selected='true'] { background: var(--color-blue); color: #fff; }
+  .panel:not([hidden]) { animation: swap 0.35s var(--ease-out-soft); }
+  @keyframes swap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>

@@ -1,0 +1,47 @@
+---
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-700.css';
+import '@fontsource/schibsted-grotesk/latin-700.css';
+import '@fontsource/schibsted-grotesk/latin-800.css';
+import '../styles/global.css';
+import { site } from '../data/site';
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL('/og.png', Astro.site).toString();
+---
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.titulo}</title>
+    <meta name="description" content={site.descricao} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#2D62EA" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={site.titulo} />
+    <meta property="og:description" content={site.descricao} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Luiz Sanchez: Service Desk, infraestrutura e desenvolvimento de ferramentas internas" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+  </head>
+  <body>
+    <a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Pular para o conteúdo</a>
+    <slot />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

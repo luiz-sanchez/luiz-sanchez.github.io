@@ -1,0 +1,167 @@
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Header: fundo ao rolar + seção ativa ---------- */
+const header = document.querySelector<HTMLElement>('[data-header]');
+const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+const sectionIds = [...new Set(navLinks.map((a) => a.hash.slice(1)))];
+const sections = sectionIds
+  .map((id) => document.getElementById(id))
+  .filter((el): el is HTMLElement => !!el);
+
+const setActive = (id: string | null) => {
+  navLinks.forEach((a) => {
+    if (a.hash === `#${id}`) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
+};
+
+const spy = () => {
+  const line = window.innerHeight * 0.35;
+  let current: string | null = null;
+  for (const s of sections) {
+    if (s.getBoundingClientRect().top <= line) current = s.id;
+  }
+  // Última seção: ativa ao chegar no fim da página
+  if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = sections.at(-1)?.id ?? current;
+  setActive(current);
+};
+spy();
+window.addEventListener('scroll', spy, { passive: true });
+
+/* ---------- Menu mobile ---------- */
+const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+const menu = document.querySelector<HTMLElement>('[data-menu]');
+const setMenu = (open: boolean) => {
+  if (!toggle || !menu) return;
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  menu.classList.toggle('hidden', !open);
+  header?.classList.toggle('is-scrolled', open || window.scrollY > 24);
+};
+toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+    setMenu(false);
+    toggle.focus();
+  }
+});
+
+/* ---------- Entradas na tela + contadores ---------- */
+const animateCount = (el: HTMLElement) => {
+  const to = Number(el.dataset.count);
+  const from = Number(el.dataset.from ?? 0);
+  if (reduceMotion || Number.isNaN(to)) return;
+  const dur = 1200;
+  const start = performance.now();
+  const tick = (now: number) => {
+    const t = Math.min(1, (now - start) / dur);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = String(Math.round(from + (to - from) * eased));
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  el.textContent = String(from);
+  requestAnimationFrame(tick);
+};
+
+const io = new IntersectionObserver(
+  (entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const el = entry.target as HTMLElement;
+      el.classList.add('is-in');
+      el.querySelectorAll<HTMLElement>('[data-count]').forEach(animateCount);
+      io.unobserve(el);
+    }
+  },
+  { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+);
+document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+/* ---------- Hero: LS reage ao mouse ---------- */
+const panel = document.querySelector<HTMLElement>('[data-parallax]');
+if (panel && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+  panel.querySelectorAll<HTMLElement>('[data-depth]').forEach((el) => {
+    el.style.setProperty('--k', `${el.dataset.depth}px`);
+  });
+  const hero = panel.closest('section') ?? panel;
+  let raf = 0;
+  hero.addEventListener('pointermove', (e) => {
+    const ev = e as PointerEvent;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const r = panel.getBoundingClientRect();
+      const x = (ev.clientX - (r.left + r.width / 2)) / window.innerWidth;
+      const y = (ev.clientY - (r.top + r.height / 2)) / window.innerHeight;
+      panel.style.setProperty('--mx', (x * 2).toFixed(3));
+      panel.style.setProperty('--my', (y * 2).toFixed(3));
+    });
+  });
+  hero.addEventListener('pointerleave', () => {
+    panel.style.setProperty('--mx', '0');
+    panel.style.setProperty('--my', '0');
+  });
+}
+
+/* ---------- Abas do GLPI ---------- */
+document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+  const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  const select = (i: number, focus = false) => {
+    tabs.forEach((t, j) => {
+      const on = i === j;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panelEl = document.getElementById(t.getAttribute('aria-controls')!);
+      if (panelEl) panelEl.hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(i));
+    t.addEventListener('keydown', (e) => {
+      const map: Record<string, number> = {
+        ArrowRight: (i + 1) % tabs.length,
+        ArrowLeft: (i - 1 + tabs.length) % tabs.length,
+        Home: 0,
+        End: tabs.length - 1,
+      };
+      if (e.key in map) {
+        e.preventDefault();
+        select(map[e.key], true);
+      }
+    });
+  });
+});
+
+/* ---------- Copiar e-mail ---------- */
+document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+  const label = btn.querySelector<HTMLElement>('[data-copy-label]');
+  const status = btn.parentElement?.querySelector<HTMLElement>('[data-copy-status]');
+  let timer = 0;
+  btn.addEventListener('click', async () => {
+    const text = btn.dataset.copy ?? '';
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    btn.classList.add('is-copied');
+    if (label) label.textContent = 'copiado!';
+    if (status) status.textContent = 'E-mail copiado para a área de transferência';
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      btn.classList.remove('is-copied');
+      if (label) label.textContent = 'copiar';
+      if (status) status.textContent = '';
+    }, 2200);
+  });
+});
