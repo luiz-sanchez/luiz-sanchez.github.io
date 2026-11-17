@@ -191,13 +191,15 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     .hero-inner { flex: 1; display: flex; flex-direction: column; }
     .textos { margin-top: auto; padding-bottom: 18vh; }
     .acoes { justify-self: end; flex-direction: column; align-items: flex-end; }
-    /* O avatar ocupa o espaço entre a base do nome e o fim da tela: o topo do cabelo encosta
-       só na parte de baixo das letras (nome legível) e o rosto aparece inteiro em qualquer proporção. */
+    /* O avatar começa na metade de baixo do nome e é 25% mais alto que o espaço até o fim da tela:
+       o busto passa da dobra e some no degradê do ::after, e o rosto fica grande e inteiro.
+       Em telas muito altas o tamanho é limitado. */
     .avatar-wrap {
+      --av-top: calc(9rem + var(--S) + 0.5 * var(--F));
       position: absolute;
       left: 50%;
-      top: max(calc(9rem + var(--S) + 0.62 * var(--F)), calc(100% - 860px));
-      bottom: 0;
+      top: var(--av-top);
+      height: min(calc((100% - var(--av-top)) * 1.25), 1000px, 52vw);
       width: auto;
       margin: 0;
       transform: translateX(-50%);
