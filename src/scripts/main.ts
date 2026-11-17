@@ -89,22 +89,26 @@ if (panel && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
     el.style.setProperty('--k', `${el.dataset.depth}px`);
   });
   const hero = panel.closest('section') ?? panel;
-  let raf = 0;
+  // Movimento com inércia: o alvo segue o mouse e a posição atual o persegue (lerp).
+  // O loop só roda enquanto há distância a percorrer.
+  let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+  const step = () => {
+    cx += (tx - cx) * 0.08;
+    cy += (ty - cy) * 0.08;
+    panel.style.setProperty('--mx', cx.toFixed(4));
+    panel.style.setProperty('--my', cy.toFixed(4));
+    raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.001 ? requestAnimationFrame(step) : 0;
+  };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
+  // Mede o painel só ao entrar no hero, não a cada movimento, para evitar reflow.
+  let r = panel.getBoundingClientRect();
+  hero.addEventListener('pointerenter', () => { r = panel.getBoundingClientRect(); });
   hero.addEventListener('pointermove', (e) => {
-    const ev = e as PointerEvent;
-    cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => {
-      const r = panel.getBoundingClientRect();
-      const x = (ev.clientX - (r.left + r.width / 2)) / window.innerWidth;
-      const y = (ev.clientY - (r.top + r.height / 2)) / window.innerHeight;
-      panel.style.setProperty('--mx', (x * 2).toFixed(3));
-      panel.style.setProperty('--my', (y * 2).toFixed(3));
-    });
+    tx = Math.max(-1, Math.min(1, ((e as PointerEvent).clientX - (r.left + r.width / 2)) / (window.innerWidth / 2)));
+    ty = Math.max(-1, Math.min(1, ((e as PointerEvent).clientY - (r.top + r.height / 2)) / (window.innerHeight / 2)));
+    kick();
   });
-  hero.addEventListener('pointerleave', () => {
-    panel.style.setProperty('--mx', '0');
-    panel.style.setProperty('--my', '0');
-  });
+  hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
 }
 
 /* ---------- Abas do GLPI ---------- */

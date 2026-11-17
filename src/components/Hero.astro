@@ -1,23 +1,33 @@
 ---
 import { ArrowDown, MapPin } from '@lucide/astro';
 import { site } from '../data/site';
+
+// Divide o nome em linhas e letras para a revelação letra a letra.
+// O texto completo fica num span .sr-only; as letras são só visuais.
+const linhas = site.nome.split(' ');
+let n = 0;
+const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
 ---
 <section id="inicio" class="hero relative isolate overflow-hidden lg:min-h-[100svh]" aria-labelledby="hero-titulo">
   <div class="container-x relative z-10 flex flex-col pt-28 pb-10 sm:pt-32 lg:min-h-[100svh] lg:justify-center lg:pb-24 lg:pt-24">
-    <p class="eyebrow hero-in" style="--d:0ms">{site.eyebrow}</p>
+    <p class="eyebrow fade-up" style="--d:120ms">{site.eyebrow}</p>
 
     <h1 id="hero-titulo" class="hero-title mt-5 font-display font-extrabold text-ink">
-      <span class="hero-in block" style="--d:80ms">Luiz</span>
-      <span class="hero-in block" style="--d:160ms">Sanchez</span>
+      <span class="sr-only">{site.nome}</span>
+      {letras.map((linha) => (
+        <span class="line" aria-hidden="true">
+          {linha.map(({ ch, i }) => <span class="ch" style={`--i:${i}`}>{ch}</span>)}
+        </span>
+      ))}
     </h1>
 
-    <span class="hero-in mt-7 block h-[5px] w-16 rounded-full bg-blue" style="--d:240ms" aria-hidden="true"></span>
+    <span class="bar mt-7 block h-[5px] w-16 rounded-full bg-blue" aria-hidden="true"></span>
 
-    <p class="hero-in mt-7 max-w-[30ch] text-[1.2rem] leading-relaxed text-muted sm:text-[1.35rem] lg:max-w-[34ch]" style="--d:300ms">
+    <p class="fade-up mt-7 max-w-[30ch] text-[1.2rem] leading-relaxed text-muted sm:text-[1.35rem] lg:max-w-[34ch]" style="--d:760ms">
       {site.subtitulo}
     </p>
 
-    <div class="hero-in mt-9 flex flex-wrap gap-3" style="--d:380ms">
+    <div class="fade-up mt-9 flex flex-wrap gap-3" style="--d:860ms">
       <a href="#projetos" class="btn btn-primary">
         {site.ctas.projetos}
         <ArrowDown class="size-4" aria-hidden="true" />
@@ -25,29 +35,33 @@ import { site } from '../data/site';
       <a href="#contato" class="btn btn-ghost">{site.ctas.contato}</a>
     </div>
 
-    <p class="hero-in mt-10 flex items-center gap-1.5 text-sm text-muted lg:absolute lg:bottom-10 lg:mt-0" style="--d:440ms">
+    <p class="fade-up mt-10 flex items-center gap-1.5 text-sm text-muted lg:absolute lg:bottom-10 lg:mt-0" style="--d:960ms">
       <MapPin class="size-4" aria-hidden="true" />
       {site.local}
     </p>
   </div>
 
-  <!-- Bloco azul com o monograma -->
+  <!-- Bloco azul com o monograma. Camadas externas = parallax do mouse; internas = entrada. -->
   <div
     class="hero-panel bg-blue-grad on-blue relative mx-5 mb-6 h-[340px] overflow-hidden rounded-[var(--radius-card)] sm:mx-8 sm:h-[420px] lg:absolute lg:inset-y-0 lg:right-0 lg:m-0 lg:h-auto lg:w-[38vw] lg:rounded-none"
     data-parallax
   >
-    <span class="circle circle-a" data-depth="10" aria-hidden="true"></span>
-    <span class="circle circle-b" data-depth="-16" aria-hidden="true"></span>
-    <span class="circle circle-c" data-depth="22" aria-hidden="true"></span>
-    <span class="monogram font-display" data-depth="-8" aria-hidden="true">LS</span>
+    <span class="layer" data-depth="14" aria-hidden="true"><span class="circle circle-a"></span></span>
+    <span class="layer" data-depth="-22" aria-hidden="true"><span class="circle circle-b"></span></span>
+    <span class="layer" data-depth="30" aria-hidden="true"><span class="circle circle-c"></span></span>
+    <span class="layer" data-depth="-10" aria-hidden="true">
+      <span class="monogram font-display"><span class="mono-ch" style="--i:0">L</span><span class="mono-ch" style="--i:1">S</span></span>
+    </span>
 
-    <ul class="absolute bottom-6 left-6 right-6 flex flex-wrap gap-2 lg:bottom-[22%] lg:left-[10%]" aria-label="Áreas principais">
-      {site.heroTags.map((t) => <li class="pill pill-white">{t}</li>)}
+    <ul class="tags absolute bottom-6 left-6 right-6 flex flex-wrap gap-2 lg:bottom-[22%] lg:left-[10%]" aria-label="Áreas principais">
+      {site.heroTags.map((t, i) => <li class="pill pill-white" style={`--i:${i}`}>{t}</li>)}
     </ul>
   </div>
 </section>
 
 <style>
+  .hero { --expo: cubic-bezier(0.16, 1, 0.3, 1); --back: cubic-bezier(0.34, 1.4, 0.64, 1); }
+
   .hero-title {
     font-size: clamp(4.2rem, 17vw, 12.5rem);
     line-height: 0.88;
@@ -57,13 +71,19 @@ import { site } from '../data/site';
     .hero-title { font-size: clamp(7rem, 12.2vw, 12.5rem); }
   }
 
+  /* Cada linha é uma máscara: as letras sobem de baixo dela */
+  .line { display: block; overflow: hidden; padding: 0.04em 0 0.08em; margin: -0.04em 0 -0.08em; }
+  .ch { display: inline-block; will-change: transform; }
+
+  /* ---------- Painel e parallax ---------- */
   .hero-panel { --mx: 0; --my: 0; }
-  .hero-panel [data-depth] {
+  .layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     transform: translate3d(calc(var(--mx) * var(--k, 0px)), calc(var(--my) * var(--k, 0px)), 0);
-    transition: transform 0.6s var(--ease-out-soft);
-    will-change: transform;
   }
-  .circle { position: absolute; border-radius: 9999px; pointer-events: none; }
+  .circle { position: absolute; border-radius: 9999px; }
   .circle-a { width: 62%; aspect-ratio: 1; top: 8%; right: -6%; border: 1.5px solid rgb(255 255 255 / 0.35); }
   .circle-b { width: 46%; aspect-ratio: 1; top: 44%; left: 6%; background: rgb(255 255 255 / 0.12); }
   .circle-c { width: 9%; aspect-ratio: 1; top: 12%; right: 12%; background: rgb(255 255 255 / 0.9); }
@@ -71,24 +91,51 @@ import { site } from '../data/site';
     position: absolute;
     left: 14%;
     top: 9%;
+    display: flex;
+    overflow: hidden;
+    padding-bottom: 0.04em;
     font-size: clamp(8rem, 42vw, 15rem);
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.06em;
     color: #fff;
   }
+  .mono-ch { display: inline-block; }
   @media (min-width: 640px) { .monogram { font-size: 16rem; top: 6%; } }
   @media (min-width: 1024px) {
     .monogram { font-size: clamp(12rem, 17vw, 19rem); top: 42%; margin-top: -0.6em; left: 12%; }
     .circle-c { width: 6%; top: 64%; right: 16%; }
   }
 
-  .hero-in { opacity: 0; transform: translateY(16px); animation: hero-in 0.9s var(--ease-out-soft) forwards; animation-delay: var(--d); }
-  .hero-panel { animation: panel-in 1.1s var(--ease-out-soft) both; }
-  @keyframes hero-in { to { opacity: 1; transform: none; } }
-  @keyframes panel-in { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-in { opacity: 1; transform: none; animation: none; }
-    .hero-panel { animation: none; }
+  /* ---------- Sequência de entrada (uma só, ~1,2s) ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    /* 1. Painel azul abre da direita */
+    .hero-panel { animation: wipe 1.1s var(--expo) both; }
+    @media (max-width: 1023px) { .hero-panel { animation-name: wipe-up; animation-delay: 0.5s; } }
+
+    /* 2. Título: letras sobem da máscara, uma a uma */
+    .ch { animation: rise 0.9s var(--expo) both; animation-delay: calc(180ms + var(--i) * 28ms); }
+
+    /* 3. Barra azul cresce da esquerda depois do título */
+    .bar { transform-origin: left; animation: grow 0.7s var(--expo) 0.62s both; }
+
+    /* 4. Monograma e círculos dentro do painel */
+    .mono-ch { animation: rise 1s var(--expo) both; animation-delay: calc(380ms + var(--i) * 90ms); }
+    .circle-a { animation: draw 1.4s var(--expo) 0.45s both; }
+    .circle-b { animation: pop 1.1s var(--expo) 0.55s both; }
+    .circle-c { animation: pop 0.8s var(--back) 0.9s both; }
+
+    /* 5. Tags e textos de apoio */
+    .tags li { animation: tag 0.6s var(--back) both; animation-delay: calc(900ms + var(--i) * 60ms); }
+    .fade-up { animation: fade-up 0.8s var(--expo) both; animation-delay: var(--d); }
   }
+
+  @keyframes wipe { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes wipe-up { from { clip-path: inset(100% 0 0 0 round 16px); } to { clip-path: inset(0 0 0 0 round 16px); } }
+  @keyframes rise { from { transform: translateY(105%) rotate(6deg); } to { transform: none; } }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
+  @keyframes draw { from { opacity: 0; transform: scale(0.7) rotate(-20deg); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+  @keyframes tag { from { opacity: 0; transform: translateY(10px) scale(0.92); } to { opacity: 1; transform: none; } }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 </style>
