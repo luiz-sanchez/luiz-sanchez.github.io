@@ -2,7 +2,8 @@
 import { jukeboxMock as m } from '../../data/projetos';
 ---
 <div class="relative mx-auto flex justify-center py-4">
-  <span class="absolute left-1/2 top-1/2 aspect-square w-[min(380px,92%)] -translate-x-1/2 -translate-y-1/2 lg:translate-x-[-25%] rounded-full bg-accent-grad opacity-90" aria-hidden="true"></span>
+  <!-- brilho suave atrás do celular, igual ao do hero -->
+  <span class="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[min(460px,110%)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(45_98_234/0.45),rgb(45_98_234/0.12)_60%,transparent)]" aria-hidden="true"></span>
 
   <div class="phone relative" role="img" aria-label="Ilustração do Jukebox: festa #4821, música tocando agora, fila com pedidos da Ana e do Rafa e botão para adicionar música">
     <div aria-hidden="true">

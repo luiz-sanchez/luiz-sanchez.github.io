@@ -103,6 +103,15 @@
   .btn:active { transform: scale(0.97); transition-duration: 0.1s; }
   .btn-primary { @apply bg-accent-grad text-white; box-shadow: 0 12px 30px -12px rgb(45 98 234 / 0.8); }
   .btn-primary:hover { box-shadow: 0 16px 38px -12px rgb(14 165 233 / 0.85); }
+  /* Botão secundário com a mesma borda em degradê do "Fale comigo" */
+  .btn-grad {
+    border: 1.5px solid transparent;
+    color: #fff;
+    background:
+      linear-gradient(var(--color-night-2), var(--color-night-2)) padding-box,
+      linear-gradient(90deg, #2d62ea, #38bdf8 60%, #67e8f9) border-box;
+  }
+  .btn-grad:hover { box-shadow: 0 0 32px -10px rgb(56 189 248 / 0.7); }
   .btn-ghost { @apply border border-white/15 text-white; }
   .btn-ghost:hover { @apply bg-white/5; }
 
@@ -117,15 +126,6 @@
   .win-bar .dot { @apply size-2.5 rounded-full; }
   .win-bar .url { @apply ml-3 truncate rounded-full bg-ink-3 px-3 py-1 text-[0.75rem] text-on-dark; }
 
-  .big-num::before { content: attr(data-num); }
-  .big-num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-stretch: 118%;
-    font-weight: 900;
-    line-height: 0.8;
-    letter-spacing: -0.02em;
-  }
 }
 
 /* ---------- Entradas na tela ----------

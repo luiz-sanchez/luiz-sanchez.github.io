@@ -4,26 +4,6 @@ import { servicos, servicosIntro } from '../data/servicos';
 
 const icones = { Wrench, Database, CodeXml, Server, Activity, Users };
 
-const tons = {
-  azul: {
-    card: 'bg-accent-grad text-white border-transparent on-accent',
-    icon: 'bg-white text-accent',
-    desc: 'text-white/90',
-    num: 'text-white/25',
-  },
-  claro: {
-    card: 'bg-night-2 text-white border-line',
-    icon: 'bg-accent/20 text-lilac',
-    desc: 'text-muted',
-    num: 'text-white/[0.07]',
-  },
-  escuro: {
-    card: 'bg-night-3 text-white border-accent/40 on-dark',
-    icon: 'bg-accent text-white',
-    desc: 'text-on-dark-muted',
-    num: 'text-white/[0.12]',
-  },
-} as const;
 ---
 <section id="servicos" class="pb-20 sm:pb-28 lg:pb-36" aria-labelledby="servicos-titulo">
   <div class="container-x">
@@ -35,15 +15,13 @@ const tons = {
     <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-5">
       {servicos.map((s, i) => {
         const Icone = icones[s.icone];
-        const t = tons[s.tom];
         return (
-          <li class={`reveal relative flex min-h-[220px] flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 sm:p-7 ${t.card}`} style={`--d:${(i % 3) * 70}ms`}>
-            <span class={`big-num absolute right-5 top-5 text-[3.2rem] ${t.num}`} data-num={s.numero} aria-hidden="true"></span>
-            <span class={`grid size-11 place-items-center rounded-xl ${t.icon}`}>
+          <li class={`reveal relative flex min-h-[220px] flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 sm:p-7 bg-night-2 border-line text-white`} style={`--d:${(i % 3) * 70}ms`}>
+            <span class="grid size-11 place-items-center rounded-xl bg-accent/20 text-lilac">
               <Icone class="size-5" stroke-width={1.8} aria-hidden="true" />
             </span>
             <h3 class="mt-auto pt-10 text-[1.45rem] font-bold">{s.titulo}</h3>
-            <p class={`mt-2 leading-relaxed ${t.desc}`}>{s.descricao}</p>
+            <p class="mt-2 leading-relaxed text-muted">{s.descricao}</p>
           </li>
         );
       })}

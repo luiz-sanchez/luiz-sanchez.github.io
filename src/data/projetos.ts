@@ -1,6 +1,5 @@
 export type Projeto = {
   id: string;
-  numero: string;
   categoria: string;
   titulo: string;
   bullets: string[];
@@ -17,7 +16,6 @@ export const projetosIntro = {
 export const projetos: Projeto[] = [
   {
     id: 'uniflow',
-    numero: '01',
     categoria: 'Sistema interno',
     titulo: 'UniFlow',
     bullets: [
@@ -32,7 +30,6 @@ export const projetos: Projeto[] = [
   },
   {
     id: 'jukebox',
-    numero: '02',
     categoria: 'App para eventos',
     titulo: 'Jukebox UniFECAF',
     bullets: [
@@ -47,7 +44,6 @@ export const projetos: Projeto[] = [
   },
   {
     id: 'glpi',
-    numero: '03',
     categoria: 'Sistema de chamados',
     titulo: 'GLPI em todos os setores',
     bullets: [

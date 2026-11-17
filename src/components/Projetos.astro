@@ -27,11 +27,10 @@ const letras = [...projetosIntro.titulo];
         class={`relative overflow-hidden py-20 sm:py-28 lg:py-32 border-t border-white/[0.06]`}
         aria-labelledby={`projeto-${p.id}-titulo`}
       >
-        <span class="big-num pointer-events-none absolute -right-2 top-6 select-none text-[9rem] text-white/[0.04] sm:text-[13rem] lg:top-10 lg:text-[18rem]" data-num={p.numero} aria-hidden="true"></span>
 
         <div class="container-x relative grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
           <div class="reveal lg:col-span-5">
-            <p class="eyebrow">Projeto {p.numero} · {p.categoria}</p>
+            <p class="eyebrow">{p.categoria}</p>
             <h3 id={`projeto-${p.id}-titulo`} class="mt-4 text-[2.4rem] font-bold leading-[1.05] text-white sm:text-5xl">{p.titulo}</h3>
             <ul class="mt-6 space-y-2.5 text-[1.05rem] leading-relaxed" data-stagger>
               {p.bullets.map((b) => (
