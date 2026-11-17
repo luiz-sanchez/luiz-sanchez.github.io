@@ -112,4 +112,11 @@ import { contato, site } from '../data/site';
   .copy-btn.is-copied { background: var(--color-green); border-color: var(--color-green); color: var(--color-ink); }
   .copy-btn.is-copied .i-copy { display: none; }
   .copy-btn.is-copied .i-check { display: block; }
+  /* Confirma a cópia com um pulo rápido do ✓ (resposta ao clique) */
+  @media (prefers-reduced-motion: no-preference) {
+    .copy-btn.is-copied { animation: copiado var(--dur-ui) var(--spring); }
+    .copy-btn.is-copied .i-check { animation: check var(--dur-ui) var(--spring); }
+  }
+  @keyframes copiado { 40% { scale: 1.06; } }
+  @keyframes check { from { scale: 0.4; rotate: -20deg; opacity: 0; } }
 </style>

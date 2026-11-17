@@ -39,7 +39,7 @@ const setMenu = (open: boolean) => {
   if (!toggle || !menu) return;
   toggle.setAttribute('aria-expanded', String(open));
   toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-  menu.classList.toggle('hidden', !open);
+  menu.classList.toggle('is-open', open);
   header?.classList.toggle('is-scrolled', open || window.scrollY > 24);
 };
 toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));

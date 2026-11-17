@@ -127,7 +127,15 @@
 /* ---------- Entradas na tela ----------
    Uma linguagem só: desacelera ao chegar (expo-out), ~0,9s, atraso por --d.
    Usa a propriedade translate (não transform) para não brigar com o hover. */
-:root { --expo: cubic-bezier(0.16, 1, 0.3, 1); }
+:root {
+  /* Tokens de movimento: um ritmo só para o site todo */
+  --expo: cubic-bezier(0.16, 1, 0.3, 1);        /* chegada: desacelera */
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);     /* saída: acelera */
+  --spring: cubic-bezier(0.34, 1.4, 0.64, 1);   /* retorno ao toque, com leve ressalto */
+  --dur-fast: 160ms;   /* saídas (≈ 60% da entrada) e toque */
+  --dur-ui: 260ms;     /* abrir/fechar, trocar estado */
+  --stagger: 45ms;     /* intervalo entre itens de lista */
+}
 .reveal {
   opacity: 0;
   translate: 0 28px;
@@ -150,7 +158,7 @@
     opacity: 0;
     translate: 0 12px;
     transition: opacity 0.6s var(--ease-out-soft), translate 0.8s var(--expo);
-    transition-delay: calc(var(--d, 0s) + 200ms + var(--n, 0) * 60ms);
+    transition-delay: calc(var(--d, 0s) + 200ms + var(--n, 0) * var(--stagger));
   }
   :is(.reveal.is-in [data-stagger], .reveal.is-in[data-stagger]) > * { opacity: 1; translate: none; }
   [data-stagger] > :nth-child(2) { --n: 1; } [data-stagger] > :nth-child(3) { --n: 2; }

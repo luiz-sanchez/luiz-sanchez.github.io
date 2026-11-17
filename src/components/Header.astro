@@ -29,19 +29,19 @@ import { site } from '../data/site';
       </a>
       <button
         type="button"
-        class="grid size-12 place-items-center rounded-full border border-white/10 text-white lg:hidden"
+        class="toggle grid size-12 place-items-center rounded-full border border-white/10 text-white lg:hidden"
         aria-expanded="false"
         aria-controls="menu-mobile"
         aria-label="Abrir menu"
         data-menu-toggle
       >
         <Menu class="icon-open size-5" aria-hidden="true" />
-        <X class="icon-close hidden size-5" aria-hidden="true" />
+        <X class="icon-close size-5" aria-hidden="true" />
       </button>
     </div>
   </div>
 
-  <nav id="menu-mobile" aria-label="Principal (celular)" class="menu mx-auto mt-2 hidden max-w-[1320px] rounded-[24px] lg:hidden" data-menu>
+  <nav id="menu-mobile" aria-label="Principal (celular)" class="menu absolute inset-x-3 top-full mx-auto mt-2 max-w-[1320px] rounded-[24px] sm:inset-x-5 lg:hidden" data-menu>
     <ul class="flex flex-col px-6 py-3">
       {site.nav.map((item) => (
         <li>
@@ -92,6 +92,44 @@ import { site } from '../data/site';
   .cta:hover { box-shadow: 0 0 24px -6px rgb(56 189 248 / 0.6); }
   .nav-link[aria-current='true'] { color: #fff; background: rgb(45 98 234 / 0.28); }
   #menu-mobile .nav-link[aria-current='true'] { background: none; color: var(--color-lilac); }
-  [data-menu-toggle][aria-expanded='true'] .icon-open { display: none; }
-  [data-menu-toggle][aria-expanded='true'] .icon-close { display: block; }
+  /* Ícone ☰ ↔ ✕: os dois no mesmo lugar, trocam girando */
+  .toggle > :global(svg) { grid-area: 1 / 1; transition: opacity var(--dur-ui) var(--expo), rotate var(--dur-ui) var(--expo); }
+  .toggle .icon-close { opacity: 0; rotate: -90deg; }
+  [data-menu-toggle][aria-expanded='true'] .icon-open { opacity: 0; rotate: 90deg; }
+  [data-menu-toggle][aria-expanded='true'] .icon-close { opacity: 1; rotate: 0deg; }
+  .toggle:active { scale: 0.94; }
+
+  /* Menu do celular sai do botão (canto superior direito): abre em 260ms, fecha em 160ms */
+  .menu {
+    visibility: hidden;
+    opacity: 0;
+    translate: 0 -10px;
+    scale: 0.97;
+    transform-origin: top right;
+    pointer-events: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-in),
+      translate var(--dur-fast) var(--ease-in),
+      scale var(--dur-fast) var(--ease-in),
+      visibility 0s linear var(--dur-fast);
+  }
+  .menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    translate: none;
+    scale: 1;
+    pointer-events: auto;
+    transition:
+      opacity var(--dur-ui) var(--expo),
+      translate var(--dur-ui) var(--expo),
+      scale var(--dur-ui) var(--expo),
+      visibility 0s;
+  }
+  /* Links entram em sequência ao abrir */
+  .menu li { opacity: 0; translate: 0 6px; transition: opacity var(--dur-fast) var(--ease-in), translate var(--dur-fast) var(--ease-in); }
+  .menu.is-open li { opacity: 1; translate: none; transition: opacity var(--dur-ui) var(--expo), translate var(--dur-ui) var(--expo); }
+  .menu.is-open li:nth-child(2) { transition-delay: calc(var(--stagger) * 1); }
+  .menu.is-open li:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
+  .menu.is-open li:nth-child(4) { transition-delay: calc(var(--stagger) * 3); }
+  .menu.is-open li:nth-child(5) { transition-delay: calc(var(--stagger) * 4); }
 </style>
