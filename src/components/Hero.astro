@@ -48,18 +48,19 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     </div>
   </div>
 
-  <!-- Avatar na frente do nome; vira a cabeça seguindo o mouse (main.ts) -->
+  <!-- Avatar na frente do nome -->
   <div class="avatar-wrap">
     <span class="layer-flat" data-depth="8">
       <img
         class="avatar block h-auto w-full"
-        src="/avatar/a4.webp"
-        width="760"
-        height="816"
+        src="/avatar/luiz.webp"
+        srcset="/avatar/luiz-440.webp 440w, /avatar/luiz.webp 720w"
+        sizes="(min-width: 1024px) min(44vw, 74vh, 700px), min(92vw, 440px)"
+        width="720"
+        height="890"
         alt="Avatar 3D do Luiz"
         decoding="async"
         fetchpriority="high"
-        data-avatar
       />
     </span>
   </div>
