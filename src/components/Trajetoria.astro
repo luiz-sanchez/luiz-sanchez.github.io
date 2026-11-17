@@ -43,7 +43,7 @@ const listas = [
     border-radius: var(--radius-card);
     background: var(--color-paper-2);
     border: 1px solid var(--color-line);
-    border-top: 4px solid var(--color-blue);
+    border-top: 4px solid var(--color-accent);
     padding: 1.75rem;
   }
   /* Linha do tempo vertical no mobile */
@@ -55,7 +55,7 @@ const listas = [
     top: 0.4rem;
     bottom: 0.4rem;
     width: 2px;
-    background: #d5dcf3;
+    background: var(--color-line);
   }
   .timeline > li::before {
     content: '';
@@ -66,9 +66,9 @@ const listas = [
     height: 10px;
     border-radius: 9999px;
     background: var(--color-paper-2);
-    border: 2px solid var(--color-blue);
+    border: 2px solid var(--color-accent);
   }
-  .timeline > li:first-child::before { background: var(--color-blue); }
+  .timeline > li:first-child::before { background: var(--color-accent); }
   @media (min-width: 1024px) {
     .timeline { padding-left: 0; }
     .timeline::before, .timeline > li::before { display: none; }

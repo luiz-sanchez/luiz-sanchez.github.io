@@ -1,172 +1,204 @@
 ---
-import { ArrowDown, MapPin } from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
 import { site } from '../data/site';
 
-// Divide o nome em linhas e letras para a revelação letra a letra.
-// O texto completo fica num span .sr-only; as letras são só visuais.
-const linhas = site.nome.split(' ');
+// Nome em letras separadas para a revelação; o texto completo fica no .sr-only.
+const palavras = site.nome.split(' ');
 let n = 0;
-const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
+const letras = palavras.map((p) => [...p].map((ch) => ({ ch, i: n++ })));
+const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1</strong>');
 ---
-<section id="inicio" class="hero relative isolate overflow-hidden lg:min-h-[100svh]" aria-labelledby="hero-titulo">
-  <div class="container-x relative z-10 flex flex-col pt-28 pb-10 sm:pt-32 lg:min-h-[100svh] lg:justify-center lg:pb-24 lg:pt-24">
-    <p class="eyebrow fade-up" style="--d:120ms">{site.eyebrow}</p>
+<section id="inicio" class="hero relative isolate overflow-hidden" aria-labelledby="hero-titulo" data-parallax>
+  <!-- Fundo: brilho roxo atrás do avatar e arcos finos -->
+  <span class="glow" aria-hidden="true"></span>
+  <span class="layer" data-depth="18" aria-hidden="true">
+    <svg class="arcs" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none">
+      <path d="M-100 980 C 300 640, 1100 560, 1700 700" stroke="url(#arc-a)" stroke-width="1.5" />
+      <path d="M-100 1060 C 420 760, 1200 700, 1700 860" stroke="url(#arc-b)" stroke-width="1" />
+      <defs>
+        <linearGradient id="arc-a" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0" /><stop offset=".5" stop-color="#8b5cf6" stop-opacity=".7" /><stop offset="1" stop-color="#d946ef" stop-opacity="0" /></linearGradient>
+        <linearGradient id="arc-b" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0" /><stop offset=".6" stop-color="#a78bfa" stop-opacity=".35" /><stop offset="1" stop-color="#7c3aed" stop-opacity="0" /></linearGradient>
+      </defs>
+    </svg>
+  </span>
 
-    <h1 id="hero-titulo" class="hero-title mt-5 font-display font-extrabold text-ink">
+  <div class="hero-inner relative mx-auto w-full max-w-[1440px] px-5 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pt-36">
+    <h1 id="hero-titulo" class="relative z-[1]">
+      <span class="saudacao fade-up block" style="--d:80ms">{site.saudacao}</span>
       <span class="sr-only">{site.nome}</span>
-      {letras.map((linha) => (
-        <span class="line" aria-hidden="true">
-          {linha.map(({ ch, i }) => <span class="ch" style={`--i:${i}`}>{ch}</span>)}
+      <span class="layer-flat" data-depth="-8">
+        <span class="nome block" aria-hidden="true">
+          {letras.map((p) => (
+            <span class="palavra">{p.map(({ ch, i }) => <span class="ch" style={`--i:${i}`}>{ch}</span>)}</span>
+          ))}
         </span>
-      ))}
+      </span>
     </h1>
 
-    <span class="bar mt-7 block h-[5px] w-16 rounded-full bg-blue" aria-hidden="true"></span>
+    <div class="textos relative z-[3] grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+      <div class="intro fade-up border-l-2 pl-5 sm:pl-6" style="--d:700ms">
+        <p class="text-[1.15rem] leading-snug text-on-dark sm:text-[1.3rem] lg:text-[1.45rem]">{site.subtitulo}</p>
+        <p class="mt-4 text-[1.15rem] leading-snug text-on-dark sm:text-[1.3rem] lg:text-[1.45rem]" set:html={frase} />
+      </div>
 
-    <p class="fade-up mt-7 max-w-[30ch] text-[1.2rem] leading-relaxed text-muted sm:text-[1.35rem] lg:max-w-[34ch]" style="--d:760ms">
-      {site.subtitulo}
-    </p>
-
-    <div class="fade-up mt-9 flex flex-wrap gap-3" style="--d:860ms">
-      <a href="#projetos" class="btn btn-primary">
-        {site.ctas.projetos}
-        <ArrowDown class="size-4" aria-hidden="true" />
+      <a href="#contato" class="cta-hero fade-up group" style="--d:820ms">
+        {site.ctas.contato}
+        <ArrowRight class="size-6 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
       </a>
-      <a href="#contato" class="btn btn-ghost">{site.ctas.contato}</a>
     </div>
-
-    <p class="fade-up mt-10 flex items-center gap-1.5 text-sm text-muted lg:absolute lg:bottom-10 lg:mt-0" style="--d:960ms">
-      <MapPin class="size-4" aria-hidden="true" />
-      {site.local}
-    </p>
   </div>
 
-  <!-- Bloco azul com o monograma. Camadas externas = parallax do mouse; internas = entrada. -->
-  <div
-    class="hero-panel bg-blue-grad on-blue relative mx-5 mb-6 h-[440px] overflow-hidden rounded-[var(--radius-card)] sm:mx-8 sm:h-[540px] lg:absolute lg:inset-y-0 lg:right-0 lg:m-0 lg:h-auto lg:w-[38vw] lg:rounded-none"
-    data-parallax
-  >
-    <span class="layer" data-depth="14" aria-hidden="true"><span class="circle circle-a"></span></span>
-    <span class="layer" data-depth="-22" aria-hidden="true"><span class="circle circle-b"></span></span>
-    <span class="layer" data-depth="30" aria-hidden="true"><span class="circle circle-c"></span></span>
-    <span class="layer" data-depth="-10" aria-hidden="true">
-      <span class="monogram font-display"><span class="mono-ch" style="--i:0">L</span><span class="mono-ch" style="--i:1">S</span></span>
+  <!-- Avatar na frente do nome; vira a cabeça seguindo o mouse (main.ts) -->
+  <div class="avatar-wrap">
+    <span class="layer-flat" data-depth="8">
+      <img
+        class="avatar block h-auto w-full"
+        src="/avatar/a4.webp"
+        width="760"
+        height="816"
+        alt="Avatar 3D do Luiz"
+        decoding="async"
+        fetchpriority="high"
+        data-avatar
+      />
     </span>
-
-    <span class="layer" data-depth="6">
-      <span class="avatar-wrap">
-        <img
-          class="avatar block h-auto w-full"
-          src="/avatar/a4.webp"
-          width="760"
-          height="816"
-          alt="Avatar 3D do Luiz"
-          decoding="async"
-          fetchpriority="high"
-          data-avatar
-        />
-      </span>
-    </span>
-
-    <ul class="tags absolute left-6 right-6 top-6 flex flex-wrap gap-2 lg:left-[10%] lg:right-[10%] lg:top-[11%]" aria-label="Áreas principais">
-      {site.heroTags.map((t, i) => <li class="pill pill-white" style={`--i:${i}`}>{t}</li>)}
-    </ul>
   </div>
 </section>
 
 <style>
-  .hero { --expo: cubic-bezier(0.16, 1, 0.3, 1); --back: cubic-bezier(0.34, 1.4, 0.64, 1); }
-
-  .hero-title {
-    font-size: clamp(4.2rem, 17vw, 12.5rem);
-    line-height: 0.88;
-    letter-spacing: -0.045em;
-  }
-  @media (min-width: 1024px) {
-    /* "Sanchez" mede ~4,1em: o tamanho é limitado para a palavra terminar antes do painel azul (62vw) */
-    .hero-title { font-size: min(12.2vw, 12.5rem, calc(2.89vw + 125px), calc(14.9vw - 19px)); }
-  }
-
-  /* Cada linha é uma máscara: as letras sobem de baixo dela */
-  .line { display: block; overflow: hidden; padding: 0.04em 0 0.08em; margin: -0.04em 0 -0.08em; }
-  .ch { display: inline-block; will-change: transform; }
-
-  /* ---------- Painel e parallax ---------- */
-  .hero-panel { --mx: 0; --my: 0; }
-  .layer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    transform: translate3d(calc(var(--mx) * var(--k, 0px)), calc(var(--my) * var(--k, 0px)), 0);
-  }
-  .circle { position: absolute; border-radius: 9999px; }
-  .circle-a { width: 62%; aspect-ratio: 1; top: 8%; right: -6%; border: 1.5px solid rgb(255 255 255 / 0.35); }
-  .circle-b { width: 46%; aspect-ratio: 1; top: 44%; left: 6%; background: rgb(255 255 255 / 0.12); }
-  .circle-c { width: 8%; aspect-ratio: 1; top: 44%; right: 9%; background: rgb(255 255 255 / 0.9); }
-  .monogram {
-    position: absolute;
-    left: 50%;
-    top: 19%;
-    transform: translateX(-50%);
+  .hero {
+    --expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --back: cubic-bezier(0.34, 1.4, 0.64, 1);
+    --mx: 0;
+    --my: 0;
     display: flex;
-    overflow: hidden;
-    padding-bottom: 0.04em;
-    font-size: clamp(8rem, 42vw, 15rem);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.06em;
-    color: #fff;
+    flex-direction: column;
+    background: var(--color-night);
   }
-  .mono-ch { display: inline-block; }
-  .avatar-wrap {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: min(88%, 380px);
-    transform: translateX(-50%);
-  }
-  @media (min-width: 640px) { .avatar-wrap { width: min(80%, 460px); } }
-  @media (min-width: 1024px) { .avatar-wrap { width: min(92%, 560px); } }
-  .tags { z-index: 2; }
-  @media (min-width: 640px) { .monogram { font-size: 16rem; top: 16%; } }
   @media (min-width: 1024px) {
-    .monogram { font-size: clamp(12rem, 17vw, 19rem); top: 22%; }
-    .circle-c { width: 5%; top: 50%; right: 10%; }
+    .hero { min-height: max(100svh, 760px); }
   }
 
-  /* ---------- Sequência de entrada (uma só, ~1,2s) ---------- */
+  /* ---------- Fundo ---------- */
+  .glow {
+    position: absolute;
+    left: 50%;
+    bottom: -18%;
+    width: min(1100px, 140vw);
+    aspect-ratio: 1.6;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgb(124 58 237 / 0.55), rgb(124 58 237 / 0.18) 55%, transparent);
+    pointer-events: none;
+  }
+  .arcs { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .layer, .layer-flat { transform: translate3d(calc(var(--mx) * var(--k, 0px)), calc(var(--my) * var(--k, 0px)), 0); }
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+  .layer-flat { display: block; }
+
+  /* ---------- Nome gigante ---------- */
+  .saudacao {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.4vw, 2.5rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: rgb(236 235 242 / 0.82);
+    margin-left: 0.08em;
+  }
+  .nome {
+    margin-top: 0.08em;
+    font-stretch: 80%;
+    /* "SANCHEZ" mede ~4,4em: ocupa a largura toda no celular */
+    font-size: min(calc((100vw - 40px) / 4.55), 9rem);
+    line-height: 0.86;
+    white-space: nowrap;
+  }
+  .palavra { display: block; overflow: hidden; padding: 0.02em 0.12em 0.04em 0; margin-right: -0.12em; }
+  .ch {
+    display: inline-block;
+    background: linear-gradient(180deg, #ffffff 0%, #e4e2ea 55%, #b9b6c4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  @media (min-width: 1024px) {
+    /* "LUIZ SANCHEZ" mede ~6,7em: ocupa a largura do container */
+    .nome { font-size: calc((min(100vw, 1440px) - 112px) / 6.8); }
+    .palavra { display: inline-block; }
+    .palavra + .palavra { margin-left: 0.22em; }
+  }
+
+  /* ---------- Textos e botão ---------- */
+  .intro { border-color: var(--color-accent); max-width: 30ch; }
+  .intro :global(.destaque) {
+    font-weight: 700;
+    background: linear-gradient(90deg, #a78bfa, #e879f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .textos { margin-top: 2rem; }
+  .cta-hero {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.1rem;
+    min-height: 64px;
+    padding: 0 1.8rem 0 2.1rem;
+    border: 1.5px solid transparent;
+    border-radius: 9999px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background:
+      linear-gradient(90deg, #0d0b13 0%, #2a1250 55%, #6d28d9 88%, #a21caf 100%) padding-box,
+      linear-gradient(90deg, #7c3aed, #d946ef 60%, #fb7185) border-box;
+    box-shadow: 0 0 40px -12px rgb(192 38 211 / 0.7);
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .cta-hero:hover { box-shadow: 0 0 56px -10px rgb(217 70 239 / 0.85); }
+  .cta-hero:active { transform: translateY(1px); }
+
+  /* ---------- Avatar ---------- */
+  .avatar-wrap {
+    /* a base reta do busto some no fundo escuro */
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 99%);
+    mask-image: linear-gradient(to bottom, #000 78%, transparent 99%);
+    position: relative;
+    z-index: 2;
+    width: min(92%, 440px);
+    margin: 2.5rem auto 0;
+  }
+  @media (min-width: 640px) { .avatar-wrap { width: min(70%, 520px); } }
+  @media (min-width: 1024px) {
+    .hero-inner { flex: 1; display: flex; flex-direction: column; }
+    .textos { margin-top: auto; padding-bottom: 18vh; }
+    .cta-hero { justify-self: end; }
+    .avatar-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: min(44vw, 74vh, 700px);
+      margin: 0;
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---------- Entrada (uma sequência só) ---------- */
   @media (prefers-reduced-motion: no-preference) {
-    /* 1. Painel azul abre da direita */
-    .hero-panel { animation: wipe 1.1s var(--expo) both; }
-    @media (max-width: 1023px) { .hero-panel { animation-name: wipe-up; animation-delay: 0.5s; } }
-
-    /* 2. Título: letras sobem da máscara, uma a uma */
-    .ch { animation: rise 0.9s var(--expo) both; animation-delay: calc(180ms + var(--i) * 28ms); }
-
-    /* 3. Barra azul cresce da esquerda depois do título */
-    .bar { transform-origin: left; animation: grow 0.7s var(--expo) 0.62s both; }
-
-    /* 4. Monograma e círculos dentro do painel */
-    .mono-ch { animation: rise 1s var(--expo) both; animation-delay: calc(380ms + var(--i) * 90ms); }
-    .circle-a { animation: draw 1.4s var(--expo) 0.45s both; }
-    .circle-b { animation: pop 1.1s var(--expo) 0.55s both; }
-    .circle-c { animation: pop 0.8s var(--back) 0.9s both; }
-
-    /* 4b. Avatar sobe por trás da borda do painel */
-    .avatar { animation: avatar-in 1.1s var(--back) 0.7s both; transform-origin: 50% 100%; }
-
-    /* 5. Tags e textos de apoio */
-    .tags li { animation: tag 0.6s var(--back) both; animation-delay: calc(900ms + var(--i) * 60ms); }
-    .fade-up { animation: fade-up 0.8s var(--expo) both; animation-delay: var(--d); }
+    .ch { animation: rise 1s var(--expo) both; animation-delay: calc(120ms + var(--i) * 32ms); }
+    .glow { animation: glow-in 1.6s var(--expo) 0.2s both; }
+    .avatar { animation: avatar-in 1.2s var(--back) 0.45s both; transform-origin: 50% 100%; }
+    .arcs path { stroke-dasharray: 2200; animation: draw 2.2s var(--expo) 0.5s both; }
+    .fade-up { animation: fade-up 0.9s var(--expo) both; animation-delay: var(--d); }
   }
 
-  @keyframes wipe { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
-  @keyframes wipe-up { from { clip-path: inset(100% 0 0 0 round 16px); } to { clip-path: inset(0 0 0 0 round 16px); } }
-  @keyframes rise { from { transform: translateY(105%) rotate(6deg); } to { transform: none; } }
-  @keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
-  @keyframes draw { from { opacity: 0; transform: scale(0.7) rotate(-20deg); } to { opacity: 1; transform: none; } }
-  @keyframes pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
-  @keyframes avatar-in { from { transform: translateY(70%) scale(0.92); } to { transform: none; } }
-  @keyframes tag { from { opacity: 0; transform: translateY(10px) scale(0.92); } to { opacity: 1; transform: none; } }
-  @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { transform: translateY(105%) skewX(-8deg); } to { transform: none; } }
+  @keyframes avatar-in { from { transform: translateY(40%) scale(0.94); } to { transform: none; } }
+  @keyframes glow-in { from { opacity: 0; transform: translateX(-50%) scale(0.7); } to { opacity: 1; transform: translateX(-50%); } }
+  @keyframes draw { from { stroke-dashoffset: 2200; } to { stroke-dashoffset: 0; } }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 </style>

@@ -3,10 +3,9 @@ import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/inter/latin-600.css';
 import '@fontsource/inter/latin-700.css';
-import '@fontsource/schibsted-grotesk/latin-700.css';
-import '@fontsource/schibsted-grotesk/latin-800.css';
 import '../styles/global.css';
 import { site } from '../data/site';
+import fonteNome from '../fonts/archivo-display-italic.woff2?url';
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL('/og.png', Astro.site).toString();
@@ -20,8 +19,9 @@ const ogImage = new URL('/og.png', Astro.site).toString();
     <meta name="description" content={site.descricao} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={fonteNome} as="font" type="font/woff2" crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#2D62EA" />
+    <meta name="theme-color" content="#07060b" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
@@ -38,7 +38,7 @@ const ogImage = new URL('/og.png', Astro.site).toString();
     <script is:inline>document.documentElement.classList.remove('no-js');</script>
   </head>
   <body>
-    <a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Pular para o conteúdo</a>
+    <a href="#conteudo" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-white">Pular para o conteúdo</a>
     <slot />
     <script>
       import '../scripts/main.ts';

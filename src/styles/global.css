@@ -1,31 +1,55 @@
 @import 'tailwindcss';
 
+/* Fonte do nome e títulos: Archivo itálica larga (recorte local, pesos 700–900 e larguras 62–125) */
+@font-face {
+  font-family: 'Archivo Display';
+  src: url('../fonts/archivo-display-italic.woff2') format('woff2');
+  font-weight: 700 900;
+  font-stretch: 62% 125%;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
-  --color-paper: #f5f4f0;
-  --color-paper-2: #fbfaf8;
-  --color-ink: #14161b;
-  --color-ink-2: #1e2128;
-  --color-ink-3: #2a2e37;
-  --color-muted: #555a64;
-  --color-line: #e3e1db;
-  --color-blue: #2d62ea;
-  --color-blue-deep: #1f45c9;
-  --color-blue-ink: #1d3fb8;
+  /* Fundo escuro e superfícies */
+  --color-night: #07060b;
+  --color-night-2: #0e0c15;
+  --color-night-3: #16131f;
+  --color-paper: var(--color-night);
+  --color-paper-2: var(--color-night-2);
+  /* ink: texto escuro sobre selos claros (amarelo, verde, lilás) */
+  --color-ink: #14121a;
+  --color-ink-2: #15121e;
+  --color-ink-3: #211d2b;
+  --color-muted: #a8a2b8;
+  --color-line: #221e2d;
+  /* Roxo */
+  --color-accent: #7c3aed;
+  --color-accent-deep: #5b21b6;
+  --color-accent-ink: #5b21b6;
+  --color-lilac: #c4a5ff;
+  --color-pink: #e879f9;
   --color-yellow: #f5b82e;
   --color-green: #22c55e;
-  --color-lilac: #7c9cf5;
-  --color-on-dark: #e9eaee;
-  --color-on-dark-muted: #a3a8b4;
+  --color-on-dark: #ecebf2;
+  --color-on-dark-muted: #a8a2b8;
 
-  --font-display: 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Archivo Display', 'Arial Black', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 16px;
+  --radius-card: 18px;
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@utility bg-blue-grad {
-  background: linear-gradient(150deg, var(--color-blue) 0%, var(--color-blue-deep) 100%);
+@utility bg-accent-grad {
+  background: linear-gradient(120deg, #5b21b6 0%, #7c3aed 50%, #a21caf 100%);
+}
+/* Borda em degradê roxo → rosa → coral, como os botões da referência */
+@utility border-grad {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--grad-fill, var(--color-night)), var(--grad-fill, var(--color-night))) padding-box,
+    linear-gradient(90deg, #7c3aed, #d946ef 60%, #fb7185) border-box;
 }
 
 @layer base {
@@ -35,52 +59,53 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-night text-on-dark font-sans antialiased;
     font-feature-settings: 'cv11', 'ss01';
     text-rendering: optimizeLegibility;
   }
-  h1, h2, h3 {
+  h1, h2 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    font-style: italic;
+    font-stretch: 100%;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
     text-wrap: balance;
   }
+  h3 { letter-spacing: -0.015em; text-wrap: balance; }
   p { text-wrap: pretty; }
   :focus-visible {
-    outline: 3px solid var(--color-blue);
+    outline: 3px solid var(--color-lilac);
     outline-offset: 3px;
     border-radius: 6px;
   }
-  .on-dark :focus-visible,
-  .on-blue :focus-visible {
-    outline-color: #ffffff;
-  }
-  ::selection { background: var(--color-blue); color: #fff; }
+  .on-accent :focus-visible { outline-color: #ffffff; }
+  ::selection { background: var(--color-accent); color: #fff; }
+  html { color-scheme: dark; background: var(--color-night); }
 }
 
 @layer components {
   .eyebrow {
-    @apply text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-blue;
+    @apply text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-lilac;
   }
-  .on-dark .eyebrow { color: var(--color-lilac); }
-  .on-blue .eyebrow { color: #ffffff; }
+  .on-accent .eyebrow { color: #ffffff; }
 
 
   .pill {
     @apply inline-flex items-center rounded-full px-3 py-1 text-[0.8rem] font-semibold leading-5;
   }
-  .pill-white { @apply bg-white text-blue-ink; }
-  .pill-dark { background: rgb(45 98 234 / 0.22); color: #c9d6ff; }
-  .pill-soft { background: #e6ecfd; color: var(--color-blue-ink); }
+  .pill-white { @apply bg-white text-accent-ink; }
+  .pill-dark, .pill-soft { background: rgb(124 58 237 / 0.18); color: #ddccff; box-shadow: inset 0 0 0 1px rgb(196 165 255 / 0.18); }
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-semibold transition-[transform,background-color,box-shadow] duration-200;
     min-height: 48px;
   }
   .btn:active { transform: translateY(1px); }
-  .btn-primary { @apply bg-blue-grad text-white; box-shadow: 0 10px 24px -12px rgb(31 69 201 / 0.7); }
-  .btn-primary:hover { box-shadow: 0 14px 30px -12px rgb(31 69 201 / 0.85); }
-  .btn-ghost { @apply border border-ink/15 text-ink; }
-  .btn-ghost:hover { @apply bg-ink/5; }
+  .btn-primary { @apply bg-accent-grad text-white; box-shadow: 0 12px 30px -12px rgb(124 58 237 / 0.8); }
+  .btn-primary:hover { box-shadow: 0 16px 38px -12px rgb(192 38 211 / 0.85); }
+  .btn-ghost { @apply border border-white/15 text-white; }
+  .btn-ghost:hover { @apply bg-white/5; }
 
   .container-x { @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-10; }
 
@@ -96,9 +121,11 @@
   .big-num::before { content: attr(data-num); }
   .big-num {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-style: italic;
+    font-stretch: 118%;
+    font-weight: 900;
     line-height: 0.8;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.02em;
   }
 }
 

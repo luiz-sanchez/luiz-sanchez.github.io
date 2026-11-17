@@ -63,7 +63,7 @@ export const projetos: Projeto[] = [
 /* Dados dos mockups (ilustrações) */
 export const uniflowMock = {
   url: 'uniflow.serfecaf.workers.dev',
-  menu: ['Backlog', 'Empréstimos', 'Insumos'],
+  menu: ['Início', 'Chamados', 'Empréstimos', 'Impressoras', 'Cofre de Senhas'],
   cards: [
     { rotulo: 'Abertos', valor: 18, tom: 'neutro' },
     { rotulo: 'Andamento', valor: 7, tom: 'amarelo' },

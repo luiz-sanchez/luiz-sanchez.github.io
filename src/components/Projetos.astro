@@ -8,7 +8,7 @@ import Glpi from './mockups/Glpi.astro';
 const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
 const letras = [...projetosIntro.titulo];
 ---
-<section id="projetos" class="proj-shell on-dark bg-ink text-on-dark" aria-labelledby="projetos-titulo" data-expand>
+<section id="projetos" class="proj-shell on-dark text-on-dark" aria-labelledby="projetos-titulo" data-expand>
   <!-- Palavra gigante cortada pela borda, como uma cena emoldurada -->
   <div class="reveal proj-intro container-x pt-14 sm:pt-20 lg:pt-24">
     <h2 id="projetos-titulo" class="proj-word font-display font-extrabold text-white">
@@ -75,9 +75,13 @@ const letras = [...projetosIntro.titulo];
     --p: 1;
     --gap: clamp(12px, 4vw, 56px);
     clip-path: inset(0 calc((1 - var(--p)) * var(--gap)) round calc((1 - var(--p)) * 40px) calc((1 - var(--p)) * 40px) 0 0);
+    background:
+      radial-gradient(60% 40% at 85% 0%, rgb(124 58 237 / 0.22), transparent 70%),
+      var(--color-night-3);
   }
   .proj-word {
-    font-size: clamp(4rem, 16.5vw, 15.5rem);
+    font-stretch: 80%;
+    font-size: clamp(3.6rem, 17.5vw, 14.5rem);
     line-height: 1;
     white-space: nowrap;
     letter-spacing: -0.055em;

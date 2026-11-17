@@ -3,16 +3,17 @@ export const site = {
   titulo: 'Luiz Sanchez · Portfólio',
   descricao:
     'Portfólio de Luiz Sanchez: Service Desk, infraestrutura e desenvolvimento de ferramentas internas. São Paulo, SP.',
-  eyebrow: 'Portfólio · 2026',
-  subtitulo: 'Service Desk, infraestrutura e desenvolvimento de ferramentas internas',
+  saudacao: 'Olá, eu sou',
+  subtitulo: 'Desenvolvedor, Suporte de TI e entusiasta por tecnologia.',
+  // Trecho entre ** fica em destaque roxo
+  frase: 'Transformando ideias em **soluções digitais.**',
   local: 'São Paulo, SP',
-  heroTags: ['Service Desk', 'GLPI', 'Node.js', 'React'],
   ctas: {
-    projetos: 'Ver projetos',
-    contato: 'Falar comigo',
+    contato: 'Fale comigo',
+    header: 'Entre em contato',
   },
   nav: [
-    { href: '#sobre', label: 'Sobre' },
+    { href: '#sobre', label: 'Sobre mim' },
     { href: '#servicos', label: 'Serviços' },
     { href: '#projetos', label: 'Projetos' },
     { href: '#trajetoria', label: 'Trajetória' },
