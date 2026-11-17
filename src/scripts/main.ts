@@ -111,6 +111,24 @@ if (panel && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
   hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
 }
 
+/* ---------- Transição: card dos projetos se expande com a rolagem ---------- */
+const shell = document.querySelector<HTMLElement>('[data-expand]');
+if (shell && !reduceMotion) {
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const top = shell.getBoundingClientRect().top;
+    const vh = window.innerHeight;
+    // 0 quando o topo da seção está no pé da tela; 1 quando chega a 10% do topo
+    const p = Math.min(1, Math.max(0, (vh - top) / (vh * 0.9)));
+    shell.style.setProperty('--p', p.toFixed(3));
+  };
+  const onScrollExpand = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  update();
+  window.addEventListener('scroll', onScrollExpand, { passive: true });
+  window.addEventListener('resize', onScrollExpand);
+}
+
 /* ---------- Abas do GLPI ---------- */
 document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
   const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];

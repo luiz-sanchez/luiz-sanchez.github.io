@@ -1,6 +1,7 @@
 ---
 import { ArrowDown, MapPin } from '@lucide/astro';
 import { site } from '../data/site';
+import Avatar from './Avatar.astro';
 
 // Divide o nome em linhas e letras para a revelação letra a letra.
 // O texto completo fica num span .sr-only; as letras são só visuais.
@@ -43,7 +44,7 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
 
   <!-- Bloco azul com o monograma. Camadas externas = parallax do mouse; internas = entrada. -->
   <div
-    class="hero-panel bg-blue-grad on-blue relative mx-5 mb-6 h-[340px] overflow-hidden rounded-[var(--radius-card)] sm:mx-8 sm:h-[420px] lg:absolute lg:inset-y-0 lg:right-0 lg:m-0 lg:h-auto lg:w-[38vw] lg:rounded-none"
+    class="hero-panel bg-blue-grad on-blue relative mx-5 mb-6 h-[440px] overflow-hidden rounded-[var(--radius-card)] sm:mx-8 sm:h-[540px] lg:absolute lg:inset-y-0 lg:right-0 lg:m-0 lg:h-auto lg:w-[38vw] lg:rounded-none"
     data-parallax
   >
     <span class="layer" data-depth="14" aria-hidden="true"><span class="circle circle-a"></span></span>
@@ -53,7 +54,11 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
       <span class="monogram font-display"><span class="mono-ch" style="--i:0">L</span><span class="mono-ch" style="--i:1">S</span></span>
     </span>
 
-    <ul class="tags absolute bottom-6 left-6 right-6 flex flex-wrap gap-2 lg:bottom-[22%] lg:left-[10%]" aria-label="Áreas principais">
+    <span class="layer" data-depth="6">
+      <span class="avatar-wrap"><Avatar class="avatar block h-auto w-full" /></span>
+    </span>
+
+    <ul class="tags absolute left-6 right-6 top-6 flex flex-wrap gap-2 lg:left-[10%] lg:right-[10%] lg:top-[11%]" aria-label="Áreas principais">
       {site.heroTags.map((t, i) => <li class="pill pill-white" style={`--i:${i}`}>{t}</li>)}
     </ul>
   </div>
@@ -86,11 +91,12 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
   .circle { position: absolute; border-radius: 9999px; }
   .circle-a { width: 62%; aspect-ratio: 1; top: 8%; right: -6%; border: 1.5px solid rgb(255 255 255 / 0.35); }
   .circle-b { width: 46%; aspect-ratio: 1; top: 44%; left: 6%; background: rgb(255 255 255 / 0.12); }
-  .circle-c { width: 9%; aspect-ratio: 1; top: 12%; right: 12%; background: rgb(255 255 255 / 0.9); }
+  .circle-c { width: 8%; aspect-ratio: 1; top: 44%; right: 9%; background: rgb(255 255 255 / 0.9); }
   .monogram {
     position: absolute;
-    left: 14%;
-    top: 9%;
+    left: 50%;
+    top: 19%;
+    transform: translateX(-50%);
     display: flex;
     overflow: hidden;
     padding-bottom: 0.04em;
@@ -101,10 +107,20 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
     color: #fff;
   }
   .mono-ch { display: inline-block; }
-  @media (min-width: 640px) { .monogram { font-size: 16rem; top: 6%; } }
+  .avatar-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: min(74%, 330px);
+    transform: translateX(-50%);
+  }
+  @media (min-width: 640px) { .avatar-wrap { width: min(70%, 380px); } }
+  @media (min-width: 1024px) { .avatar-wrap { width: min(82%, 470px); } }
+  .tags { z-index: 2; }
+  @media (min-width: 640px) { .monogram { font-size: 16rem; top: 16%; } }
   @media (min-width: 1024px) {
-    .monogram { font-size: clamp(12rem, 17vw, 19rem); top: 42%; margin-top: -0.6em; left: 12%; }
-    .circle-c { width: 6%; top: 64%; right: 16%; }
+    .monogram { font-size: clamp(12rem, 17vw, 19rem); top: 22%; }
+    .circle-c { width: 5%; top: 50%; right: 10%; }
   }
 
   /* ---------- Sequência de entrada (uma só, ~1,2s) ---------- */
@@ -125,6 +141,9 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
     .circle-b { animation: pop 1.1s var(--expo) 0.55s both; }
     .circle-c { animation: pop 0.8s var(--back) 0.9s both; }
 
+    /* 4b. Boneco sobe por trás da borda do painel */
+    .avatar { animation: avatar-in 1.1s var(--back) 0.7s both; transform-origin: 50% 100%; }
+
     /* 5. Tags e textos de apoio */
     .tags li { animation: tag 0.6s var(--back) both; animation-delay: calc(900ms + var(--i) * 60ms); }
     .fade-up { animation: fade-up 0.8s var(--expo) both; animation-delay: var(--d); }
@@ -136,6 +155,7 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
   @keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
   @keyframes draw { from { opacity: 0; transform: scale(0.7) rotate(-20deg); } to { opacity: 1; transform: none; } }
   @keyframes pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+  @keyframes avatar-in { from { transform: translateY(70%) scale(0.92); } to { transform: none; } }
   @keyframes tag { from { opacity: 0; transform: translateY(10px) scale(0.92); } to { opacity: 1; transform: none; } }
   @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 </style>

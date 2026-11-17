@@ -6,16 +6,25 @@ import Jukebox from './mockups/Jukebox.astro';
 import Glpi from './mockups/Glpi.astro';
 
 const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
+const letras = [...projetosIntro.titulo];
 ---
-<section id="projetos" class="on-dark bg-ink text-on-dark" aria-labelledby="projetos-titulo">
-  <h2 id="projetos-titulo" class="sr-only">{projetosIntro.titulo}</h2>
+<section id="projetos" class="proj-shell on-dark bg-ink text-on-dark" aria-labelledby="projetos-titulo" data-expand>
+  <!-- Palavra gigante cortada pela borda, como uma cena emoldurada -->
+  <div class="reveal proj-intro container-x pt-14 sm:pt-20 lg:pt-24">
+    <h2 id="projetos-titulo" class="proj-word font-display font-extrabold text-white">
+      <span class="sr-only">{projetosIntro.titulo}</span>
+      <span class="proj-line" aria-hidden="true">
+        {letras.map((ch, i) => <span class="proj-ch" style={`--i:${i}`}>{ch}</span>)}
+      </span>
+    </h2>
+  </div>
 
   {projetos.map((p, i) => {
     const Mockup = mockups[p.mockup];
     return (
       <article
         id={`projeto-${p.id}`}
-        class={`relative overflow-hidden py-20 sm:py-28 lg:py-32 ${i > 0 ? 'border-t border-white/[0.06]' : ''}`}
+        class={`relative overflow-hidden py-20 sm:py-28 lg:py-32 border-t border-white/[0.06]`}
         aria-labelledby={`projeto-${p.id}-titulo`}
       >
         <span class="big-num pointer-events-none absolute -right-2 top-6 select-none text-[9rem] text-white/[0.04] sm:text-[13rem] lg:top-10 lg:text-[18rem]" data-num={p.numero} aria-hidden="true"></span>
@@ -58,3 +67,30 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     );
   })}
 </section>
+
+<style>
+  /* Card escuro que se expande até ocupar a largura toda conforme a rolagem.
+     --p vai de 0 (seção entrando) a 1 (topo da seção perto do topo da tela). */
+  .proj-shell {
+    --p: 1;
+    --gap: clamp(12px, 4vw, 56px);
+    clip-path: inset(0 calc((1 - var(--p)) * var(--gap)) round calc((1 - var(--p)) * 40px) calc((1 - var(--p)) * 40px) 0 0);
+  }
+  .proj-word {
+    font-size: clamp(4rem, 16.5vw, 15.5rem);
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: -0.055em;
+  }
+  /* corta a base das letras na linha da borda, como a palavra presa na moldura */
+  .proj-line { display: block; overflow: hidden; height: 0.8em; padding-top: 0.04em; box-sizing: content-box; margin-bottom: -1px; }
+  .proj-ch { display: inline-block; }
+  .proj-intro { border-bottom: 1px solid rgb(255 255 255 / 0.08); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .proj-ch { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: calc(var(--i) * 45ms); }
+    :global(.is-in) .proj-ch, :global(.no-js) .proj-ch { transform: none; }
+    /* a palavra também "afunda" um pouco enquanto o card abre */
+    .proj-line { transform: translateY(calc((1 - var(--p)) * 12%)); }
+  }
+</style>
