@@ -12,7 +12,7 @@ import { contato, site } from '../data/site';
       <h2 id="contato-titulo" class="mt-4 text-[3rem] font-bold uppercase leading-[0.95] tracking-[-0.035em] sm:text-7xl lg:text-[7.5rem]">{contato.titulo}</h2>
     </div>
 
-    <div class="reveal mt-12 grid grid-cols-[minmax(0,1fr)] gap-4 lg:mt-16 lg:grid-cols-2" style="transition-delay:100ms">
+    <div class="reveal mt-12 grid grid-cols-[minmax(0,1fr)] gap-4 lg:mt-16 lg:grid-cols-2" style="--d:100ms" data-stagger>
       <!-- E-mail com copiar -->
       <div class="row">
         <Mail class="size-5 shrink-0" aria-hidden="true" />
@@ -59,7 +59,7 @@ import { contato, site } from '../data/site';
       </a>
     </div>
 
-    <div class="reveal mt-10" style="transition-delay:160ms">
+    <div class="reveal mt-10" style="--d:160ms">
       <a href={contato.pdf.href} download class="btn bg-white text-accent-ink hover:bg-white/90">
         <FileDown class="size-5" aria-hidden="true" />
         {contato.pdf.rotulo}

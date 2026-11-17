@@ -37,7 +37,7 @@ const tons = {
         const Icone = icones[s.icone];
         const t = tons[s.tom];
         return (
-          <li class={`reveal relative flex min-h-[220px] flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 sm:p-7 ${t.card}`} style={`transition-delay:${(i % 3) * 70}ms`}>
+          <li class={`reveal relative flex min-h-[220px] flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 sm:p-7 ${t.card}`} style={`--d:${(i % 3) * 70}ms`}>
             <span class={`big-num absolute right-5 top-5 text-[3.2rem] ${t.num}`} data-num={s.numero} aria-hidden="true"></span>
             <span class={`grid size-11 place-items-center rounded-xl ${t.icon}`}>
               <Icone class="size-5" stroke-width={1.8} aria-hidden="true" />

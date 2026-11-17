@@ -9,9 +9,10 @@ const letras = palavras.map((p) => [...p].map((ch) => ({ ch, i: n++ })));
 const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1</strong>');
 ---
 <section id="inicio" class="hero relative isolate overflow-hidden" aria-labelledby="hero-titulo" data-parallax>
-  <!-- Fundo: brilho azul atrás do avatar e arcos finos -->
-  <span class="glow" aria-hidden="true"></span>
-  <span class="layer" data-depth="18" aria-hidden="true">
+  <!-- Fundo: brilho azul atrás do avatar e arcos finos (afunda e esmaece ao rolar) -->
+  <div class="hero-bg" aria-hidden="true">
+  <span class="glow"></span>
+  <span class="layer" data-depth="18">
     <svg class="arcs" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none">
       <path d="M-100 980 C 300 640, 1100 560, 1700 700" stroke="url(#arc-a)" stroke-width="1.5" />
       <path d="M-100 1060 C 420 760, 1200 700, 1700 860" stroke="url(#arc-b)" stroke-width="1" />
@@ -21,6 +22,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
       </defs>
     </svg>
   </span>
+  </div>
 
   <div class="hero-inner relative mx-auto w-full max-w-[1440px] px-5 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pt-36">
     <h1 id="hero-titulo" class="relative z-[1]">
@@ -172,7 +174,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     transition: box-shadow 0.3s, transform 0.3s;
   }
   .cta-hero:hover { box-shadow: 0 0 56px -10px rgb(56 189 248 / 0.85); }
-  .cta-hero:active { transform: translateY(1px); }
+  .cta-hero:active { transform: scale(0.97); transition-duration: 0.1s; }
 
   /* ---------- Avatar ---------- */
   .avatar-wrap {
@@ -221,6 +223,24 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     .arcs path { stroke-dasharray: 2200; animation: draw 2.2s var(--expo) 0.5s both; }
     .fade-up { animation: fade-up 0.9s var(--expo) both; animation-delay: var(--d); }
   }
+
+  /* ---------- Saída ligada à rolagem (só camadas decorativas e a imagem; o texto fica parado) ---------- */
+  .hero-bg { position: absolute; inset: 0; pointer-events: none; }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /* longhands de propósito: o minificador não pode juntá-los num atalho que perderia o timeline */
+      .hero-bg, .avatar-wrap {
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+      .hero-bg { animation-name: bg-exit; }
+      .avatar-wrap { animation-name: avatar-exit; }
+    }
+  }
+  @keyframes bg-exit { to { translate: 0 14%; opacity: 0.25; } }
+  @keyframes avatar-exit { to { translate: 0 -7%; scale: 0.96; } }
 
   @keyframes rise { from { transform: translateY(105%) skewX(-8deg); } to { transform: none; } }
   @keyframes avatar-in { from { transform: translateY(40%) scale(0.94); } to { transform: none; } }

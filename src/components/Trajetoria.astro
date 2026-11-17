@@ -15,9 +15,9 @@ const listas = [
 
     <div class="mt-10 grid gap-5 lg:mt-14 lg:grid-cols-3">
       {listas.map((col, ci) => (
-        <div class="col reveal" style={`transition-delay:${ci * 80}ms`}>
+        <div class="col reveal" style={`--d:${ci * 80}ms`}>
           <h3 class="text-[1.4rem] font-bold">{col.titulo}</h3>
-          <ol class="timeline mt-5 space-y-6">
+          <ol class="timeline mt-5 space-y-6" data-stagger>
             {col.itens.map((it) => (
               <li class="relative">
                 <p class="font-semibold leading-snug">{it.titulo}</p>
@@ -28,9 +28,9 @@ const listas = [
         </div>
       ))}
 
-      <div class="col reveal" style="transition-delay:160ms">
+      <div class="col reveal" style="--d:160ms">
         <h3 class="text-[1.4rem] font-bold">{colunas.ferramentas}</h3>
-        <ul class="mt-5 flex flex-wrap gap-2">
+        <ul class="mt-5 flex flex-wrap gap-2" data-stagger>
           {ferramentas.map((f) => <li class="pill pill-soft">{f}</li>)}
         </ul>
       </div>
