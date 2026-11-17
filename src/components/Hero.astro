@@ -189,16 +189,19 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     .hero-inner { flex: 1; display: flex; flex-direction: column; }
     .textos { margin-top: auto; padding-bottom: 18vh; }
     .acoes { justify-self: end; flex-direction: column; align-items: flex-end; }
-    /* O avatar começa na altura de 3/4 das letras: cobre só a base do nome, que continua legível.
-       O busto passa do fim da tela e some no degradê do ::after. */
+    /* O avatar ocupa o espaço entre a base do nome e o fim da tela: o topo do cabelo encosta
+       só na parte de baixo das letras (nome legível) e o rosto aparece inteiro em qualquer proporção. */
     .avatar-wrap {
       position: absolute;
       left: 50%;
-      top: calc(9rem + var(--S) + 0.76 * var(--F));
-      width: min(42vw, 620px);
+      top: max(calc(9rem + var(--S) + 0.62 * var(--F)), calc(100% - 860px));
+      bottom: 0;
+      width: auto;
       margin: 0;
       transform: translateX(-50%);
     }
+    .avatar-wrap > .layer-flat { height: 100%; }
+    .avatar { height: 100%; width: auto; max-width: none; }
     .hero::after {
       content: '';
       position: absolute;
