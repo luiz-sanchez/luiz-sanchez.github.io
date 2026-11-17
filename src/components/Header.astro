@@ -3,10 +3,11 @@ import { Menu, X, Mail } from '@lucide/astro';
 import { site } from '../data/site';
 ---
 <header id="topo" class="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4" data-header>
-  <div class="bar relative mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-4 rounded-full pl-5 pr-2 sm:pl-7">
+  <div class="bar relative mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-4 rounded-full pl-3 pr-2">
     <span class="progresso" aria-hidden="true"></span>
-    <a href="#inicio" class="logo rounded-lg font-display text-[1.7rem] leading-none" aria-label="Luiz Sanchez, voltar ao início">
-      <span aria-hidden="true">L<span class="logo-s">S</span></span>
+    <a href="#inicio" class="logo flex items-center gap-3 rounded-full" aria-label="Luiz Sanchez, voltar ao início">
+      <img class="logo-foto" src="/avatar/luiz-logo.webp" width="40" height="40" alt="" />
+      <span class="text-[1rem] font-bold tracking-[-0.01em] text-white" aria-hidden="true">{site.nome}</span>
     </a>
 
     <nav aria-label="Principal" class="hidden lg:block">
@@ -77,13 +78,15 @@ import { site } from '../data/site';
     .progresso { animation-name: progresso; animation-timing-function: linear; animation-fill-mode: both; animation-timeline: scroll(root); }
   }
   @keyframes progresso { to { transform: scaleX(1); } }
-  .logo { font-style: italic; font-weight: 900; font-stretch: 118%; color: #fff; letter-spacing: -0.04em; }
-  .logo-s {
-    background: linear-gradient(135deg, #3b82f6, #38bdf8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .logo-foto {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px var(--color-accent);
+    transition: box-shadow 0.25s;
   }
+  .logo:hover .logo-foto { box-shadow: 0 0 0 2px #38bdf8, 0 0 18px -4px rgb(56 189 248 / 0.7); }
   .cta { --grad-fill: #0a0d14; transition: box-shadow 0.25s, transform 0.2s; }
   .cta:active { transform: scale(0.97); transition-duration: 0.1s; }
   .cta:hover { box-shadow: 0 0 24px -6px rgb(56 189 248 / 0.6); }
