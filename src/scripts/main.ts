@@ -91,24 +91,51 @@ if (panel && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
   const hero = panel.closest('section') ?? panel;
   // Movimento com inércia: o alvo segue o mouse e a posição atual o persegue (lerp).
   // O loop só roda enquanto há distância a percorrer.
-  let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+  // Avatar 3D: 9 ângulos pré-renderizados (-15° a 15°). Carregados só no primeiro hover.
+  const avatar = panel.querySelector<HTMLImageElement>('[data-avatar]');
+  const FRAMES = 9, MID = 4;
+  const ready: boolean[] = Array(FRAMES).fill(false);
+  let shown = MID, started = false;
+  const loadFrames = () => {
+    if (started || !avatar) return;
+    started = true;
+    for (let i = 0; i < FRAMES; i++) {
+      const im = new Image();
+      im.src = `/avatar/a${i}.webp`;
+      im.decode().then(() => { ready[i] = true; }, () => {});
+    }
+  };
+  const turnAvatar = (x: number) => {
+    if (!avatar) return;
+    const i = Math.round(MID + x * MID);
+    if (i !== shown && ready[i]) {
+      avatar.src = `/avatar/a${i}.webp`;
+      shown = i;
+    }
+  };
+
+  // tx/ty: alvo do parallax; gx: alvo do giro do avatar (relativo à largura do painel)
+  let tx = 0, ty = 0, cx = 0, cy = 0, gx = 0, ax = 0, raf = 0;
   const step = () => {
     cx += (tx - cx) * 0.08;
     cy += (ty - cy) * 0.08;
+    ax += (gx - ax) * 0.1;
     panel.style.setProperty('--mx', cx.toFixed(4));
     panel.style.setProperty('--my', cy.toFixed(4));
-    raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.001 ? requestAnimationFrame(step) : 0;
+    turnAvatar(ax);
+    raf = Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(gx - ax) > 0.001 ? requestAnimationFrame(step) : 0;
   };
   const kick = () => { if (!raf) raf = requestAnimationFrame(step); };
   // Mede o painel só ao entrar no hero, não a cada movimento, para evitar reflow.
   let r = panel.getBoundingClientRect();
-  hero.addEventListener('pointerenter', () => { r = panel.getBoundingClientRect(); });
+  hero.addEventListener('pointerenter', () => { r = panel.getBoundingClientRect(); loadFrames(); });
   hero.addEventListener('pointermove', (e) => {
     tx = Math.max(-1, Math.min(1, ((e as PointerEvent).clientX - (r.left + r.width / 2)) / (window.innerWidth / 2)));
     ty = Math.max(-1, Math.min(1, ((e as PointerEvent).clientY - (r.top + r.height / 2)) / (window.innerHeight / 2)));
+    gx = Math.max(-1, Math.min(1, ((e as PointerEvent).clientX - (r.left + r.width / 2)) / (r.width / 2)));
     kick();
   });
-  hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
+  hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; gx = 0; kick(); });
 }
 
 /* ---------- Transição: card dos projetos se expande com a rolagem ---------- */

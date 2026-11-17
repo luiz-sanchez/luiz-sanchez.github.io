@@ -1,7 +1,6 @@
 ---
 import { ArrowDown, MapPin } from '@lucide/astro';
 import { site } from '../data/site';
-import Avatar from './Avatar.astro';
 
 // Divide o nome em linhas e letras para a revelação letra a letra.
 // O texto completo fica num span .sr-only; as letras são só visuais.
@@ -55,7 +54,18 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
     </span>
 
     <span class="layer" data-depth="6">
-      <span class="avatar-wrap"><Avatar class="avatar block h-auto w-full" /></span>
+      <span class="avatar-wrap">
+        <img
+          class="avatar block h-auto w-full"
+          src="/avatar/a4.webp"
+          width="760"
+          height="816"
+          alt="Avatar 3D do Luiz"
+          decoding="async"
+          fetchpriority="high"
+          data-avatar
+        />
+      </span>
     </span>
 
     <ul class="tags absolute left-6 right-6 top-6 flex flex-wrap gap-2 lg:left-[10%] lg:right-[10%] lg:top-[11%]" aria-label="Áreas principais">
@@ -73,7 +83,8 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
     letter-spacing: -0.045em;
   }
   @media (min-width: 1024px) {
-    .hero-title { font-size: clamp(7rem, 12.2vw, 12.5rem); }
+    /* "Sanchez" mede ~4,1em: o tamanho é limitado para a palavra terminar antes do painel azul (62vw) */
+    .hero-title { font-size: min(12.2vw, 12.5rem, calc(2.89vw + 125px), calc(14.9vw - 19px)); }
   }
 
   /* Cada linha é uma máscara: as letras sobem de baixo dela */
@@ -111,11 +122,11 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
     position: absolute;
     bottom: 0;
     left: 50%;
-    width: min(74%, 330px);
+    width: min(88%, 380px);
     transform: translateX(-50%);
   }
-  @media (min-width: 640px) { .avatar-wrap { width: min(70%, 380px); } }
-  @media (min-width: 1024px) { .avatar-wrap { width: min(82%, 470px); } }
+  @media (min-width: 640px) { .avatar-wrap { width: min(80%, 460px); } }
+  @media (min-width: 1024px) { .avatar-wrap { width: min(92%, 560px); } }
   .tags { z-index: 2; }
   @media (min-width: 640px) { .monogram { font-size: 16rem; top: 16%; } }
   @media (min-width: 1024px) {
@@ -141,7 +152,7 @@ const letras = linhas.map((linha) => [...linha].map((ch) => ({ ch, i: n++ })));
     .circle-b { animation: pop 1.1s var(--expo) 0.55s both; }
     .circle-c { animation: pop 0.8s var(--back) 0.9s both; }
 
-    /* 4b. Boneco sobe por trás da borda do painel */
+    /* 4b. Avatar sobe por trás da borda do painel */
     .avatar { animation: avatar-in 1.1s var(--back) 0.7s both; transform-origin: 50% 100%; }
 
     /* 5. Tags e textos de apoio */
