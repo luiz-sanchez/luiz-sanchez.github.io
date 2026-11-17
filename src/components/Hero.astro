@@ -1,5 +1,5 @@
 ---
-import { ArrowRight } from '@lucide/astro';
+import { ArrowRight, ArrowDown } from '@lucide/astro';
 import { site } from '../data/site';
 
 // Nome em letras separadas para a revelação; o texto completo fica no .sr-only.
@@ -41,10 +41,16 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
         <p class="mt-4 text-[1.15rem] leading-snug text-on-dark sm:text-[1.3rem] lg:text-[1.45rem]" set:html={frase} />
       </div>
 
-      <a href="#contato" class="cta-hero fade-up group" style="--d:820ms">
-        {site.ctas.contato}
-        <ArrowRight class="size-6 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
-      </a>
+      <div class="acoes fade-up flex flex-wrap items-center gap-x-6 gap-y-4" style="--d:820ms">
+        <a href="#contato" class="cta-hero group">
+          {site.ctas.contato}
+          <ArrowRight class="size-6 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+        </a>
+        <a href="#projetos" class="ver-projetos group inline-flex min-h-12 items-center gap-2 text-[1.02rem] font-semibold text-white underline decoration-white/30 underline-offset-[6px] transition-colors hover:decoration-sky">
+          {site.ctas.projetos}
+          <ArrowDown class="size-4 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden="true" />
+        </a>
+      </div>
     </div>
   </div>
 
@@ -72,6 +78,9 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     --back: cubic-bezier(0.34, 1.4, 0.64, 1);
     --mx: 0;
     --my: 0;
+    /* tamanhos do nome, usados também para posicionar o avatar no desktop */
+    --S: clamp(1.3rem, 3.4vw, 2.5rem);
+    --F: calc((min(100vw, 1440px) - 112px) / 6.8);
     display: flex;
     flex-direction: column;
     background: var(--color-night);
@@ -101,8 +110,9 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     font-family: var(--font-sans);
     font-style: normal;
     font-weight: 700;
-    font-size: clamp(1.3rem, 3.4vw, 2.5rem);
+    font-size: var(--S);
     line-height: 1;
+    text-transform: uppercase;
     letter-spacing: 0.01em;
     color: rgb(236 235 242 / 0.82);
     margin-left: 0.08em;
@@ -110,6 +120,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   .nome {
     margin-top: 0.08em;
     font-stretch: 80%;
+    text-transform: uppercase;
     /* "SANCHEZ" mede ~4,4em: ocupa a largura toda no celular */
     font-size: min(calc((100vw - 40px) / 4.55), 9rem);
     line-height: 0.86;
@@ -125,7 +136,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   }
   @media (min-width: 1024px) {
     /* "LUIZ SANCHEZ" mede ~6,7em: ocupa a largura do container */
-    .nome { font-size: calc((min(100vw, 1440px) - 112px) / 6.8); }
+    .nome { font-size: var(--F); }
     .palavra { display: inline-block; }
     .palavra + .palavra { margin-left: 0.22em; }
   }
@@ -140,8 +151,8 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     color: transparent;
   }
   .textos { margin-top: 2rem; }
+  .acoes { justify-self: start; }
   .cta-hero {
-    justify-self: start;
     display: inline-flex;
     align-items: center;
     gap: 1.1rem;
@@ -177,14 +188,25 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   @media (min-width: 1024px) {
     .hero-inner { flex: 1; display: flex; flex-direction: column; }
     .textos { margin-top: auto; padding-bottom: 18vh; }
-    .cta-hero { justify-self: end; }
+    .acoes { justify-self: end; flex-direction: column; align-items: flex-end; }
+    /* O avatar começa na altura de 3/4 das letras: cobre só a base do nome, que continua legível.
+       O busto passa do fim da tela e some no degradê do ::after. */
     .avatar-wrap {
       position: absolute;
       left: 50%;
-      bottom: 0;
-      width: min(44vw, 74vh, 700px);
+      top: calc(9rem + var(--S) + 0.76 * var(--F));
+      width: min(42vw, 620px);
       margin: 0;
       transform: translateX(-50%);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: auto 0 0;
+      height: 22vh;
+      z-index: 2;
+      background: linear-gradient(to bottom, transparent, var(--color-night));
+      pointer-events: none;
     }
   }
 

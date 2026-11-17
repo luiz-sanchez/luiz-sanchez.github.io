@@ -10,7 +10,7 @@ export const site = {
   local: 'São Paulo, SP',
   ctas: {
     contato: 'Fale comigo',
-    header: 'Entre em contato',
+    projetos: 'Ver projetos',
   },
   nav: [
     { href: '#sobre', label: 'Sobre mim' },
