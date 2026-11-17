@@ -22,13 +22,7 @@ export const site = {
 };
 
 export const sobre = {
-  eyebrow: 'Sobre mim',
   titulo: 'Prazer, eu sou o Luiz',
-  numeros: [
-    { valor: 20, rotulo: 'anos' },
-    { valor: 2025, rotulo: 'início na TI' },
-    { valor: 3, rotulo: 'projetos' },
-  ],
   // Trechos entre ** viram <strong>
   paragrafos: [
     'Tenho 20 anos e trabalho no **Service Desk da UniFECAF**, onde atendo usuários e desenvolvo as ferramentas que deixam o suporte de TI mais eficiente.',
@@ -38,7 +32,6 @@ export const sobre = {
 };
 
 export const contato = {
-  eyebrow: 'Contato',
   titulo: 'Vamos conversar?',
   email: 'lupimsan@gmail.com',
   whatsapp: { rotulo: '(11) 95117-5977', href: 'https://wa.me/5511951175977' },

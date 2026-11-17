@@ -3,25 +3,24 @@ import { Wrench, Database, CodeXml, Server, Activity, Users } from '@lucide/astr
 import { servicos, servicosIntro } from '../data/servicos';
 
 const icones = { Wrench, Database, CodeXml, Server, Activity, Users };
-
 ---
 <section id="servicos" class="pb-20 sm:pb-28 lg:pb-36" aria-labelledby="servicos-titulo">
   <div class="container-x">
     <div class="reveal">
-      <p class="eyebrow">{servicosIntro.eyebrow}</p>
-      <h2 id="servicos-titulo" class="mt-4 text-[2.2rem] font-bold leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{servicosIntro.titulo}</h2>
+      <h2 id="servicos-titulo" class="text-[2.2rem] leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{servicosIntro.titulo}</h2>
     </div>
 
-    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-5">
+    <!-- Lista de frentes: linhas finas separam os itens, sem caixas -->
+    <ul class="frentes mt-10 grid sm:grid-cols-2 sm:gap-x-10 lg:mt-14 lg:grid-cols-3 lg:gap-x-14">
       {servicos.map((s, i) => {
         const Icone = icones[s.icone];
         return (
-          <li class={`reveal relative flex min-h-[220px] flex-col overflow-hidden rounded-[var(--radius-card)] border p-6 sm:p-7 bg-night-2 border-line text-white`} style={`--d:${(i % 3) * 70}ms`}>
-            <span class="grid size-11 place-items-center rounded-xl bg-accent/20 text-lilac">
-              <Icone class="size-5" stroke-width={1.8} aria-hidden="true" />
-            </span>
-            <h3 class="mt-auto pt-10 text-[1.45rem] font-bold">{s.titulo}</h3>
-            <p class="mt-2 leading-relaxed text-muted">{s.descricao}</p>
+          <li class="reveal border-t border-line py-7" style={`--d:${(i % 3) * 70}ms`}>
+            <h3 class="flex items-center gap-3 text-[1.35rem] font-bold text-white">
+              <Icone class="size-5 shrink-0 text-lilac" stroke-width={1.8} aria-hidden="true" />
+              {s.titulo}
+            </h3>
+            <p class="mt-2 max-w-[34ch] leading-relaxed text-muted">{s.descricao}</p>
           </li>
         );
       })}

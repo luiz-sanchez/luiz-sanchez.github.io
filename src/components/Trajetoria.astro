@@ -1,36 +1,40 @@
 ---
 import { trajetoriaIntro, formacao, experiencias, ferramentas, colunas } from '../data/trajetoria';
 
+// Experiências primeiro: é o que quem contrata procura antes.
 const listas = [
-  { titulo: colunas.formacao, itens: formacao },
   { titulo: colunas.experiencias, itens: experiencias },
+  { titulo: colunas.formacao, itens: formacao },
 ];
 ---
 <section id="trajetoria" class="py-20 sm:py-28 lg:py-36" aria-labelledby="trajetoria-titulo">
   <div class="container-x">
     <div class="reveal">
-      <p class="eyebrow">{trajetoriaIntro.eyebrow}</p>
-      <h2 id="trajetoria-titulo" class="mt-4 text-[2.2rem] font-bold leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{trajetoriaIntro.titulo}</h2>
+      <h2 id="trajetoria-titulo" class="text-[2.2rem] leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{trajetoriaIntro.titulo}</h2>
     </div>
 
-    <div class="mt-10 grid gap-5 lg:mt-14 lg:grid-cols-3">
+    <div class="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-12 lg:gap-14">
       {listas.map((col, ci) => (
-        <div class="col reveal" style={`--d:${ci * 80}ms`}>
-          <h3 class="text-[1.4rem] font-bold">{col.titulo}</h3>
-          <ol class="timeline mt-5 space-y-6" data-stagger>
+        <div class="reveal lg:col-span-4" style={`--d:${ci * 80}ms`}>
+          <h3 class="text-[1.3rem] font-bold text-white">{col.titulo}</h3>
+          <!-- Linha do tempo: período numa coluna, cargo e lugar na outra -->
+          <ol class="linha mt-6" data-stagger>
             {col.itens.map((it) => (
-              <li class="relative">
-                <p class="font-semibold leading-snug">{it.titulo}</p>
-                <p class="mt-1 text-[0.92rem] text-muted">{it.local} · {it.periodo}</p>
+              <li class="item">
+                <p class="periodo tabular-nums">{it.periodo}</p>
+                <div>
+                  <p class="font-semibold leading-snug text-white">{it.titulo}</p>
+                  <p class="mt-1 text-[0.95rem] text-muted">{it.local}</p>
+                </div>
               </li>
             ))}
           </ol>
         </div>
       ))}
 
-      <div class="col reveal" style="--d:160ms">
-        <h3 class="text-[1.4rem] font-bold">{colunas.ferramentas}</h3>
-        <ul class="mt-5 flex flex-wrap gap-2" data-stagger>
+      <div class="reveal lg:col-span-4" style="--d:160ms">
+        <h3 class="text-[1.3rem] font-bold text-white">{colunas.ferramentas}</h3>
+        <ul class="mt-6 flex flex-wrap gap-2" data-stagger>
           {ferramentas.map((f) => <li class="pill pill-soft">{f}</li>)}
         </ul>
       </div>
@@ -39,38 +43,35 @@ const listas = [
 </section>
 
 <style>
-  .col {
-    border-radius: var(--radius-card);
-    background: var(--color-paper-2);
-    border: 1px solid var(--color-line);
-    border-top: 4px solid var(--color-accent);
-    padding: 1.75rem;
-  }
-  /* Linha do tempo vertical no mobile */
-  .timeline { position: relative; padding-left: 1.5rem; }
-  .timeline::before {
+  .linha { position: relative; }
+  /* Fio vertical da linha do tempo */
+  .linha::before {
     content: '';
     position: absolute;
     left: 5px;
-    top: 0.4rem;
-    bottom: 0.4rem;
-    width: 2px;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
     background: var(--color-line);
   }
-  .timeline > li::before {
+  .item {
+    position: relative;
+    display: grid;
+    gap: 0.15rem;
+    padding: 0 0 1.6rem 1.75rem;
+  }
+  .item:last-child { padding-bottom: 0; }
+  .item::before {
     content: '';
     position: absolute;
-    left: calc(-1.5rem + 1px);
-    top: 0.4rem;
-    width: 10px;
-    height: 10px;
+    left: 0;
+    top: 0.42rem;
+    width: 11px;
+    height: 11px;
     border-radius: 9999px;
-    background: var(--color-paper-2);
+    background: var(--color-night);
     border: 2px solid var(--color-accent);
   }
-  .timeline > li:first-child::before { background: var(--color-accent); }
-  @media (min-width: 1024px) {
-    .timeline { padding-left: 0; }
-    .timeline::before, .timeline > li::before { display: none; }
-  }
+  .item:first-child::before { background: var(--color-accent); }
+  .periodo { font-size: 0.85rem; font-weight: 600; color: var(--color-lilac); }
 </style>

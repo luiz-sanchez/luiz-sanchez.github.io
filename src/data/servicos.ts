@@ -5,7 +5,6 @@ export type Servico = {
 };
 
 export const servicosIntro = {
-  eyebrow: 'O que eu entrego',
   titulo: 'Seis frentes do meu trabalho',
 };
 

@@ -30,8 +30,8 @@ const letras = [...projetosIntro.titulo];
 
         <div class="container-x relative grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
           <div class="reveal lg:col-span-5">
-            <p class="eyebrow">{p.categoria}</p>
-            <h3 id={`projeto-${p.id}-titulo`} class="mt-4 text-[2.4rem] font-bold leading-[1.05] text-white sm:text-5xl">{p.titulo}</h3>
+            <h3 id={`projeto-${p.id}-titulo`} class="text-[2.4rem] font-bold leading-[1.05] text-white sm:text-5xl">{p.titulo}</h3>
+            <p class="mt-2 text-[1.05rem] text-lilac">{p.categoria}</p>
             <ul class="mt-6 space-y-2.5 text-[1.05rem] leading-relaxed" data-stagger>
               {p.bullets.map((b) => (
                 <li class="flex gap-3">

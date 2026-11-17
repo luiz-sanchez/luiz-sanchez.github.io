@@ -8,8 +8,7 @@ import { contato, site } from '../data/site';
 
   <div class="container-x relative py-20 sm:py-28 lg:py-36">
     <div class="reveal">
-      <p class="eyebrow">{contato.eyebrow}</p>
-      <h2 id="contato-titulo" class="mt-4 text-[3rem] font-bold uppercase leading-[0.95] tracking-[-0.035em] sm:text-7xl lg:text-[7.5rem]">{contato.titulo}</h2>
+      <h2 id="contato-titulo" class="text-[3rem] font-bold uppercase leading-[0.95] tracking-[-0.035em] sm:text-7xl lg:text-[7.5rem]">{contato.titulo}</h2>
     </div>
 
     <div class="reveal mt-12 grid grid-cols-[minmax(0,1fr)] gap-4 lg:mt-16 lg:grid-cols-2" style="--d:100ms" data-stagger>
@@ -68,7 +67,7 @@ import { contato, site } from '../data/site';
   </div>
 
   <footer class="container-x relative flex flex-col gap-2 border-t border-white/20 py-6 text-[0.85rem] text-white sm:flex-row sm:justify-between">
-    <p>{site.titulo}</p>
+    <p>© {new Date().getFullYear()} {site.nome}</p>
     <p>{site.local}</p>
   </footer>
 </section>

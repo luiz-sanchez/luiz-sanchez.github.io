@@ -1,7 +1,6 @@
 export type Item = { titulo: string; local: string; periodo: string };
 
 export const trajetoriaIntro = {
-  eyebrow: 'Trajetória',
   titulo: 'Formação e experiências',
 };
 
