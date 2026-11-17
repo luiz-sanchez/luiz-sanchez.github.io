@@ -54,21 +54,21 @@ import { site } from '../data/site';
 
 <style>
   .bar, .menu {
-    background: rgb(10 9 15 / 0.72);
+    background: rgb(8 11 18 / 0.72);
     border: 1px solid rgb(255 255 255 / 0.07);
     backdrop-filter: saturate(1.4) blur(14px);
   }
-  [data-header].is-scrolled .bar { background: rgb(10 9 15 / 0.9); }
+  [data-header].is-scrolled .bar { background: rgb(8 11 18 / 0.9); }
   .logo { font-style: italic; font-weight: 900; font-stretch: 118%; color: #fff; letter-spacing: -0.04em; }
   .logo-s {
-    background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    background: linear-gradient(135deg, #3b82f6, #38bdf8);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .cta { --grad-fill: #0d0b13; transition: box-shadow 0.25s; }
-  .cta:hover { box-shadow: 0 0 24px -6px rgb(217 70 239 / 0.6); }
-  .nav-link[aria-current='true'] { color: #fff; background: rgb(124 58 237 / 0.28); }
+  .cta { --grad-fill: #0a0d14; transition: box-shadow 0.25s; }
+  .cta:hover { box-shadow: 0 0 24px -6px rgb(56 189 248 / 0.6); }
+  .nav-link[aria-current='true'] { color: #fff; background: rgb(45 98 234 / 0.28); }
   #menu-mobile .nav-link[aria-current='true'] { background: none; color: var(--color-lilac); }
   [data-menu-toggle][aria-expanded='true'] .icon-open { display: none; }
   [data-menu-toggle][aria-expanded='true'] .icon-close { display: block; }

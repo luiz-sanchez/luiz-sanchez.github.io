@@ -9,15 +9,15 @@ const letras = palavras.map((p) => [...p].map((ch) => ({ ch, i: n++ })));
 const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1</strong>');
 ---
 <section id="inicio" class="hero relative isolate overflow-hidden" aria-labelledby="hero-titulo" data-parallax>
-  <!-- Fundo: brilho roxo atrás do avatar e arcos finos -->
+  <!-- Fundo: brilho azul atrás do avatar e arcos finos -->
   <span class="glow" aria-hidden="true"></span>
   <span class="layer" data-depth="18" aria-hidden="true">
     <svg class="arcs" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" fill="none">
       <path d="M-100 980 C 300 640, 1100 560, 1700 700" stroke="url(#arc-a)" stroke-width="1.5" />
       <path d="M-100 1060 C 420 760, 1200 700, 1700 860" stroke="url(#arc-b)" stroke-width="1" />
       <defs>
-        <linearGradient id="arc-a" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0" /><stop offset=".5" stop-color="#8b5cf6" stop-opacity=".7" /><stop offset="1" stop-color="#d946ef" stop-opacity="0" /></linearGradient>
-        <linearGradient id="arc-b" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0" /><stop offset=".6" stop-color="#a78bfa" stop-opacity=".35" /><stop offset="1" stop-color="#7c3aed" stop-opacity="0" /></linearGradient>
+        <linearGradient id="arc-a" x1="0" x2="1"><stop offset="0" stop-color="#2d62ea" stop-opacity="0" /><stop offset=".5" stop-color="#3b82f6" stop-opacity=".7" /><stop offset="1" stop-color="#38bdf8" stop-opacity="0" /></linearGradient>
+        <linearGradient id="arc-b" x1="0" x2="1"><stop offset="0" stop-color="#2d62ea" stop-opacity="0" /><stop offset=".6" stop-color="#7aa7ff" stop-opacity=".35" /><stop offset="1" stop-color="#2d62ea" stop-opacity="0" /></linearGradient>
       </defs>
     </svg>
   </span>
@@ -88,7 +88,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     width: min(1100px, 140vw);
     aspect-ratio: 1.6;
     transform: translateX(-50%);
-    background: radial-gradient(closest-side, rgb(124 58 237 / 0.55), rgb(124 58 237 / 0.18) 55%, transparent);
+    background: radial-gradient(closest-side, rgb(45 98 234 / 0.55), rgb(45 98 234 / 0.18) 55%, transparent);
     pointer-events: none;
   }
   .arcs { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -134,7 +134,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   .intro { border-color: var(--color-accent); max-width: 30ch; }
   .intro :global(.destaque) {
     font-weight: 700;
-    background: linear-gradient(90deg, #a78bfa, #e879f9);
+    background: linear-gradient(90deg, #7aa7ff, #7dd3fc);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -155,12 +155,12 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     text-transform: uppercase;
     color: #fff;
     background:
-      linear-gradient(90deg, #0d0b13 0%, #2a1250 55%, #6d28d9 88%, #a21caf 100%) padding-box,
-      linear-gradient(90deg, #7c3aed, #d946ef 60%, #fb7185) border-box;
-    box-shadow: 0 0 40px -12px rgb(192 38 211 / 0.7);
+      linear-gradient(90deg, #0a0d14 0%, #0c1f4d 55%, #1d4ed8 88%, #1e40af 100%) padding-box,
+      linear-gradient(90deg, #2d62ea, #38bdf8 60%, #67e8f9) border-box;
+    box-shadow: 0 0 40px -12px rgb(14 165 233 / 0.7);
     transition: box-shadow 0.3s, transform 0.3s;
   }
-  .cta-hero:hover { box-shadow: 0 0 56px -10px rgb(217 70 239 / 0.85); }
+  .cta-hero:hover { box-shadow: 0 0 56px -10px rgb(56 189 248 / 0.85); }
   .cta-hero:active { transform: translateY(1px); }
 
   /* ---------- Avatar ---------- */

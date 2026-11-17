@@ -5,7 +5,7 @@ export const site = {
     'Portfólio de Luiz Sanchez: Service Desk, infraestrutura e desenvolvimento de ferramentas internas. São Paulo, SP.',
   saudacao: 'Olá, eu sou',
   subtitulo: 'Desenvolvedor, Suporte de TI e entusiasta por tecnologia.',
-  // Trecho entre ** fica em destaque roxo
+  // Trecho entre ** fica em destaque azul
   frase: 'Transformando ideias em **soluções digitais.**',
   local: 'São Paulo, SP',
   ctas: {
