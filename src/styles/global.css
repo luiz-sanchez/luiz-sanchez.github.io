@@ -11,10 +11,10 @@
 }
 
 @theme {
-  /* Fundo escuro e superfícies */
-  --color-night: #06080d;
-  --color-night-2: #0b0f17;
-  --color-night-3: #111725;
+  /* Fundo azul-marinho (não quase-preto) e superfícies um tom acima */
+  --color-night: #0b1530;
+  --color-night-2: #0e1a3a;
+  --color-night-3: #13224a;
   --color-paper: var(--color-night);
   --color-paper-2: var(--color-night-2);
   /* ink: texto escuro sobre selos claros (amarelo, verde, lilás) */
@@ -22,7 +22,7 @@
   --color-ink-2: #121826;
   --color-ink-3: #1c2333;
   --color-muted: #a3abbd;
-  --color-line: #1d2433;
+  --color-line: #26365e;
   /* Azul */
   --color-accent: #2d62ea;
   --color-accent-deep: #1f45c9;
@@ -33,11 +33,6 @@
   --color-green: #22c55e;
   --color-on-dark: #ecebf2;
   --color-on-dark-muted: #a3abbd;
-  /* Texto de maior destaque (branco no escuro, tinta nas seções claras) */
-  --color-fg: #ffffff;
-  /* Seções claras */
-  --color-papel: #eef2fa;
-  --color-tinta: #0d1730;
 
   --font-display: 'Archivo Display', 'Arial Black', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -89,22 +84,6 @@
 }
 
 @layer components {
-  /* Seções claras: o mesmo sistema, com os tokens trocados no escopo.
-     Fundo azul-gelo frio (não creme) e texto em tinta azul-marinho. */
-  .claro {
-    --color-fg: var(--color-tinta);
-    --color-on-dark: var(--color-tinta);
-    --color-muted: #48546f;
-    --color-on-dark-muted: #48546f;
-    --color-line: #cbd5e8;
-    --color-lilac: #1f45c9;
-    --color-night: var(--color-papel);
-    background: var(--color-papel);
-    color: var(--color-tinta);
-    color-scheme: light;
-  }
-  .claro .pill-soft, .claro .pill-dark { background: #dde6f8; color: #1a3a9c; box-shadow: inset 0 0 0 1px #c3d1f0; }
-  .fundo-papel { background: var(--color-papel); }
 
 
   .pill {
