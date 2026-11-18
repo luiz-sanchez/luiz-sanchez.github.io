@@ -177,12 +177,12 @@ document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
       ta.remove();
     }
     btn.classList.add('is-copied');
-    if (label) label.textContent = 'copiado!';
+    if (label) label.textContent = 'E-mail copiado';
     if (status) status.textContent = 'E-mail copiado para a área de transferência';
     clearTimeout(timer);
     timer = window.setTimeout(() => {
       btn.classList.remove('is-copied');
-      if (label) label.textContent = 'copiar';
+      if (label) label.textContent = 'Copiar e-mail';
       if (status) status.textContent = '';
     }, 2200);
   });
