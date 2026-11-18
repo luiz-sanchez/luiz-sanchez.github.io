@@ -2,6 +2,7 @@
 import { sobre } from '../data/site';
 
 const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>');
+const [abertura, ...resto] = sobre.paragrafos;
 ---
 <section id="sobre" class="py-20 sm:py-28 lg:py-32" aria-labelledby="sobre-titulo">
   <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-16">
@@ -9,8 +10,23 @@ const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-sem
       <h2 id="sobre-titulo" class="text-[2.6rem] leading-[1] sm:text-[3.4rem] lg:text-[4rem]">{sobre.titulo}</h2>
     </div>
 
-    <div class="reveal space-y-5 text-[1.08rem] leading-[1.75] text-muted sm:text-[1.15rem] lg:col-span-7 lg:max-w-[60ch] lg:pt-3" style="--d:100ms">
-      {sobre.paragrafos.map((p) => <p set:html={rich(p)} />)}
+    <div class="reveal lg:col-span-7 lg:max-w-[60ch] lg:pt-3" style="--d:100ms">
+      <!-- Abertura maior em branco; o resto em tom de apoio -->
+      <p class="abertura" set:html={rich(abertura)} />
+      <div class="mt-6 space-y-5 text-[1.05rem] leading-[1.75] text-muted sm:text-[1.1rem]">
+        {resto.map((p) => <p set:html={rich(p)} />)}
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .abertura {
+    font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.65rem);
+    line-height: 1.45;
+    font-weight: 500;
+    color: var(--color-on-dark);
+    text-wrap: pretty;
+    max-width: 34ch;
+  }
+</style>

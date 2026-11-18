@@ -1,8 +1,5 @@
 ---
-import { Wrench, Database, CodeXml, Server, Activity, Users } from '@lucide/astro';
 import { servicos, servicosIntro } from '../data/servicos';
-
-const icones = { Wrench, Database, CodeXml, Server, Activity, Users };
 ---
 <section id="servicos" class="pb-20 sm:pb-28 lg:pb-36" aria-labelledby="servicos-titulo">
   <div class="container-x">
@@ -10,20 +7,54 @@ const icones = { Wrench, Database, CodeXml, Server, Activity, Users };
       <h2 id="servicos-titulo" class="text-[2.2rem] leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{servicosIntro.titulo}</h2>
     </div>
 
-    <!-- Lista de frentes: linhas finas separam os itens, sem caixas -->
-    <ul class="frentes mt-10 grid sm:grid-cols-2 sm:gap-x-10 lg:mt-14 lg:grid-cols-3 lg:gap-x-14">
-      {servicos.map((s, i) => {
-        const Icone = icones[s.icone];
-        return (
-          <li class="reveal border-t border-line py-7" style={`--d:${(i % 3) * 70}ms`}>
-            <h3 class="flex items-center gap-3 text-[1.35rem] font-bold text-white">
-              <Icone class="size-5 shrink-0 text-lilac" stroke-width={1.8} aria-hidden="true" />
-              {s.titulo}
-            </h3>
-            <p class="mt-2 max-w-[34ch] leading-relaxed text-muted">{s.descricao}</p>
-          </li>
-        );
-      })}
+    <!-- Índice tipográfico: o nome da frente no mesmo corte do nome do hero -->
+    <ul class="indice mt-10 lg:mt-14">
+      {servicos.map((s, i) => (
+        <li class="linha reveal" style={`--d:${i * 50}ms`}>
+          <div class="caixa"><h3 class="frente">{s.titulo}</h3></div>
+          <p class="desc">{s.descricao}</p>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
+
+<style>
+  .indice { border-bottom: 1px solid var(--color-line); }
+  .linha {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1.1rem 0 1.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .frente {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: 80%;
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    /* Cabe a palavra mais longa ("Desenvolvimento") na coluna */
+    font-size: min(4.6rem, 10.4cqi);
+    color: var(--color-on-dark);
+  }
+  .caixa { container-type: inline-size; min-width: 0; }
+  .desc {
+    max-width: 40ch;
+    color: var(--color-muted);
+    line-height: 1.6;
+  }
+  @media (min-width: 1024px) {
+    .linha {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+      align-items: center;
+      gap: 2rem;
+      padding: 1.25rem 0 1.4rem;
+    }
+    .desc { font-size: 1.05rem; }
+  }
+  @media (min-width: 1280px) {
+    .linha { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); }
+  }
+</style>
