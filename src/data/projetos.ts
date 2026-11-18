@@ -9,7 +9,7 @@ export type Projeto = {
 };
 
 export const projetosIntro = {
-  titulo: 'Projetos', // título só para leitores de tela
+  titulo: 'Projetos',
   legendaMockup: 'Ilustração da interface',
 };
 

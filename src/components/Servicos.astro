@@ -7,11 +7,11 @@ import { servicos, servicosIntro } from '../data/servicos';
       <h2 id="servicos-titulo" class="text-[2.2rem] leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{servicosIntro.titulo}</h2>
     </div>
 
-    <!-- Índice tipográfico: o nome da frente no mesmo corte do nome do hero -->
+    <!-- Lista de frentes: nome em itálico de display, descrição ao lado -->
     <ul class="indice mt-10 lg:mt-14">
       {servicos.map((s, i) => (
         <li class="linha reveal" style={`--d:${i * 50}ms`}>
-          <div class="caixa"><h3 class="frente" data-mask>{s.titulo}</h3></div>
+          <h3 class="frente">{s.titulo}</h3>
           <p class="desc">{s.descricao}</p>
         </li>
       ))}
@@ -31,30 +31,29 @@ import { servicos, servicosIntro } from '../data/servicos';
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 900;
-    font-stretch: 80%;
-    text-transform: uppercase;
-    line-height: 0.95;
-    letter-spacing: -0.01em;
-    /* Cabe a palavra mais longa ("Desenvolvimento") na coluna */
-    font-size: min(4.6rem, 10.4cqi);
+    font-stretch: 100%;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    /* Em caixa normal e menor: a letra gigante fica para o hero, os projetos e o contato */
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
     color: var(--color-on-dark);
   }
-  .caixa { container-type: inline-size; min-width: 0; }
   .desc {
     max-width: 40ch;
     color: var(--color-muted);
     line-height: 1.6;
   }
-  @media (min-width: 1024px) {
+  /* Nome numa coluna estreita, descrição logo ao lado: sem buraco no meio */
+  @media (min-width: 768px) {
     .linha {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
-      align-items: center;
+      grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+      align-items: baseline;
       gap: 2rem;
-      padding: 1.25rem 0 1.4rem;
+      padding: 1.3rem 0 1.4rem;
     }
     .desc { font-size: 1.05rem; }
   }
-  @media (min-width: 1280px) {
-    .linha { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); }
+  @media (min-width: 1024px) {
+    .linha { grid-template-columns: minmax(0, 24rem) minmax(0, 1fr); }
   }
 </style>
