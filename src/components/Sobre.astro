@@ -1,10 +1,10 @@
 ---
 import { sobre } from '../data/site';
 
-const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>');
+const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-fg">$1</strong>');
 const [abertura, ...resto] = sobre.paragrafos;
 ---
-<section id="sobre" class="py-20 sm:py-28 lg:py-32" aria-labelledby="sobre-titulo">
+<section id="sobre" class="claro py-20 sm:py-28 lg:py-32" aria-labelledby="sobre-titulo">
   <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-16">
     <div class="reveal lg:col-span-5">
       <h2 id="sobre-titulo" class="text-[2.6rem] leading-[1] sm:text-[3.4rem] lg:text-[4rem]">{sobre.titulo}</h2>
