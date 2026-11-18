@@ -3,8 +3,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 /* ---------- Header: fundo ao rolar + seção ativa ---------- */
 const header = document.querySelector<HTMLElement>('[data-header]');
 const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
-onScroll();
-window.addEventListener('scroll', onScroll, { passive: true });
 
 const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
 const sectionIds = [...new Set(navLinks.map((a) => a.hash.slice(1)))];
@@ -29,8 +27,17 @@ const spy = () => {
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) current = sections.at(-1)?.id ?? current;
   setActive(current);
 };
-spy();
-window.addEventListener('scroll', spy, { passive: true });
+// Rolagem: no máximo uma leitura por quadro (evita medir as seções a cada evento)
+let scrollQueued = false;
+const onScrollFrame = () => {
+  scrollQueued = false;
+  onScroll();
+  spy();
+};
+onScrollFrame();
+window.addEventListener('scroll', () => {
+  if (!scrollQueued) { scrollQueued = true; requestAnimationFrame(onScrollFrame); }
+}, { passive: true });
 
 /* ---------- Menu mobile ---------- */
 const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
@@ -113,7 +120,8 @@ if (panel && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
 
 /* ---------- Transição: card dos projetos se expande com a rolagem ---------- */
 const shell = document.querySelector<HTMLElement>('[data-expand]');
-if (shell && !reduceMotion) {
+const cssExpand = CSS.supports('animation-timeline: view()');
+if (shell && !reduceMotion && !cssExpand) {
   let ticking = false;
   const update = () => {
     ticking = false;

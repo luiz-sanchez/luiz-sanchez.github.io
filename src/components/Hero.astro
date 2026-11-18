@@ -38,19 +38,19 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     </h1>
 
     <div class="textos relative z-[3] grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-      <div class="intro fade-up border-l-2 pl-5 sm:pl-6" style="--d:700ms">
+      <div class="intro fade-up border-l-2 pl-5 sm:pl-6" style="--d:520ms">
         <p class="text-[1.15rem] leading-snug text-on-dark sm:text-[1.3rem] lg:text-[1.45rem]">{site.subtitulo}</p>
         <p class="mt-4 text-[1.15rem] leading-snug text-on-dark sm:text-[1.3rem] lg:text-[1.45rem]" set:html={frase} />
       </div>
 
-      <div class="acoes fade-up flex flex-wrap items-center gap-x-6 gap-y-4" style="--d:820ms">
+      <div class="acoes fade-up flex flex-wrap items-center gap-x-6 gap-y-4" style="--d:600ms">
         <a href="#contato" class="cta-hero group">
           {site.ctas.contato}
-          <ArrowRight class="size-6 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+          <ArrowRight class="size-6 transition-transform duration-(--dur-ui) ease-(--expo) group-hover:translate-x-1" aria-hidden="true" />
         </a>
-        <a href="#projetos" class="ver-projetos group inline-flex min-h-12 items-center gap-2 text-[1.02rem] font-semibold text-white underline decoration-white/30 underline-offset-[6px] transition-colors hover:decoration-sky">
+        <a href="#projetos" class="ver-projetos group inline-flex min-h-12 items-center gap-2 text-[1.02rem] font-semibold text-white underline decoration-white/30 underline-offset-[6px] transition-colors duration-(--dur-ui) hover:decoration-sky">
           {site.ctas.projetos}
-          <ArrowDown class="size-4 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden="true" />
+          <ArrowDown class="size-4 transition-transform duration-(--dur-ui) ease-(--expo) group-hover:translate-y-0.5" aria-hidden="true" />
         </a>
       </div>
     </div>
@@ -171,10 +171,10 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
       linear-gradient(90deg, #0a0d14 0%, #0c1f4d 55%, #1d4ed8 88%, #1e40af 100%) padding-box,
       linear-gradient(90deg, #2d62ea, #38bdf8 60%, #67e8f9) border-box;
     box-shadow: 0 0 40px -12px rgb(14 165 233 / 0.7);
-    transition: box-shadow 0.3s, transform 0.3s;
+    transition: box-shadow var(--dur-ui) var(--expo), transform var(--dur-ui) var(--expo);
   }
   .cta-hero:hover { box-shadow: 0 0 56px -10px rgb(56 189 248 / 0.85); }
-  .cta-hero:active { transform: scale(0.97); transition-duration: 0.1s; }
+  .cta-hero:active { transform: scale(0.97); transition-duration: var(--dur-fast); }
 
   /* ---------- Avatar ---------- */
   .avatar-wrap {
@@ -223,7 +223,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     .glow { animation: glow-in 1.6s var(--expo) 0.2s both; }
     .avatar { animation: avatar-in 1.2s var(--back) 0.45s both; transform-origin: 50% 100%; }
     .arcs path { stroke-dasharray: 2200; animation: draw 2.2s var(--expo) 0.5s both; }
-    .fade-up { animation: fade-up 0.9s var(--expo) both; animation-delay: var(--d); }
+    .fade-up { animation: fade-up 0.7s var(--expo) both; animation-delay: var(--d); }
   }
 
   /* ---------- Saída ligada à rolagem (só camadas decorativas e a imagem; o texto fica parado) ---------- */

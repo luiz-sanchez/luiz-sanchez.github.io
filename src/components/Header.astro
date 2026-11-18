@@ -60,6 +60,7 @@ import { site } from '../data/site';
     border: 1px solid rgb(255 255 255 / 0.07);
     backdrop-filter: saturate(1.4) blur(14px);
   }
+  .bar { transition: background-color var(--dur-ui) var(--expo); }
   [data-header].is-scrolled .bar { background: rgb(8 11 18 / 0.9); }
   /* Linha de progresso da leitura, ligada à rolagem (só onde o navegador suporta) */
   .progresso {
@@ -84,11 +85,11 @@ import { site } from '../data/site';
     border-radius: 9999px;
     object-fit: cover;
     box-shadow: 0 0 0 2px var(--color-accent);
-    transition: box-shadow 0.25s;
+    transition: box-shadow var(--dur-ui) var(--expo);
   }
   .logo:hover .logo-foto { box-shadow: 0 0 0 2px #38bdf8, 0 0 18px -4px rgb(56 189 248 / 0.7); }
-  .cta { --grad-fill: #0a0d14; transition: box-shadow 0.25s, transform 0.2s; }
-  .cta:active { transform: scale(0.97); transition-duration: 0.1s; }
+  .cta { --grad-fill: #0a0d14; transition: box-shadow var(--dur-ui) var(--expo), transform var(--dur-ui) var(--expo); }
+  .cta:active { transform: scale(0.97); transition-duration: var(--dur-fast); }
   .cta:hover { box-shadow: 0 0 24px -6px rgb(56 189 248 / 0.6); }
   /* Links do computador: cinza claro, a seção atual em branco com um traço azul-claro */
   .nav-desk {

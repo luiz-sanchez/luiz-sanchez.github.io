@@ -31,7 +31,7 @@ const letras = [...projetosIntro.titulo];
           <!-- Nome do projeto no corte do hero, como uma linha do índice de Serviços -->
           <header class="reveal cabeca">
             <div class="caixa">
-              <h3 id={`projeto-${p.id}-titulo`} class="nome-proj">{p.titulo}</h3>
+              <h3 id={`projeto-${p.id}-titulo`} class="nome-proj" data-mask>{p.titulo}</h3>
             </div>
             <p class="categoria">{p.categoria}</p>
           </header>
@@ -49,10 +49,10 @@ const letras = [...projetosIntro.titulo];
                   href={p.link.href}
                   target="_blank"
                   rel="noopener"
-                  class="group mt-7 inline-flex min-h-11 items-center gap-2 font-semibold text-white underline decoration-white/30 underline-offset-[6px] transition-colors hover:decoration-lilac"
+                  class="group mt-7 inline-flex min-h-11 items-center gap-2 font-semibold text-white underline decoration-white/30 underline-offset-[6px] transition-colors duration-(--dur-ui) hover:decoration-lilac"
                 >
                   {p.link.rotulo}
-                  <ExternalLink class="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+                  <ExternalLink class="size-4 transition-transform duration-(--dur-ui) ease-(--expo) group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
                   <span class="sr-only">(abre em nova aba)</span>
                 </a>
               )}
@@ -130,6 +130,22 @@ const letras = [...projetosIntro.titulo];
     border-radius: 2px;
     background: var(--color-lilac);
   }
+
+  /* A abertura do card segue a rolagem direto no CSS, sem JavaScript a cada evento.
+     Navegadores sem suporte usam o cálculo em main.ts. */
+  @property --p { syntax: '<number>'; inherits: true; initial-value: 1; }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .proj-shell {
+        animation-name: abre-card;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 90%;
+      }
+    }
+  }
+  @keyframes abre-card { from { --p: 0; } to { --p: 1; } }
 
   @media (prefers-reduced-motion: no-preference) {
     .proj-ch { transform: translateY(100%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: calc(var(--i) * 45ms); }

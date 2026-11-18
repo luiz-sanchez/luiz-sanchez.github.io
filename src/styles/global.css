@@ -93,10 +93,10 @@
   .pill-dark, .pill-soft { background: rgb(45 98 234 / 0.18); color: #d3e0ff; box-shadow: inset 0 0 0 1px rgb(156 188 255 / 0.18); }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-semibold transition-[transform,background-color,box-shadow] duration-200;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-semibold transition-[transform,background-color,box-shadow] duration-(--dur-ui) ease-(--expo);
     min-height: 48px;
   }
-  .btn:active { transform: scale(0.97); transition-duration: 0.1s; }
+  .btn:active { transform: scale(0.97); transition-duration: var(--dur-fast); }
   .btn-primary { @apply bg-accent-grad text-white; box-shadow: 0 12px 30px -12px rgb(45 98 234 / 0.8); }
   .btn-primary:hover { box-shadow: 0 16px 38px -12px rgb(14 165 233 / 0.85); }
   /* Botão secundário com a mesma borda em degradê do "Fale comigo" */
@@ -125,7 +125,8 @@
 }
 
 /* ---------- Entradas na tela ----------
-   Uma linguagem só: desacelera ao chegar (expo-out), ~0,9s, atraso por --d.
+   Duas regras: letra grande de display sobe de dentro de uma máscara (como o
+   nome no hero); o resto só aparece com um deslocamento curto. ~0,6s, atraso por --d.
    Usa a propriedade translate (não transform) para não brigar com o hover. */
 :root {
   /* Tokens de movimento: um ritmo só para o site todo */
@@ -138,27 +139,29 @@
 }
 .reveal {
   opacity: 0;
-  translate: 0 28px;
-  transition: opacity 0.8s var(--ease-out-soft) var(--d, 0s), translate 1s var(--expo) var(--d, 0s);
+  translate: 0 16px;
+  transition: opacity 0.55s var(--ease-out-soft) var(--d, 0s), translate 0.7s var(--expo) var(--d, 0s);
 }
 .reveal.is-in { opacity: 1; translate: none; }
 .no-js .reveal { opacity: 1; translate: none; }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Títulos de seção sobem de dentro de uma máscara, como o nome no hero */
-  .reveal h2:not(.proj-word) {
+  /* Letra grande (títulos e nomes de display) sobe de dentro de uma máscara, como o nome no hero */
+  :is(.reveal h2:not(.proj-word), .reveal [data-mask]) {
     clip-path: inset(-0.2em -0.2em 100% -0.2em);
-    translate: 0 0.4em;
-    transition: clip-path 1.1s var(--expo) calc(var(--d, 0s) + 60ms), translate 1.1s var(--expo) calc(var(--d, 0s) + 60ms);
+    translate: 0 0.35em;
+    transition: clip-path 0.75s var(--expo) calc(var(--d, 0s) + 40ms), translate 0.75s var(--expo) calc(var(--d, 0s) + 40ms);
   }
-  .reveal.is-in h2:not(.proj-word) { clip-path: inset(-0.2em -0.2em -0.3em -0.2em); translate: none; }
+  :is(.reveal.is-in h2:not(.proj-word), .reveal.is-in [data-mask]) { clip-path: inset(-0.2em -0.2em -0.3em -0.2em); translate: none; }
+  /* Blocos de letra grande não precisam subir junto: a máscara já é o movimento */
+  .reveal:has(> [data-mask], > .caixa > [data-mask]) { translate: none; }
 
   /* Itens de lista entram em sequência depois do bloco */
   :is(.reveal [data-stagger], .reveal[data-stagger]) > * {
     opacity: 0;
-    translate: 0 12px;
-    transition: opacity 0.6s var(--ease-out-soft), translate 0.8s var(--expo);
-    transition-delay: calc(var(--d, 0s) + 200ms + var(--n, 0) * var(--stagger));
+    translate: 0 8px;
+    transition: opacity 0.45s var(--ease-out-soft), translate 0.6s var(--expo);
+    transition-delay: calc(var(--d, 0s) + 80ms + var(--n, 0) * var(--stagger));
   }
   :is(.reveal.is-in [data-stagger], .reveal.is-in[data-stagger]) > * { opacity: 1; translate: none; }
   [data-stagger] > :nth-child(2) { --n: 1; } [data-stagger] > :nth-child(3) { --n: 2; }
@@ -168,9 +171,9 @@
 
   /* Mockups se endireitam em perspectiva */
   figure.reveal {
-    transform: perspective(1400px) rotateX(10deg) scale(0.96);
+    transform: perspective(1400px) rotateX(6deg) scale(0.98);
     transform-origin: 50% 100%;
-    transition: opacity 0.8s var(--ease-out-soft) var(--d, 0s), translate 1.1s var(--expo) var(--d, 0s), transform 1.3s var(--expo) var(--d, 0s);
+    transition: opacity 0.55s var(--ease-out-soft) var(--d, 0s), translate 0.7s var(--expo) var(--d, 0s), transform 0.9s var(--expo) var(--d, 0s);
   }
   figure.reveal.is-in { transform: none; }
 }
