@@ -14,7 +14,7 @@ import { site } from '../data/site';
       <ul class="flex items-center gap-1">
         {site.nav.map((item) => (
           <li>
-            <a href={item.href} data-nav-link class="nav-link block rounded-full px-4 py-3 text-[0.8rem] font-medium uppercase tracking-[0.08em] text-on-dark transition-[color,background-color] duration-300 hover:text-white">
+            <a href={item.href} data-nav-link class="nav-link nav-desk block px-3.5 py-3 text-[0.95rem] font-medium">
               {item.label}
             </a>
           </li>
@@ -23,7 +23,7 @@ import { site } from '../data/site';
     </nav>
 
     <div class="flex items-center gap-2">
-      <a href="#contato" class="cta border-grad hidden min-h-12 items-center gap-2.5 rounded-full px-5 text-[0.8rem] font-semibold uppercase tracking-[0.06em] text-white sm:inline-flex">
+      <a href="#contato" class="cta border-grad hidden min-h-12 items-center gap-2.5 rounded-full px-5 text-[0.92rem] font-semibold text-white sm:inline-flex">
         <Mail class="size-4" aria-hidden="true" />
         {site.ctas.contato}
       </a>
@@ -45,7 +45,7 @@ import { site } from '../data/site';
     <ul class="flex flex-col px-6 py-3">
       {site.nav.map((item) => (
         <li>
-          <a href={item.href} data-nav-link class="nav-link flex min-h-14 items-center border-b border-white/[0.06] font-display text-2xl text-white last:border-0">
+          <a href={item.href} data-nav-link class="nav-link nav-cel flex min-h-14 items-center border-b border-white/[0.06] text-white">
             {item.label}
           </a>
         </li>
@@ -90,8 +90,42 @@ import { site } from '../data/site';
   .cta { --grad-fill: #0a0d14; transition: box-shadow 0.25s, transform 0.2s; }
   .cta:active { transform: scale(0.97); transition-duration: 0.1s; }
   .cta:hover { box-shadow: 0 0 24px -6px rgb(56 189 248 / 0.6); }
-  .nav-link[aria-current='true'] { color: #fff; background: rgb(45 98 234 / 0.28); }
-  #menu-mobile .nav-link[aria-current='true'] { background: none; color: var(--color-lilac); }
+  /* Links do computador: cinza claro, a seção atual em branco com um traço azul-claro */
+  .nav-desk {
+    position: relative;
+    color: var(--color-on-dark-muted);
+    transition: color var(--dur-ui) var(--expo);
+  }
+  .nav-desk:hover { color: #fff; }
+  .nav-desk::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.45rem;
+    width: 1.1rem;
+    height: 2px;
+    margin-left: -0.55rem;
+    border-radius: 2px;
+    background: var(--color-lilac);
+    scale: 0 1;
+    transition: scale var(--dur-ui) var(--expo);
+  }
+  .nav-desk[aria-current='true'] { color: #fff; }
+  .nav-desk[aria-current='true']::after { scale: 1 1; }
+
+  /* Menu do celular: links no corte do nome no hero */
+  .nav-cel {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: 80%;
+    text-transform: uppercase;
+    font-size: 2.1rem;
+    line-height: 1;
+    letter-spacing: -0.005em;
+  }
+  li:last-child > .nav-cel { border-bottom: 0; }
+  .nav-cel[aria-current='true'] { color: var(--color-lilac); }
   /* Ícone ☰ ↔ ✕: os dois no mesmo lugar, trocam girando */
   .toggle > :global(svg) { grid-area: 1 / 1; transition: opacity var(--dur-ui) var(--expo), rotate var(--dur-ui) var(--expo); }
   .toggle .icon-close { opacity: 0; rotate: -90deg; }
