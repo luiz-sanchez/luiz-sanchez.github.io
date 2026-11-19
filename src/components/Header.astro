@@ -6,7 +6,8 @@ import { site } from '../data/site';
   <div class="bar relative"><div class="mx-auto flex h-[52px] max-w-[1200px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
     <span class="progresso" aria-hidden="true"></span>
     <a href="#inicio" class="logo flex min-h-11 items-center gap-2.5 rounded-lg" aria-label="Luiz Sanchez, voltar ao início">
-      <img class="logo-foto" src="/avatar/luiz-logo.webp" width="40" height="40" alt="" />
+      <!-- Lugar da foto: um círculo vazio até o avatar do hero chegar voando -->
+      <span class="logo-lugar"><img class="logo-foto" src="/avatar/luiz-logo.webp" width="40" height="40" alt="" /></span>
       <span class="text-[1.05rem] font-semibold tracking-[-0.02em] text-on-dark" aria-hidden="true">{site.nome}</span>
     </a>
 
@@ -85,6 +86,14 @@ import { site } from '../data/site';
     .progresso { animation-name: progresso; animation-timing-function: linear; animation-fill-mode: both; animation-timeline: scroll(root); }
   }
   @keyframes progresso { to { transform: scaleX(1); } }
+  .logo-lugar {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background: var(--color-night-4);
+    box-shadow: 0 0 0 2px var(--color-line);
+  }
   .logo-foto {
     width: 32px;
     height: 32px;

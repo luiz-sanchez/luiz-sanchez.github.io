@@ -182,8 +182,8 @@
 
 /* ---------- Cascata: cada seção fica presa enquanto a próxima sobe por cima ----------
    --stick (calculado em main.ts) é 0 para seções até a altura da tela e negativo para as
-   mais altas: elas rolam até o fim e só então ficam presas. A coberta afunda e escurece
-   seguindo a entrada da próxima (scroll-driven, sem JavaScript por quadro). */
+   mais altas: elas rolam até o fim e só então ficam presas. A coberta só escurece de leve
+   seguindo a entrada da próxima (scroll-driven); não encolhe, para não abrir faixas no fundo claro. */
 @layer components {
   #conteudo > section { background-color: var(--color-night); }
   /* Seções retas de ponta a ponta: a troca branco ↔ pergaminho é o divisor */
@@ -201,8 +201,6 @@
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    /* Centro da parte visível: o fim da seção quando ela é mais alta que a tela */
-    #conteudo > section:not(:last-child) { transform-origin: 50% max(50%, calc(100% - 50svh)); }
     #conteudo > section:not(:last-child)::before {
       content: '';
       position: absolute;
@@ -213,22 +211,19 @@
       pointer-events: none;
     }
     /* longhands de propósito: o minificador não pode juntá-los num atalho que perderia o timeline */
-    /* Projetos ([data-expand]) declara as duas animações (abrir e afundar) no próprio componente */
-    #conteudo > section:not(:last-child):not([data-expand]), #conteudo > section:not(:last-child)::before {
+    #conteudo > section:not(:last-child)::before {
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-range: entry 0% entry 100%;
     }
-    #conteudo > section:not(:last-child):not([data-expand]) { animation-name: afunda; }
     #conteudo > section:not(:last-child)::before { animation-name: escurece; }
-    #conteudo > section:nth-child(1), #conteudo > section:nth-child(1)::before { animation-timeline: --c2; }
-    #conteudo > section:nth-child(2), #conteudo > section:nth-child(2)::before { animation-timeline: --c3; }
-    #conteudo > section:nth-child(3), #conteudo > section:nth-child(3)::before { animation-timeline: --c4; }
+    #conteudo > section:nth-child(1)::before { animation-timeline: --c2; }
+    #conteudo > section:nth-child(2)::before { animation-timeline: --c3; }
+    #conteudo > section:nth-child(3)::before { animation-timeline: --c4; }
     #conteudo > section:nth-child(4)::before { animation-timeline: --c5; }
-    #conteudo > section:nth-child(5), #conteudo > section:nth-child(5)::before { animation-timeline: --c6; }
+    #conteudo > section:nth-child(5)::before { animation-timeline: --c6; }
   }
 }
-@keyframes afunda { to { scale: 0.95; } }
 @keyframes escurece { to { opacity: 0.07; } }
 #conteudo > section:focus { outline: none; }
 
@@ -255,3 +250,4 @@
 .viajante img { position: absolute; max-width: none; height: auto; }
 .viaja.voando .hero .avatar-wrap { visibility: hidden; }
 .viaja:not(.chegou) .logo-foto { opacity: 0; }
+/* Pronto o pouso, a foto cobre o círculo vazio do cabeçalho */

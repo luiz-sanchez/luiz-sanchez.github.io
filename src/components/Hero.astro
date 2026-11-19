@@ -9,7 +9,7 @@ const letras = palavras.map((p) => [...p].map((ch) => ({ ch, i: n++ })));
 const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1</strong>');
 ---
 <section id="inicio" class="hero relative isolate overflow-hidden" aria-labelledby="hero-titulo" data-parallax>
-  <div class="hero-inner relative mx-auto w-full max-w-[1440px] px-5 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pt-36">
+  <div class="hero-inner relative mx-auto w-full max-w-[1200px] px-5 pt-28 sm:px-8 sm:pt-32 lg:px-10 lg:pt-36">
     <h1 id="hero-titulo" class="relative z-[1]">
       <span class="saudacao fade-up block" style="--d:80ms">{site.saudacao}</span>
       <span class="sr-only">{site.nome}</span>
@@ -48,7 +48,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
         class="avatar block h-auto w-full"
         src="/avatar/luiz.webp"
         srcset="/avatar/luiz-440.webp 440w, /avatar/luiz.webp 720w"
-        sizes="(min-width: 1024px) min(44vw, 74vh, 700px), min(92vw, 440px)"
+        sizes="(min-width: 1024px) min(38vw, 70vh, 640px), min(92vw, 440px)"
         width="720"
         height="890"
         alt="Avatar 3D do Luiz"
@@ -67,7 +67,8 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     --my: 0;
     /* tamanhos do nome, usados também para posicionar o avatar no desktop */
     --S: clamp(1.3rem, 3.4vw, 2.5rem);
-    --F: calc((min(100vw, 1440px) - 112px) / 6.8);
+    /* mesma largura de conteúdo das outras seções (1200px com 40px de margem) */
+    --F: calc((min(100vw, 1200px) - 80px) / 6.2);
     display: flex;
     flex-direction: column;
     background: var(--color-night);
@@ -94,7 +95,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   /* ---------- Nome gigante ---------- */
   .saudacao {
     font-family: var(--font-sans);
-    font-weight: 500;
+    font-weight: 400;
     font-size: var(--S);
     line-height: 1;
     letter-spacing: -0.025em;
@@ -117,7 +118,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   }
   @media (min-width: 1024px) {
     /* "Luiz Sanchez" mede ~5,9em: ocupa a largura do container */
-    .nome { font-size: calc(var(--F) * 1.14); }
+    .nome { font-size: calc(var(--F) * 1.04); }
     .palavra { display: inline-block; }
     .palavra + .palavra { margin-left: 0.22em; }
   }
@@ -162,13 +163,13 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     .acoes { justify-self: end; flex-direction: column; align-items: flex-end; }
     /* Composição da referência: o cabelo começa acima do nome e os olhos ficam na faixa das letras,
        com o avatar na frente do nome. O busto vai até o fim da tela e some no degradê do ::after.
-       Limites: 1100px de altura e 54vw (largura ≈ 44vw) para não encostar no texto e no botão. */
+       Limites: 1000px de altura e 46vw (largura ≈ 37vw) para não encostar no texto e no botão. */
     .avatar-wrap {
       --av-top: max(6.5rem, calc(9rem + var(--S) - 0.35 * var(--F)));
       position: absolute;
       left: 50%;
       top: var(--av-top);
-      height: min(calc(100% - var(--av-top)), 1100px, 54vw);
+      height: min(calc(100% - var(--av-top)), 1000px, 46vw);
       width: auto;
       margin: 0;
       transform: translateX(-50%);

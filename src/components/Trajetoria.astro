@@ -17,7 +17,7 @@ const atual = (periodo: string) => /atual/i.test(periodo);
           {experiencias.map((it) => (
             <li class:list={['item', { 'is-atual': atual(it.periodo) }]}>
               <p class="periodo">{it.periodo}</p>
-              <p class="mt-1.5 text-[1.05rem] font-medium leading-snug text-ink-muted">{it.titulo}</p>
+              <p class="mt-1.5 text-[1.05rem] font-semibold leading-snug text-ink-muted">{it.titulo}</p>
               <p class="mt-1 text-muted">{it.local}</p>
             </li>
           ))}
@@ -50,7 +50,7 @@ const atual = (periodo: string) => /atual/i.test(periodo);
 </section>
 
 <style>
-  .sub { font-size: 0.9rem; font-weight: 500; letter-spacing: 0; color: var(--color-muted); }
+  .sub { font-size: 0.9rem; font-weight: 600; letter-spacing: 0; color: var(--color-muted); }
 
   .linha { position: relative; }
   /* Fio vertical da linha do tempo */
