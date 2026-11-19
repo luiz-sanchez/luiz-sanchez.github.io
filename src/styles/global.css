@@ -240,13 +240,13 @@
   overflow: hidden;
   pointer-events: none;
   contain: layout paint;
-  background: rgb(232 232 237 / var(--fundo));
+  background: rgb(255 255 255 / calc(var(--fundo) * 0.18));
   /* No hero, a base do busto some no fundo; no círculo, a máscara já não corta nada */
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
   mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
 }
 .viajante.ativo { display: block; }
-.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(0 102 204 / var(--fundo)); }
+.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(255 255 255 / var(--fundo)); }
 .viajante img { position: absolute; max-width: none; height: auto; }
 .viaja.voando .hero .avatar-wrap { visibility: hidden; }
 .viaja:not(.chegou) .logo-foto { opacity: 0; }

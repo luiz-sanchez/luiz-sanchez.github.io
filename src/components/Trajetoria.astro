@@ -2,6 +2,13 @@
 import { trajetoriaIntro, formacao, experiencias, ferramentas, colunas } from '../data/trajetoria';
 
 const atual = (periodo: string) => /atual/i.test(periodo);
+// Ferramentas coloridas por área
+const areas: Record<string, string> = {
+  'Node.js': 'dev', React: 'dev',
+  SQL: 'dados', PostgreSQL: 'dados', MySQL: 'dados',
+  Linux: 'infra', Docker: 'infra', Windows: 'infra',
+  GLPI: 'gestao', Grafana: 'gestao', 'Google Workspace': 'gestao',
+};
 ---
 <section id="trajetoria" class="py-20 sm:py-28 lg:py-36" aria-labelledby="trajetoria-titulo">
   <div class="container-x">
@@ -41,7 +48,7 @@ const atual = (periodo: string) => /atual/i.test(periodo);
         <div class="reveal" style="--d:160ms">
           <h3 class="sub">{colunas.ferramentas}</h3>
           <ul class="mt-6 flex flex-wrap gap-2" data-stagger>
-            {ferramentas.map((f) => <li class="pill pill-soft">{f}</li>)}
+            {ferramentas.map((f) => <li class={`pill area area-${areas[f] ?? 'dev'}`}>{f}</li>)}
           </ul>
         </div>
       </div>
@@ -81,6 +88,20 @@ const atual = (periodo: string) => /atual/i.test(periodo);
     background: var(--color-night);
     border: 2px solid var(--color-line-strong);
   }
+  /* Emprego atual em destaque: um cartão verde-claro em volta do item */
+  .item.is-atual {
+    margin-left: -14px;
+    padding: 16px 20px 18px calc(2rem + 14px);
+    border-radius: 20px;
+    background: linear-gradient(135deg, #e6f8ec, #d3f2dd);
+    margin-bottom: 1.4rem;
+  }
+  .item.is-atual::before, .item.is-atual::after { left: 14px; top: calc(16px + 0.62rem); }
+  .area { box-shadow: none; }
+  .area-dev { background: #e1ecff; color: #0050b3; }
+  .area-dados { background: #ece6ff; color: #4b3fd0; }
+  .area-infra { background: #ffeedd; color: #8a4200; }
+  .area-gestao { background: #dff5ea; color: #0b6a50; }
   /* Emprego atual: ponto cheio com anel */
   .is-atual::before {
     background: var(--color-green);
