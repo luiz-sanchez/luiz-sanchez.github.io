@@ -64,8 +64,15 @@ const canais = [
 </section>
 
 <style>
+  /* Fechamento em degradê azul → índigo → roxo; dentro dele os tokens viram branco */
   .contato-bg {
-    background: var(--color-night-2);
+    --color-on-dark: #fff;
+    --color-on-dark-muted: rgb(255 255 255 / 0.9);
+    --color-accent: #fff;
+    --color-lilac: #fff;
+    --color-line: rgb(255 255 255 / 0.25);
+    --color-line-strong: rgb(255 255 255 / 0.45);
+    background: linear-gradient(135deg, #0050b3 0%, #3a3ad6 55%, #6b3fd4 100%);
     border-top: 1px solid var(--color-line);
   }
   .caixa { container-type: inline-size; }
@@ -150,7 +157,7 @@ const canais = [
     font-weight: 400;
     flex-shrink: 0;
   }
-  .copy-btn:hover { background: var(--color-accent); color: #fff; }
+  .copy-btn:hover { background: #fff; color: #3a3ad6; }
   .copy-btn:active { transform: scale(0.95); }
   .copy-btn.is-copied { background: var(--color-green); border-color: var(--color-green); color: #fff; }
   .copy-btn.is-copied .i-copy { display: none; }
@@ -162,4 +169,5 @@ const canais = [
   }
   @keyframes copiado { 40% { scale: 1.06; } }
   @keyframes check { from { scale: 0.4; rotate: -20deg; opacity: 0; } }
+  .contato-bg :global(.btn-sec:hover) { background: #fff; color: #3a3ad6; }
 </style>

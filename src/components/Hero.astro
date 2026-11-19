@@ -71,7 +71,12 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     --F: calc((min(100vw, 1200px) - 80px) / 6.2);
     display: flex;
     flex-direction: column;
-    background: var(--color-night);
+    /* Aurora: três manchas suaves (azul, lilás, pêssego) que somem no branco */
+    background:
+      radial-gradient(40% 45% at 30% 30%, rgb(0 102 204 / 0.16), transparent 70%),
+      radial-gradient(35% 40% at 70% 35%, rgb(175 82 222 / 0.14), transparent 70%),
+      radial-gradient(40% 40% at 55% 85%, rgb(255 149 0 / 0.12), transparent 70%),
+      var(--color-night);
   }
   @media (min-width: 1024px) {
     .hero { min-height: max(100svh, 760px); }
