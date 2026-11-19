@@ -51,6 +51,10 @@ const setMenu = (open: boolean) => {
 };
 toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
 menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+// Tocar fora do cabeçalho fecha o menu
+document.addEventListener('pointerdown', (e) => {
+  if (toggle?.getAttribute('aria-expanded') === 'true' && header && !header.contains(e.target as Node)) setMenu(false);
+});
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
     setMenu(false);
@@ -140,7 +144,29 @@ if (shell && !reduceMotion && !cssExpand) {
 /* ---------- Abas do GLPI ---------- */
 document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
   const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  const list = root.querySelector<HTMLElement>('[role="tablist"]');
+  const indicator = root.querySelector<HTMLElement>('[data-tab-indicator]');
+  let current = 0;
+  // Leva o destaque até a aba ativa (posição e tamanho medidos da própria aba)
+  const moveIndicator = () => {
+    const t = tabs[current];
+    if (!indicator || !list || !t) return;
+    indicator.style.setProperty('--x', `${t.offsetLeft}px`);
+    indicator.style.setProperty('--y', `${t.offsetTop}px`);
+    indicator.style.setProperty('--w', `${t.offsetWidth}px`);
+    indicator.style.setProperty('--h', `${t.offsetHeight}px`);
+  };
+  if (indicator && list) {
+    moveIndicator();
+    list.classList.add('tem-indicador');
+    // Só anima depois da primeira medida, para não deslizar ao carregar
+    requestAnimationFrame(() => list.classList.add('anima'));
+    new ResizeObserver(moveIndicator).observe(list);
+  }
   const select = (i: number, focus = false) => {
+    if (i !== current) root.dataset.dir = i > current ? 'avanca' : 'volta';
+    current = i;
+    moveIndicator();
     tabs.forEach((t, j) => {
       const on = i === j;
       t.setAttribute('aria-selected', String(on));

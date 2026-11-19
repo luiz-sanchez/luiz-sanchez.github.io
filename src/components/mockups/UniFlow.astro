@@ -47,7 +47,7 @@ const max = Math.max(...m.grafico.barras);
   /* Cores do UniFlow real (azul-marinho), não do portfólio */
   .uf { background: #0a1828; border-color: rgb(78 161 245 / 0.14); }
   .uf :global(.win-bar .url) { background: #112640; }
-  .bar { transform-origin: bottom; transform: scaleY(0.04); transition: transform 0.9s var(--ease-out-soft); transition-delay: calc(var(--i) * 70ms + 150ms); }
+  .bar { transform-origin: bottom; transform: scaleY(0.04); transition: transform 0.7s var(--expo); transition-delay: calc(var(--d, 0s) + 120ms + var(--i) * var(--stagger)); }
   :global(.is-in) .bar, :global(.no-js) .bar { transform: none; }
   @media (prefers-reduced-motion: reduce) { .bar { transform: none; } }
 </style>

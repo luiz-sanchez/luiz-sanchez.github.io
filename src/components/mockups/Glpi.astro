@@ -16,7 +16,9 @@ const badge = {
 
   <div class="p-3 sm:p-4">
     <p class="sr-only">Ilustração interativa do GLPI. Escolha um setor para ver os chamados de exemplo.</p>
-    <div role="tablist" aria-label="Setores" class="flex flex-wrap gap-1.5">
+    <div role="tablist" aria-label="Setores" class="abas relative inline-flex max-w-full flex-wrap gap-1 rounded-[22px] p-1">
+      <!-- Destaque que desliza até a aba escolhida -->
+      <span class="indicador" aria-hidden="true" data-tab-indicator></span>
       {m.abas.map((aba, i) => (
         <button
           type="button"
@@ -25,7 +27,7 @@ const badge = {
           aria-controls={`glpi-panel-${i}`}
           aria-selected={i === 0 ? 'true' : 'false'}
           tabindex={i === 0 ? 0 : -1}
-          class="tab min-h-10 rounded-full px-3.5 text-[0.8rem] font-semibold"
+          class="tab relative z-[1] min-h-10 rounded-full px-3.5 text-[0.8rem] font-semibold"
         >
           {aba.nome}
         </button>
@@ -58,12 +60,35 @@ const badge = {
 </div>
 
 <style>
-  .tab { background: var(--color-ink-3); color: var(--color-on-dark); }
-  .tab:hover { background: #343947; }
-  .tab[aria-selected='true'] { background: var(--color-accent); color: #fff; }
-  /* troca de aba: o conteúdo novo entra com o mesmo ritmo dos outros estados */
-  .panel:not([hidden]) { animation: swap var(--dur-ui) var(--expo); }
-  .tab { transition: background-color var(--dur-ui) var(--expo), color var(--dur-ui) var(--expo); }
+  .abas { background: var(--color-ink-3); }
+  .tab { color: var(--color-on-dark); transition: color var(--dur-ui) var(--expo), background-color var(--dur-ui) var(--expo); }
+  .tab:hover:not([aria-selected='true']) { background: rgb(255 255 255 / 0.06); }
+  .tab[aria-selected='true'] { color: #fff; }
   .tab:active { scale: 0.96; }
+
+  /* Sem JS (ou antes de medir), a aba ativa tem fundo próprio */
+  .tab[aria-selected='true'] { background: var(--color-accent); }
+  .abas.tem-indicador .tab[aria-selected='true'] { background: transparent; }
+  .indicador {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--w, 0);
+    height: var(--h, 0);
+    translate: var(--x, 0) var(--y, 0);
+    border-radius: 9999px;
+    background: var(--color-accent);
+    opacity: 0;
+  }
+  .abas.tem-indicador .indicador { opacity: 1; }
+  .abas.anima .indicador {
+    transition: translate var(--dur-ui) var(--expo), width var(--dur-ui) var(--expo), height var(--dur-ui) var(--expo);
+  }
+
+  /* O conteúdo novo entra pelo lado para onde você foi */
+  .panel:not([hidden]) { animation: swap var(--dur-ui) var(--expo); }
+  [data-dir='avanca'] .panel:not([hidden]) { animation-name: swap-dir; --de: 14px; }
+  [data-dir='volta'] .panel:not([hidden]) { animation-name: swap-dir; --de: -14px; }
   @keyframes swap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes swap-dir { from { opacity: 0; transform: translateX(var(--de)); } to { opacity: 1; transform: none; } }
 </style>
