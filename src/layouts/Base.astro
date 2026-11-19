@@ -5,7 +5,6 @@ import '@fontsource/inter/latin-600.css';
 import '@fontsource/inter/latin-700.css';
 import '../styles/global.css';
 import { site } from '../data/site';
-import fonteNome from '../fonts/archivo-display-italic.woff2?url';
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL('/og.png', Astro.site).toString();
@@ -19,9 +18,8 @@ const ogImage = new URL('/og.png', Astro.site).toString();
     <meta name="description" content={site.descricao} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href={fonteNome} as="font" type="font/woff2" crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#0b1530" />
+    <meta name="theme-color" content="#08090a" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />

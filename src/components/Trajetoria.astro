@@ -17,7 +17,7 @@ const atual = (periodo: string) => /atual/i.test(periodo);
           {experiencias.map((it) => (
             <li class:list={['item', { 'is-atual': atual(it.periodo) }]}>
               <p class="periodo">{it.periodo}</p>
-              <p class="mt-1.5 text-[1.15rem] font-semibold leading-snug text-white">{it.titulo}</p>
+              <p class="mt-1.5 text-[1.05rem] font-medium leading-snug text-ink-muted">{it.titulo}</p>
               <p class="mt-1 text-muted">{it.local}</p>
             </li>
           ))}
@@ -50,7 +50,7 @@ const atual = (periodo: string) => /atual/i.test(periodo);
 </section>
 
 <style>
-  .sub { font-size: 1.3rem; font-weight: 700; color: #fff; }
+  .sub { font-size: 0.9rem; font-weight: 500; letter-spacing: 0; color: var(--color-muted); }
 
   .linha { position: relative; }
   /* Fio vertical da linha do tempo */
@@ -79,12 +79,13 @@ const atual = (periodo: string) => /atual/i.test(periodo);
     height: 11px;
     border-radius: 9999px;
     background: var(--color-night);
-    border: 2px solid var(--color-accent);
+    border: 2px solid var(--color-line-strong);
   }
   /* Emprego atual: ponto cheio com anel */
   .is-atual::before {
-    background: var(--color-accent);
-    box-shadow: 0 0 0 5px rgb(45 98 234 / 0.22);
+    background: var(--color-green);
+    border-color: var(--color-green);
+    box-shadow: 0 0 0 4px rgb(39 166 68 / 0.18);
   }
   /* Emprego atual: um anel que se expande devagar, como sinal de "ao vivo" */
   @media (prefers-reduced-motion: no-preference) {
@@ -96,7 +97,7 @@ const atual = (periodo: string) => /atual/i.test(periodo);
       width: 11px;
       height: 11px;
       border-radius: 9999px;
-      border: 2px solid var(--color-accent);
+      border: 2px solid var(--color-green);
       animation: ao-vivo 2.4s var(--expo) infinite;
       pointer-events: none;
     }
@@ -108,15 +109,13 @@ const atual = (periodo: string) => /atual/i.test(periodo);
 
   /* Período no corte de display: a sequência é a informação aqui */
   .periodo {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 800;
-    font-stretch: 85%;
-    font-size: clamp(1.45rem, 1.2rem + 0.8vw, 1.85rem);
-    line-height: 1.1;
-    color: var(--color-lilac);
+    font-weight: 600;
+    font-size: clamp(1.3rem, 1.15rem + 0.5vw, 1.6rem);
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    color: var(--color-on-dark);
     font-variant-numeric: tabular-nums;
   }
-  .periodo-leve { font-size: 1.2rem; top: 0; }
+  .periodo-leve { font-size: 1.1rem; top: 0; color: var(--color-ink-muted); }
   .linha-leve .item::before { top: 0.42rem; }
 </style>

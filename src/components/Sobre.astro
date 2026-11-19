@@ -1,7 +1,7 @@
 ---
 import { sobre } from '../data/site';
 
-const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>');
+const rich = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-medium text-white">$1</strong>');
 const [abertura, ...resto] = sobre.paragrafos;
 ---
 <section id="sobre" class="py-20 sm:py-28 lg:py-32" aria-labelledby="sobre-titulo">
@@ -11,7 +11,7 @@ const [abertura, ...resto] = sobre.paragrafos;
       <span class="pouso" data-pouso aria-hidden="true">
         <img src="/avatar/luiz-440.webp" width="440" height="544" alt="" loading="lazy" decoding="async" />
       </span>
-      <h2 id="sobre-titulo" class="text-[2.6rem] leading-[1] sm:text-[3.4rem] lg:text-[4rem]">{sobre.titulo}</h2>
+      <h2 id="sobre-titulo" class="text-[2.4rem] leading-[1.05] sm:text-[3rem] lg:text-[3.5rem]">{sobre.titulo}</h2>
     </div>
 
     <div class="reveal lg:col-span-7 lg:max-w-[60ch] lg:pt-3" style="--d:100ms">
@@ -33,7 +33,7 @@ const [abertura, ...resto] = sobre.paragrafos;
     margin-bottom: 1.5rem;
     border-radius: 9999px;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 35%, #2d62ea, #13224a 72%);
+    background: var(--color-night-4);
   }
   .pouso::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--color-accent); }
   @media (min-width: 1024px) { .pouso { width: 8.5rem; margin-bottom: 2rem; } }
@@ -43,9 +43,10 @@ const [abertura, ...resto] = sobre.paragrafos;
   :global(.viaja) .pouso { background: none; }
   :global(.viaja) .pouso::after, :global(.viaja) .pouso img { visibility: hidden; }
   .abertura {
-    font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.65rem);
+    font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.5rem);
     line-height: 1.45;
-    font-weight: 500;
+    font-weight: 400;
+    letter-spacing: -0.015em;
     color: var(--color-on-dark);
     text-wrap: pretty;
     max-width: 34ch;

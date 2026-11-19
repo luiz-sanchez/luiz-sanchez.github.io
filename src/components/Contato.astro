@@ -45,14 +45,14 @@ const canais = [
     </ul>
 
     <div class="reveal mt-10" style="--d:200ms">
-      <a href={contato.pdf.href} download class="btn btn-grad">
+      <a href={contato.pdf.href} download class="btn btn-sec">
         <FileDown class="size-5" aria-hidden="true" />
         {contato.pdf.rotulo}
       </a>
     </div>
   </div>
 
-  <footer class="relative border-t border-white/15">
+  <footer class="relative border-t border-line">
     <div class="container-x flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-6 text-[0.9rem] text-on-dark-muted">
       <p>© {new Date().getFullYear()} {site.nome}, {site.local}</p>
       <a href="#conteudo" class="topo inline-flex min-h-11 items-center gap-2 font-semibold text-white">
@@ -65,24 +65,21 @@ const canais = [
 
 <style>
   .contato-bg {
-    background:
-      radial-gradient(70% 60% at 100% 0%, rgb(45 98 234 / 0.35), transparent 70%),
-      radial-gradient(50% 50% at 0% 100%, rgb(14 165 233 / 0.16), transparent 70%),
-      var(--color-night-2);
+    background: var(--color-night);
     border-top: 1px solid var(--color-line);
   }
   .caixa { container-type: inline-size; }
 
   /* Mesmo corte do nome no hero, ocupando a largura */
   .titulo {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 900;
-    font-stretch: 80%;
-    text-transform: uppercase;
-    line-height: 0.9;
-    letter-spacing: -0.01em;
-    font-size: min(9rem, 15.5cqi); /* "Conversar?" cabe numa linha */
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+    font-size: min(9rem, 18cqi); /* "Conversar?" cabe numa linha */
+    background: linear-gradient(180deg, #f7f8f8 0%, #f7f8f8 45%, #8a8f98 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     text-wrap: balance;
   }
 
@@ -93,22 +90,20 @@ const canais = [
     gap: 1rem 1.5rem;
   }
   .email {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 800;
-    font-stretch: 85%;
-    font-size: min(4.2rem, 10cqi);
-    line-height: 1.05;
-    color: var(--color-lilac);
+    font-weight: 500;
+    font-size: min(3.4rem, 9cqi);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: var(--color-on-dark);
     text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.18em;
-    text-decoration-color: rgb(156 188 255 / 0.35);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--color-line-strong);
     transition: text-decoration-color var(--dur-ui) var(--expo), color var(--dur-ui) var(--expo);
   }
-  .email:hover { color: #fff; text-decoration-color: currentColor; }
+  .email:hover { color: var(--color-lilac); text-decoration-color: currentColor; }
 
-  .canais { border-bottom: 1px solid rgb(255 255 255 / 0.12); }
+  .canais { border-bottom: 1px solid var(--color-line); }
   .canal {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -116,9 +111,9 @@ const canais = [
     gap: 0.15rem 1rem;
     min-height: 64px;
     padding: 0.9rem 0;
-    border-top: 1px solid rgb(255 255 255 / 0.12);
+    border-top: 1px solid var(--color-line);
   }
-  .canal-nome { font-weight: 700; font-size: 1.1rem; }
+  .canal-nome { font-weight: 500; font-size: 1.05rem; letter-spacing: -0.015em; }
   .canal-valor {
     grid-column: 1;
     color: var(--color-on-dark-muted);
@@ -149,16 +144,16 @@ const canais = [
     gap: 0.45rem;
     min-height: 44px;
     padding: 0 1.1rem;
-    border-radius: 9999px;
-    border: 1px solid rgb(255 255 255 / 0.22);
-    background: transparent;
+    border-radius: 8px;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-night-2);
     color: #fff;
     transition: background-color var(--dur-ui) var(--expo), border-color var(--dur-ui) var(--expo), transform var(--dur-fast) var(--expo);
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 500;
     flex-shrink: 0;
   }
-  .copy-btn:hover { background: rgb(255 255 255 / 0.08); border-color: rgb(255 255 255 / 0.35); }
+  .copy-btn:hover { background: var(--color-night-4); border-color: #3e3e44; }
   .copy-btn:active { transform: scale(0.97); }
   .copy-btn.is-copied { background: var(--color-green); border-color: var(--color-green); color: var(--color-ink); }
   .copy-btn.is-copied .i-copy { display: none; }

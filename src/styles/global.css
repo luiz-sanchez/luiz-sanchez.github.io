@@ -1,55 +1,41 @@
 @import 'tailwindcss';
 
-/* Fonte do nome e títulos: Archivo itálica larga (recorte local, pesos 700–900 e larguras 62–125) */
-@font-face {
-  font-family: 'Archivo Display';
-  src: url('../fonts/archivo-display-italic.woff2') format('woff2');
-  font-weight: 700 900;
-  font-stretch: 62% 125%;
-  font-style: italic;
-  font-display: swap;
-}
-
 @theme {
-  /* Fundo azul-marinho (não quase-preto) e superfícies um tom acima */
-  --color-night: #0b1530;
-  --color-night-2: #0e1a3a;
-  --color-night-3: #13224a;
+  /* Base no padrão Linear: preto frio com uma escada de superfícies e bordas finas */
+  --color-night: #08090a;      /* canvas */
+  --color-night-2: #0f1011;    /* superfície 1: cards e painéis */
+  --color-night-3: #141516;    /* superfície 2: card em destaque, hover */
+  --color-night-4: #191a1b;    /* superfície 3 */
   --color-paper: var(--color-night);
   --color-paper-2: var(--color-night-2);
-  /* ink: texto escuro sobre selos claros (amarelo, verde, lilás) */
+  /* ink: texto escuro sobre selos claros */
   --color-ink: #14161b;
-  --color-ink-2: #121826;
-  --color-ink-3: #1c2333;
-  --color-muted: #a3abbd;
-  --color-line: #26365e;
-  /* Azul */
-  --color-accent: #2d62ea;
-  --color-accent-deep: #1f45c9;
-  --color-accent-ink: #1f45c9;
-  --color-lilac: #9cbcff;
-  --color-sky: #7dd3fc;
+  --color-ink-2: #0f1011;
+  --color-ink-3: #1a1b1e;
+  --color-muted: #8a8f98;
+  --color-line: #23252a;
+  --color-line-strong: #34343a;
+  /* Acento único: lavanda */
+  --color-accent: #5e6ad2;
+  --color-accent-deep: #4c57c0;
+  --color-accent-ink: #4c57c0;
+  --color-lilac: #828fff;
+  --color-sky: #828fff;
   --color-yellow: #f5b82e;
-  --color-green: #22c55e;
-  --color-on-dark: #ecebf2;
-  --color-on-dark-muted: #a3abbd;
+  --color-green: #27a644;
+  --color-on-dark: #f7f8f8;
+  --color-on-dark-muted: #8a8f98;
+  --color-ink-muted: #d0d6e0;
 
-  --font-display: 'Archivo Display', 'Arial Black', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 18px;
+  --radius-card: 12px;
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @utility bg-accent-grad {
-  background: linear-gradient(120deg, #1f45c9 0%, #2d62ea 50%, #1e40af 100%);
-}
-/* Borda em degradê azul → céu → ciano */
-@utility border-grad {
-  border: 1.5px solid transparent;
-  background:
-    linear-gradient(var(--grad-fill, var(--color-night)), var(--grad-fill, var(--color-night))) padding-box,
-    linear-gradient(90deg, #2d62ea, #38bdf8 60%, #67e8f9) border-box;
+  background: var(--color-accent);
 }
 
 @layer base {
@@ -63,20 +49,19 @@
     font-feature-settings: 'cv11', 'ss01';
     text-rendering: optimizeLegibility;
   }
+  /* Títulos: mesma família do texto, peso 600 e espaçamento negativo forte */
   h1, h2 {
     font-family: var(--font-display);
-    font-style: italic;
-    font-stretch: 100%;
-    font-weight: 900;
-    letter-spacing: -0.015em;
+    font-weight: 600;
+    letter-spacing: -0.035em;
     text-wrap: balance;
   }
-  h3 { letter-spacing: -0.015em; text-wrap: balance; }
+  h3 { letter-spacing: -0.02em; text-wrap: balance; }
   p { text-wrap: pretty; }
   :focus-visible {
-    outline: 3px solid var(--color-lilac);
+    outline: 2px solid var(--color-lilac);
     outline-offset: 3px;
-    border-radius: 6px;
+    border-radius: 8px;
   }
   .on-accent :focus-visible { outline-color: #ffffff; }
   ::selection { background: var(--color-accent); color: #fff; }
@@ -87,27 +72,26 @@
 
 
   .pill {
-    @apply inline-flex items-center rounded-full px-3 py-1 text-[0.8rem] font-semibold leading-5;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.78rem] font-medium leading-5;
   }
   .pill-white { @apply bg-white text-accent-ink; }
-  .pill-dark, .pill-soft { background: rgb(45 98 234 / 0.18); color: #d3e0ff; box-shadow: inset 0 0 0 1px rgb(156 188 255 / 0.18); }
+  .pill-dark, .pill-soft { background: var(--color-night-3); color: var(--color-ink-muted); box-shadow: inset 0 0 0 1px var(--color-line); }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-semibold transition-[transform,background-color,box-shadow] duration-(--dur-ui) ease-(--expo);
-    min-height: 48px;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[0.95rem] font-medium transition-[transform,background-color,border-color] duration-(--dur-ui) ease-(--expo);
+    min-height: 44px;
   }
   .btn:active { transform: scale(0.97); transition-duration: var(--dur-fast); }
-  .btn-primary { @apply bg-accent-grad text-white; box-shadow: 0 12px 30px -12px rgb(45 98 234 / 0.8); }
-  .btn-primary:hover { box-shadow: 0 16px 38px -12px rgb(14 165 233 / 0.85); }
-  /* Botão secundário com a mesma borda em degradê do "Fale comigo" */
-  .btn-grad {
-    border: 1.5px solid transparent;
-    color: #fff;
-    background:
-      linear-gradient(var(--color-night-2), var(--color-night-2)) padding-box,
-      linear-gradient(90deg, #2d62ea, #38bdf8 60%, #67e8f9) border-box;
+  /* Primário: lavanda chapada, o único botão com cor */
+  .btn-primary { background: var(--color-accent); color: #fff; }
+  .btn-primary:hover { background: #6b77e0; }
+  /* Secundário: superfície 1 com borda fina */
+  .btn-grad, .btn-sec {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-on-dark);
+    background: var(--color-night-2);
   }
-  .btn-grad:hover { box-shadow: 0 0 32px -10px rgb(56 189 248 / 0.7); }
+  :is(.btn-grad, .btn-sec):hover { background: var(--color-night-4); border-color: #3e3e44; }
   .btn-ghost { @apply border border-white/15 text-white; }
   .btn-ghost:hover { @apply bg-white/5; }
 
@@ -115,8 +99,8 @@
 
   /* Janela de app dos mockups */
   .win {
-    @apply overflow-hidden rounded-[var(--radius-card)] border border-white/[0.07] bg-ink-2;
-    box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.8);
+    @apply overflow-hidden rounded-[var(--radius-card)] border border-line bg-ink-2;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
   }
   .win-bar { @apply flex items-center gap-1.5 border-b border-white/5 px-4 py-3; }
   .win-bar .dot { @apply size-2.5 rounded-full; }
@@ -190,11 +174,11 @@
    seguindo a entrada da próxima (scroll-driven, sem JavaScript por quadro). */
 @layer components {
   #conteudo > section { background-color: var(--color-night); }
+  /* Cada seção é um painel: canto de 16px e um fio claro no topo, sem sombra pesada */
   #conteudo > section + section {
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -28px 60px -24px rgb(2 6 20 / 0.7);
+    border-radius: 16px 16px 0 0;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 -20px 40px -24px rgb(0 0 0 / 0.9);
   }
-  @media (max-width: 767px) { #conteudo > section + section { border-radius: 20px 20px 0 0; } }
 }
 /* Fora da camada: precisa vencer o utilitário "relative" das seções */
 #conteudo > section:not(:last-child) { position: sticky; top: var(--stick, 0px); }
@@ -214,7 +198,7 @@
       position: absolute;
       inset: 0;
       z-index: 40;
-      background: rgb(4 9 24);
+      background: rgb(0 0 0);
       opacity: 0;
       pointer-events: none;
     }
@@ -251,13 +235,13 @@
   overflow: hidden;
   pointer-events: none;
   contain: layout paint;
-  background: radial-gradient(circle at 50% 35%, rgb(45 98 234 / var(--fundo)), rgb(19 34 74 / var(--fundo)) 72%);
+  background: rgb(25 26 27 / var(--fundo));
   /* No hero, a base do busto some no fundo; no círculo, a máscara já não corta nada */
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
   mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
 }
 .viajante.ativo { display: block; }
-.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(45 98 234 / var(--fundo)); }
+.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(94 106 210 / var(--fundo)); }
 .viajante img { position: absolute; max-width: none; height: auto; }
 .viaja.voando .hero .avatar-wrap { visibility: hidden; }
 .viaja:not(.chegou) .logo-foto { opacity: 0; }

@@ -9,7 +9,7 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
 ---
 <section id="projetos" class="proj-shell on-dark text-on-dark" aria-labelledby="projetos-titulo" data-expand>
   <!-- Título no mesmo tamanho das outras seções: os nomes dos projetos já são a letra grande aqui -->
-  <div class="reveal container-x pt-16 sm:pt-20 lg:pt-24">
+  <div class="reveal container-x pt-16 pb-10 sm:pt-20 lg:pt-24 lg:pb-12">
     <h2 id="projetos-titulo" class="text-[2.2rem] leading-[1.05] text-white sm:text-[2.8rem] lg:text-[3.1rem]">{projetosIntro.titulo}</h2>
   </div>
 
@@ -18,7 +18,7 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     return (
       <article
         id={`projeto-${p.id}`}
-        class="projeto relative overflow-hidden border-t border-white/[0.06] py-14 sm:py-20 lg:py-24"
+        class="projeto relative overflow-hidden border-t border-line py-14 sm:py-20 lg:py-24"
         aria-labelledby={`projeto-${p.id}-titulo`}
       >
         <div class="container-x relative">
@@ -43,7 +43,7 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
                   href={p.link.href}
                   target="_blank"
                   rel="noopener"
-                  class="group mt-7 inline-flex min-h-11 items-center gap-2 font-semibold text-white underline decoration-white/30 underline-offset-[6px] transition-colors duration-(--dur-ui) hover:decoration-lilac"
+                  class="btn btn-sec group mt-7"
                 >
                   {p.link.rotulo}
                   <ExternalLink class="size-4 transition-transform duration-(--dur-ui) ease-(--expo) group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
@@ -52,9 +52,9 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
               )}
             </div>
 
-            <figure class="reveal lg:col-span-7" style="--d:120ms">
+            <figure class="reveal painel lg:col-span-7" style="--d:120ms">
               <Mockup />
-              <figcaption class="mt-3 text-right text-[0.82rem] text-on-dark-muted">{projetosIntro.legendaMockup}</figcaption>
+              <figcaption class="mt-3 text-right text-[0.8rem] text-on-dark-muted">{projetosIntro.legendaMockup}</figcaption>
             </figure>
           </div>
         </div>
@@ -70,9 +70,7 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     --p: 1;
     --gap: clamp(12px, 4vw, 56px);
     clip-path: inset(0 calc((1 - var(--p)) * var(--gap)) round calc((1 - var(--p)) * 40px) calc((1 - var(--p)) * 40px) 0 0);
-    background:
-      radial-gradient(60% 40% at 85% 0%, rgb(45 98 234 / 0.22), transparent 70%),
-      var(--color-night-3);
+    background: var(--color-night-2);
   }
 
   .cabeca {
@@ -82,23 +80,19 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     justify-content: space-between;
     gap: 0.25rem 2rem;
     padding-bottom: 1.1rem;
-    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    border-bottom: 1px solid var(--color-line);
   }
   .caixa { container-type: inline-size; flex: 1 1 100%; min-width: 0; }
   @media (min-width: 1024px) { .caixa { flex-basis: 32rem; } }
   .nome-proj {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 900;
-    font-stretch: 80%;
-    text-transform: uppercase;
-    line-height: 0.92;
-    letter-spacing: -0.01em;
-    font-size: min(5.6rem, 12cqi);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-size: min(4.5rem, 12cqi);
     color: #fff;
     text-wrap: balance;
   }
-  .categoria { color: var(--color-lilac); font-size: 1.05rem; }
+  .categoria { color: var(--color-muted); font-size: 1rem; }
   /* Traço curto no lugar da bolinha */
   .feitos > li { position: relative; padding-left: 1.4rem; }
   .feitos > li + li { margin-top: 0.65rem; }
@@ -110,8 +104,17 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     width: 0.7rem;
     height: 2px;
     border-radius: 2px;
-    background: var(--color-lilac);
+    background: var(--color-line-strong);
   }
+  /* Mockup emoldurado num painel de superfície 2, como as capturas de produto */
+  .painel {
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid var(--color-line);
+    background: var(--color-night-3);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  }
+  @media (min-width: 640px) { .painel { padding: 20px; } }
 
   /* A abertura do card segue a rolagem direto no CSS, sem JavaScript a cada evento.
      Navegadores sem suporte usam o cálculo em main.ts. */
