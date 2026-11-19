@@ -7,6 +7,10 @@ const [abertura, ...resto] = sobre.paragrafos;
 <section id="sobre" class="py-20 sm:py-28 lg:py-32" aria-labelledby="sobre-titulo">
   <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-16">
     <div class="reveal lg:col-span-5">
+      <!-- Pouso do avatar que vem voando do hero (sem JS ou com movimento reduzido, ele já está aqui) -->
+      <span class="pouso" data-pouso aria-hidden="true">
+        <img src="/avatar/luiz-440.webp" width="440" height="544" alt="" loading="lazy" decoding="async" />
+      </span>
       <h2 id="sobre-titulo" class="text-[2.6rem] leading-[1] sm:text-[3.4rem] lg:text-[4rem]">{sobre.titulo}</h2>
     </div>
 
@@ -21,6 +25,23 @@ const [abertura, ...resto] = sobre.paragrafos;
 </section>
 
 <style>
+  .pouso {
+    position: relative;
+    display: block;
+    width: 5.5rem;
+    aspect-ratio: 1;
+    margin-bottom: 1.5rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 35%, #2d62ea, #13224a 72%);
+  }
+  .pouso::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid var(--color-accent); }
+  @media (min-width: 1024px) { .pouso { width: 8.5rem; margin-bottom: 2rem; } }
+  /* Mesmo enquadramento do rosto usado pelo avatar em voo (main.ts) */
+  .pouso img { position: absolute; left: -18.15%; top: -7.35%; width: 145%; max-width: none; height: auto; }
+  /* Com o avatar em voo, o pouso é só o lugar: o círculo, o anel e a foto vêm do viajante */
+  :global(.viaja) .pouso { background: none; }
+  :global(.viaja) .pouso::after, :global(.viaja) .pouso img { visibility: hidden; }
   .abertura {
     font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.65rem);
     line-height: 1.45;

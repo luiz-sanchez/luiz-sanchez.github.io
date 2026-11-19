@@ -237,3 +237,27 @@
 @keyframes afunda { to { scale: 0.93; } }
 @keyframes escurece { to { opacity: 0.62; } }
 #conteudo > section:focus { outline: none; }
+
+/* ---------- Avatar que viaja: hero → Sobre → cabeçalho (posição calculada em main.ts) ---------- */
+.viajante {
+  --t: 0;
+  /* Fundo e anel só aparecem na segunda metade do voo: no começo é o busto recortado, sem caixa atrás */
+  --fundo: clamp(0, (var(--t) - 0.55) * 2.2, 1);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+  background: radial-gradient(circle at 50% 35%, rgb(45 98 234 / var(--fundo)), rgb(19 34 74 / var(--fundo)) 72%);
+  /* No hero, a base do busto some no fundo; no círculo, a máscara já não corta nada */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
+  mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
+}
+.viajante.ativo { display: block; }
+.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(45 98 234 / var(--fundo)); }
+.viajante img { position: absolute; max-width: none; height: auto; }
+.viaja.voando .hero .avatar-wrap { visibility: hidden; }
+.viaja:not(.chegou) .logo-foto { opacity: 0; }

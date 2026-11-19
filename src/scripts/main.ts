@@ -280,3 +280,78 @@ if (main && cascata.length) {
     }
   });
 }
+
+/* ---------- Avatar que viaja: sai do hero, pousa no Sobre e termina no cabeçalho ---------- */
+const heroImg = document.querySelector<HTMLImageElement>('.hero .avatar');
+const pouso = document.querySelector<HTMLElement>('[data-pouso]');
+const logoFoto = document.querySelector<HTMLElement>('.logo-foto');
+const secHero = document.getElementById('inicio');
+const secSobre = document.getElementById('sobre');
+if (!reduceMotion && heroImg && pouso && logoFoto && secHero && secSobre) {
+  const raiz = document.documentElement;
+  const v = document.createElement('div');
+  v.className = 'viajante';
+  v.setAttribute('aria-hidden', 'true');
+  const foto = document.createElement('img');
+  foto.alt = '';
+  foto.decoding = 'async';
+  v.append(foto);
+  document.body.append(v);
+  raiz.classList.add('viaja');
+
+  const clamp = (t: number) => Math.min(1, Math.max(0, t));
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const suave = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+  // Rosto enquadrado num círculo de diâmetro D (os mesmos números do .pouso em Sobre.astro)
+  const rosto = (r: { left: number; top: number; width: number }) => ({ x: r.left - 0.1815 * r.width, y: r.top - 0.0735 * r.width, w: 1.45 * r.width });
+
+  const voo = () => {
+    const y = window.scrollY;
+    const vh = window.innerHeight;
+    const hH = secHero.offsetHeight;
+    const sH = secSobre.offsetHeight;
+    // 1) hero → Sobre enquanto o Sobre sobe; 2) Sobre → cabeçalho quando Serviços começa a cobrir o Sobre
+    const fim1 = hH * 0.9;
+    const ini2 = Math.max(fim1 + 40, hH + sH - vh * 0.7);
+    const fim2 = Math.max(ini2 + 160, hH + sH - vh * 0.2);
+    const voando = y > 0 && y < fim2;
+    raiz.classList.toggle('voando', voando);
+    raiz.classList.toggle('chegou', y >= fim2);
+    if (!voando || toggle?.getAttribute('aria-expanded') === 'true') { v.classList.remove('ativo'); return; }
+
+    const src = heroImg.currentSrc || heroImg.src;
+    if (foto.getAttribute('src') !== src) foto.src = src;
+    v.classList.add('ativo');
+
+    const P = pouso.getBoundingClientRect();
+    let c: { x: number; y: number; w: number; h: number; r: number };
+    let f: { x: number; y: number; w: number };
+    let t = 1;
+    if (y < ini2) {
+      t = suave(clamp(y / fim1));
+      const A = heroImg.getBoundingClientRect();
+      const B = rosto(P);
+      c = { x: lerp(A.left, P.left, t), y: lerp(A.top, P.top, t), w: lerp(A.width, P.width, t), h: lerp(A.height, P.height, t), r: lerp(0, P.width / 2, t) };
+      f = { x: lerp(A.left, B.x, t), y: lerp(A.top, B.y, t), w: lerp(A.width, B.w, t) };
+    } else {
+      const s = suave(clamp((y - ini2) / (fim2 - ini2)));
+      const L0 = logoFoto.getBoundingClientRect();
+      // 2px a mais de cada lado: o anel do viajante fica por dentro, o do logo por fora
+      const L = { left: L0.left - 2, top: L0.top - 2, width: L0.width + 4 };
+      const B = rosto(P);
+      const C = rosto(L);
+      const w = lerp(P.width, L.width, s);
+      c = { x: lerp(P.left, L.left, s), y: lerp(P.top, L.top, s), w, h: w, r: w / 2 };
+      f = { x: lerp(B.x, C.x, s), y: lerp(B.y, C.y, s), w: lerp(B.w, C.w, s) };
+    }
+    v.style.cssText = `left:${c.x}px;top:${c.y}px;width:${c.w}px;height:${c.h}px;border-radius:${c.r}px;--t:${t.toFixed(3)}`;
+    foto.style.cssText = `left:${f.x - c.x}px;top:${f.y - c.y}px;width:${f.w}px`;
+  };
+
+  let vooPendente = false;
+  const agenda = () => { if (!vooPendente) { vooPendente = true; requestAnimationFrame(() => { vooPendente = false; voo(); }); } };
+  voo();
+  window.addEventListener('scroll', agenda, { passive: true });
+  window.addEventListener('resize', agenda, { passive: true });
+  toggle?.addEventListener('click', agenda);
+}
