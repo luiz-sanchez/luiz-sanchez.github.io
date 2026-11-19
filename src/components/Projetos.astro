@@ -118,12 +118,13 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
   @property --p { syntax: '<number>'; inherits: true; initial-value: 1; }
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
+      /* Duas animações: abre ao entrar (própria rolagem) e afunda quando Trajetória sobe por cima (cascata) */
       .proj-shell {
-        animation-name: abre-card;
+        animation-name: abre-card, afunda;
         animation-timing-function: linear;
         animation-fill-mode: both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 90%;
+        animation-timeline: view(), --c5;
+        animation-range: entry 0% entry 90%, entry 0% entry 100%;
       }
     }
   }

@@ -183,3 +183,57 @@
   .reveal { opacity: 1 !important; translate: none !important; transform: none !important; transition: none !important; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---------- Cascata: cada seção fica presa enquanto a próxima sobe por cima ----------
+   --stick (calculado em main.ts) é 0 para seções até a altura da tela e negativo para as
+   mais altas: elas rolam até o fim e só então ficam presas. A coberta afunda e escurece
+   seguindo a entrada da próxima (scroll-driven, sem JavaScript por quadro). */
+@layer components {
+  #conteudo > section { background-color: var(--color-night); }
+  #conteudo > section + section {
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -28px 60px -24px rgb(2 6 20 / 0.7);
+  }
+  @media (max-width: 767px) { #conteudo > section + section { border-radius: 20px 20px 0 0; } }
+}
+/* Fora da camada: precisa vencer o utilitário "relative" das seções */
+#conteudo > section:not(:last-child) { position: sticky; top: var(--stick, 0px); }
+#conteudo { timeline-scope: --c2, --c3, --c4, --c5, --c6; }
+#conteudo > section:nth-child(2) { view-timeline-name: --c2; }
+#conteudo > section:nth-child(3) { view-timeline-name: --c3; }
+#conteudo > section:nth-child(4) { view-timeline-name: --c4; }
+#conteudo > section:nth-child(5) { view-timeline-name: --c5; }
+#conteudo > section:nth-child(6) { view-timeline-name: --c6; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Centro da parte visível: o fim da seção quando ela é mais alta que a tela */
+    #conteudo > section:not(:last-child) { transform-origin: 50% max(50%, calc(100% - 50svh)); }
+    #conteudo > section:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      background: rgb(4 9 24);
+      opacity: 0;
+      pointer-events: none;
+    }
+    /* longhands de propósito: o minificador não pode juntá-los num atalho que perderia o timeline */
+    /* Projetos ([data-expand]) declara as duas animações (abrir e afundar) no próprio componente */
+    #conteudo > section:not(:last-child):not([data-expand]), #conteudo > section:not(:last-child)::before {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-range: entry 0% entry 100%;
+    }
+    #conteudo > section:not(:last-child):not([data-expand]) { animation-name: afunda; }
+    #conteudo > section:not(:last-child)::before { animation-name: escurece; }
+    #conteudo > section:nth-child(1), #conteudo > section:nth-child(1)::before { animation-timeline: --c2; }
+    #conteudo > section:nth-child(2), #conteudo > section:nth-child(2)::before { animation-timeline: --c3; }
+    #conteudo > section:nth-child(3), #conteudo > section:nth-child(3)::before { animation-timeline: --c4; }
+    #conteudo > section:nth-child(4)::before { animation-timeline: --c5; }
+    #conteudo > section:nth-child(5), #conteudo > section:nth-child(5)::before { animation-timeline: --c6; }
+  }
+}
+@keyframes afunda { to { scale: 0.93; } }
+@keyframes escurece { to { opacity: 0.62; } }
+#conteudo > section:focus { outline: none; }

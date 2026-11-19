@@ -221,3 +221,62 @@ document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
     }, 2200);
   });
 });
+
+/* ---------- Cascata: seções presas no topo enquanto a próxima sobe por cima ---------- */
+const main = document.getElementById('conteudo');
+const cascata = [...document.querySelectorAll<HTMLElement>('#conteudo > section')];
+if (main && cascata.length) {
+  // Seção mais alta que a tela rola até o fim antes de ficar presa
+  const medeCascata = () => {
+    const vh = window.innerHeight;
+    cascata.forEach((s) => s.style.setProperty('--stick', `${Math.min(0, vh - s.offsetHeight)}px`));
+  };
+  medeCascata();
+  const ro = new ResizeObserver(medeCascata);
+  cascata.forEach((s) => ro.observe(s));
+  window.addEventListener('resize', medeCascata, { passive: true });
+
+  // Posição "de verdade" de um elemento, ignorando o deslocamento das seções presas
+  const topoReal = (el: HTMLElement) => {
+    const sec = cascata.find((s) => s.contains(el));
+    if (!sec) return el.getBoundingClientRect().top + window.scrollY;
+    let y = main.getBoundingClientRect().top + window.scrollY;
+    for (const s of cascata) { if (s === sec) break; y += s.offsetHeight; }
+    for (let n: HTMLElement | null = el; n && n !== sec; n = n.offsetParent as HTMLElement | null) y += n.offsetTop;
+    return y;
+  };
+  const rolaAte = (el: HTMLElement) => {
+    // Seção inteira encosta no topo; um item dentro dela fica abaixo do cabeçalho
+    const folga = cascata.includes(el) ? 0 : 96;
+    window.scrollTo({ top: topoReal(el) - folga, behavior: reduceMotion ? 'instant' : 'smooth' });
+  };
+
+  // Links internos: o navegador erra o alvo quando a seção está presa (já "parece" estar no topo)
+  document.addEventListener('click', (e) => {
+    const a = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const alvo = document.getElementById(decodeURIComponent(a.hash.slice(1)));
+    if (!alvo || !cascata.some((s) => s.contains(alvo))) return;
+    e.preventDefault();
+    rolaAte(alvo);
+    history.pushState(null, '', a.hash);
+    if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');
+    alvo.focus({ preventScroll: true });
+  });
+
+  // Teclado: um item focado numa seção já coberta por uma das seguintes volta a ficar visível
+  document.addEventListener('focusin', (e) => {
+    const el = e.target as HTMLElement;
+    const i = cascata.findIndex((s) => s.contains(el));
+    if (i < 0 || el === cascata[i]) return;
+    const sec = cascata[i];
+    const r = el.getBoundingClientRect();
+    const cobertura = Math.min(window.innerHeight, ...cascata.slice(i + 1).map((s) => s.getBoundingClientRect().top));
+    if (r.bottom > cobertura || r.top < 72) {
+      // No máximo até o ponto em que a seção fica presa: dali em diante ela não se move e a próxima a cobre
+      const presa = topoReal(sec) - (parseFloat(sec.style.getPropertyValue('--stick')) || 0);
+      // 'instant': o scroll-behavior suave do CSS deixaria o foco escondido durante a rolagem
+      window.scrollTo({ top: Math.min(topoReal(el) - window.innerHeight / 3, presa), behavior: 'instant' });
+    }
+  });
+}
