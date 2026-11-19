@@ -10,7 +10,7 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
 <section id="projetos" class="proj-shell on-dark text-on-dark" aria-labelledby="projetos-titulo" data-expand>
   <!-- Título no mesmo tamanho das outras seções: os nomes dos projetos já são a letra grande aqui -->
   <div class="reveal container-x pt-16 pb-10 sm:pt-20 lg:pt-24 lg:pb-12">
-    <h2 id="projetos-titulo" class="text-[2.2rem] leading-[1.05] text-white sm:text-[2.8rem] lg:text-[3.1rem]">{projetosIntro.titulo}</h2>
+    <h2 id="projetos-titulo" class="text-[2.2rem] leading-[1.05] text-on-dark sm:text-[2.8rem] lg:text-[3.1rem]">{projetosIntro.titulo}</h2>
   </div>
 
   {projetos.map((p, i) => {
@@ -89,7 +89,7 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     line-height: 1;
     letter-spacing: -0.05em;
     font-size: min(4.5rem, 12cqi);
-    color: #fff;
+    color: var(--color-on-dark);
     text-wrap: balance;
   }
   .categoria { color: var(--color-muted); font-size: 1rem; }
@@ -106,15 +106,8 @@ const mockups = { uniflow: UniFlow, jukebox: Jukebox, glpi: Glpi };
     border-radius: 2px;
     background: var(--color-line-strong);
   }
-  /* Mockup emoldurado num painel de superfície 2, como as capturas de produto */
-  .painel {
-    padding: 12px;
-    border-radius: 16px;
-    border: 1px solid var(--color-line);
-    background: var(--color-night-3);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
-  }
-  @media (min-width: 640px) { .painel { padding: 20px; } }
+  /* Mockup solto sobre a página, como produto fotografado (a sombra fica na .win) */
+  .painel { padding: 0; }
 
   /* A abertura do card segue a rolagem direto no CSS, sem JavaScript a cada evento.
      Navegadores sem suporte usam o cálculo em main.ts. */

@@ -8,7 +8,7 @@ const canais = [
   { nome: 'GitHub', ...contato.github },
 ];
 ---
-<section id="contato" class="contato-bg relative overflow-hidden text-white" aria-labelledby="contato-titulo">
+<section id="contato" class="contato-bg relative overflow-hidden text-on-dark" aria-labelledby="contato-titulo">
   <div class="container-x relative pt-20 pb-16 sm:pt-28 lg:pt-36 lg:pb-24">
     <div class="reveal caixa">
       <h2 id="contato-titulo" class="titulo">{contato.titulo}</h2>
@@ -55,7 +55,7 @@ const canais = [
   <footer class="relative border-t border-line">
     <div class="container-x flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-6 text-[0.9rem] text-on-dark-muted">
       <p>© {new Date().getFullYear()} {site.nome}, {site.local}</p>
-      <a href="#conteudo" class="topo inline-flex min-h-11 items-center gap-2 font-semibold text-white">
+      <a href="#conteudo" class="topo inline-flex min-h-11 items-center gap-2 text-accent">
         Voltar ao topo
         <ArrowUp class="size-4" aria-hidden="true" />
       </a>
@@ -65,7 +65,7 @@ const canais = [
 
 <style>
   .contato-bg {
-    background: var(--color-night);
+    background: var(--color-night-2);
     border-top: 1px solid var(--color-line);
   }
   .caixa { container-type: inline-size; }
@@ -76,10 +76,7 @@ const canais = [
     line-height: 0.95;
     letter-spacing: -0.055em;
     font-size: min(9rem, 18cqi); /* "Conversar?" cabe numa linha */
-    background: linear-gradient(180deg, #f7f8f8 0%, #f7f8f8 45%, #8a8f98 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--color-on-dark);
     text-wrap: balance;
   }
 
@@ -125,7 +122,7 @@ const canais = [
     grid-row: 1 / span 2;
     transition: translate var(--dur-ui) var(--expo);
   }
-  .canal:hover .canal-valor { color: #fff; }
+  .canal:hover .canal-valor { color: var(--color-on-dark); }
   .canal:hover .seta { translate: 3px -3px; }
   @media (min-width: 768px) {
     .canal { grid-template-columns: 12rem minmax(0, 1fr) auto; padding: 1.1rem 0; }
@@ -144,18 +141,18 @@ const canais = [
     gap: 0.45rem;
     min-height: 44px;
     padding: 0 1.1rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-line-strong);
-    background: var(--color-night-2);
-    color: #fff;
+    border-radius: 9999px;
+    border: 1px solid var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
     transition: background-color var(--dur-ui) var(--expo), border-color var(--dur-ui) var(--expo), transform var(--dur-fast) var(--expo);
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: 400;
     flex-shrink: 0;
   }
-  .copy-btn:hover { background: var(--color-night-4); border-color: #3e3e44; }
-  .copy-btn:active { transform: scale(0.97); }
-  .copy-btn.is-copied { background: var(--color-green); border-color: var(--color-green); color: var(--color-ink); }
+  .copy-btn:hover { background: var(--color-accent); color: #fff; }
+  .copy-btn:active { transform: scale(0.95); }
+  .copy-btn.is-copied { background: var(--color-green); border-color: var(--color-green); color: #fff; }
   .copy-btn.is-copied .i-copy { display: none; }
   .copy-btn.is-copied .i-check { display: block; }
   /* Confirma a cópia com um pulo rápido do ✓ (resposta ao clique) */

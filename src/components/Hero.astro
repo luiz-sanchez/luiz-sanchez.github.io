@@ -9,11 +9,6 @@ const letras = palavras.map((p) => [...p].map((ch) => ({ ch, i: n++ })));
 const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1</strong>');
 ---
 <section id="inicio" class="hero relative isolate overflow-hidden" aria-labelledby="hero-titulo" data-parallax>
-  <!-- Fundo: só uma luz neutra e fraca atrás do avatar (afunda e esmaece ao rolar) -->
-  <div class="hero-bg" aria-hidden="true">
-    <span class="glow"></span>
-  </div>
-
   <div class="hero-inner relative mx-auto w-full max-w-[1440px] px-5 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pt-36">
     <h1 id="hero-titulo" class="relative z-[1]">
       <span class="saudacao fade-up block" style="--d:80ms">{site.saudacao}</span>
@@ -118,10 +113,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
   .palavra { display: block; overflow: hidden; padding: 0.02em 0.12em 0.04em 0; margin-right: -0.12em; }
   .ch {
     display: inline-block;
-    background: linear-gradient(180deg, #f7f8f8 0%, #f7f8f8 40%, #8a8f98 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--color-on-dark);
   }
   @media (min-width: 1024px) {
     /* "Luiz Sanchez" mede ~5,9em: ocupa a largura do container */
@@ -132,7 +124,7 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
 
   /* ---------- Textos e botão ---------- */
   .intro { border-color: var(--color-line-strong); max-width: 32ch; }
-  .intro :global(.destaque) { font-weight: 500; color: var(--color-on-dark); }
+  .intro :global(.destaque) { font-weight: 600; color: var(--color-on-dark); }
   .textos { margin-top: 2rem; }
   .acoes { justify-self: start; }
   /* Botão primário: lavanda chapada, cantos de 8px */
@@ -142,15 +134,15 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
     gap: 0.6rem;
     min-height: 48px;
     padding: 0 1.25rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 9999px;
+    font-size: 1.0625rem;
+    font-weight: 400;
     color: #fff;
     background: var(--color-accent);
     transition: background-color var(--dur-ui) var(--expo), transform var(--dur-ui) var(--expo);
   }
-  .cta-hero:hover { background: #6b77e0; }
-  .cta-hero:active { transform: scale(0.97); transition-duration: var(--dur-fast); }
+  .cta-hero:hover { background: var(--color-accent-deep); }
+  .cta-hero:active { transform: scale(0.95); transition-duration: var(--dur-fast); }
   .ver-projetos { min-height: 48px; padding-inline: 1.1rem; }
 
   /* ---------- Avatar ---------- */

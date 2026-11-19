@@ -1,36 +1,38 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Base no padrão Linear: preto frio com uma escada de superfícies e bordas finas */
-  --color-night: #08090a;      /* canvas */
-  --color-night-2: #0f1011;    /* superfície 1: cards e painéis */
-  --color-night-3: #141516;    /* superfície 2: card em destaque, hover */
-  --color-night-4: #191a1b;    /* superfície 3 */
+  /* Base no padrão Apple: branco e "pergaminho" alternados; texto quase preto */
+  --color-night: #ffffff;      /* canvas */
+  --color-night-2: #f5f5f7;    /* pergaminho: seções alternadas e cards */
+  --color-night-3: #fafafc;    /* pérola: botões secundários */
+  --color-night-4: #e8e8ed;
   --color-paper: var(--color-night);
   --color-paper-2: var(--color-night-2);
-  /* ink: texto escuro sobre selos claros */
-  --color-ink: #14161b;
-  --color-ink-2: #0f1011;
-  --color-ink-3: #1a1b1e;
-  --color-muted: #8a8f98;
-  --color-line: #23252a;
-  --color-line-strong: #34343a;
-  /* Acento único: lavanda */
-  --color-accent: #5e6ad2;
-  --color-accent-deep: #4c57c0;
-  --color-accent-ink: #4c57c0;
-  --color-lilac: #828fff;
-  --color-sky: #828fff;
+  /* ink: texto escuro sobre selos claros; ink-2/3: janelas escuras dos mockups */
+  --color-ink: #1d1d1f;
+  --color-ink-2: #1d1d1f;
+  --color-ink-3: #2c2c2e;
+  --color-muted: #6e6e73;
+  --color-line: #d2d2d7;
+  --color-line-strong: #b0b0b5;
+  /* Acento único: azul de ação */
+  --color-accent: #0066cc;
+  --color-accent-deep: #0055b3;
+  --color-accent-ink: #0055b3;
+  --color-lilac: #0066cc;
+  --color-sky: #0066cc;
   --color-yellow: #f5b82e;
-  --color-green: #27a644;
-  --color-on-dark: #f7f8f8;
-  --color-on-dark-muted: #8a8f98;
-  --color-ink-muted: #d0d6e0;
+  --color-green: #1f8a3c;
+  /* "on-dark" virou o texto principal: o nome ficou, o papel agora é "texto sobre o fundo" */
+  --color-on-dark: #1d1d1f;
+  --color-on-dark-muted: #6e6e73;
+  --color-ink-muted: #424245;
 
-  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* SF Pro nos aparelhos Apple; Inter nos outros */
+  --font-display: -apple-system, BlinkMacSystemFont, 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 12px;
+  --radius-card: 18px;
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -53,7 +55,7 @@
   h1, h2 {
     font-family: var(--font-display);
     font-weight: 600;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
   h3 { letter-spacing: -0.02em; text-wrap: balance; }
@@ -61,46 +63,56 @@
   :focus-visible {
     outline: 2px solid var(--color-lilac);
     outline-offset: 3px;
-    border-radius: 8px;
+    border-radius: 9999px;
   }
   .on-accent :focus-visible { outline-color: #ffffff; }
   ::selection { background: var(--color-accent); color: #fff; }
-  html { color-scheme: dark; background: var(--color-night); }
+  html { color-scheme: light; background: var(--color-night); }
+  body { font-size: 1.0625rem; letter-spacing: -0.012em; }
 }
 
 @layer components {
 
 
   .pill {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.78rem] font-medium leading-5;
+    @apply inline-flex items-center rounded-full px-3 py-1 text-[0.8rem] leading-5;
   }
   .pill-white { @apply bg-white text-accent-ink; }
-  .pill-dark, .pill-soft { background: var(--color-night-3); color: var(--color-ink-muted); box-shadow: inset 0 0 0 1px var(--color-line); }
+  .pill-dark, .pill-soft { background: #fff; color: var(--color-ink-muted); box-shadow: inset 0 0 0 1px var(--color-line); }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[0.95rem] font-medium transition-[transform,background-color,border-color] duration-(--dur-ui) ease-(--expo);
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-[22px] py-[11px] text-[1.0625rem] font-normal transition-[transform,background-color,border-color,color] duration-(--dur-ui) ease-(--expo);
     min-height: 44px;
   }
-  .btn:active { transform: scale(0.97); transition-duration: var(--dur-fast); }
-  /* Primário: lavanda chapada, o único botão com cor */
+  .btn:active { transform: scale(0.95); transition-duration: var(--dur-fast); }
+  /* Primário: pílula azul chapada, o único botão cheio */
   .btn-primary { background: var(--color-accent); color: #fff; }
-  .btn-primary:hover { background: #6b77e0; }
-  /* Secundário: superfície 1 com borda fina */
+  .btn-primary:hover { background: var(--color-accent-deep); }
+  /* Secundário: pílula vazada em azul */
   .btn-grad, .btn-sec {
-    border: 1px solid var(--color-line-strong);
-    color: var(--color-on-dark);
-    background: var(--color-night-2);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    background: transparent;
   }
-  :is(.btn-grad, .btn-sec):hover { background: var(--color-night-4); border-color: #3e3e44; }
+  :is(.btn-grad, .btn-sec):hover { background: var(--color-accent); color: #fff; }
   .btn-ghost { @apply border border-white/15 text-white; }
   .btn-ghost:hover { @apply bg-white/5; }
 
   .container-x { @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-10; }
 
   /* Janela de app dos mockups */
+  /* Janelas dos mockups seguem escuras, como um produto fotografado sobre a página:
+     dentro delas os tokens de texto voltam aos tons claros */
+  .win, .phone {
+    --color-on-dark: #f5f5f7;
+    --color-on-dark-muted: #a1a1a6;
+    --color-lilac: #2997ff;
+    --color-green: #22c55e;
+  }
   .win {
-    @apply overflow-hidden rounded-[var(--radius-card)] border border-line bg-ink-2;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+    @apply overflow-hidden rounded-[var(--radius-card)] bg-ink-2;
+    /* a única sombra do sistema: produto apoiado numa superfície */
+    box-shadow: 3px 5px 30px 0 rgb(0 0 0 / 0.22);
   }
   .win-bar { @apply flex items-center gap-1.5 border-b border-white/5 px-4 py-3; }
   .win-bar .dot { @apply size-2.5 rounded-full; }
@@ -174,11 +186,9 @@
    seguindo a entrada da próxima (scroll-driven, sem JavaScript por quadro). */
 @layer components {
   #conteudo > section { background-color: var(--color-night); }
-  /* Cada seção é um painel: canto de 16px e um fio claro no topo, sem sombra pesada */
-  #conteudo > section + section {
-    border-radius: 16px 16px 0 0;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 -20px 40px -24px rgb(0 0 0 / 0.9);
-  }
+  /* Seções retas de ponta a ponta: a troca branco ↔ pergaminho é o divisor */
+  #conteudo > section:nth-child(even) { background-color: var(--color-night-2); }
+  #conteudo > section + section { box-shadow: 0 -16px 32px -24px rgb(0 0 0 / 0.18); }
 }
 /* Fora da camada: precisa vencer o utilitário "relative" das seções */
 #conteudo > section:not(:last-child) { position: sticky; top: var(--stick, 0px); }
@@ -218,8 +228,8 @@
     #conteudo > section:nth-child(5), #conteudo > section:nth-child(5)::before { animation-timeline: --c6; }
   }
 }
-@keyframes afunda { to { scale: 0.93; } }
-@keyframes escurece { to { opacity: 0.62; } }
+@keyframes afunda { to { scale: 0.95; } }
+@keyframes escurece { to { opacity: 0.07; } }
 #conteudo > section:focus { outline: none; }
 
 /* ---------- Avatar que viaja: hero → Sobre → cabeçalho (posição calculada em main.ts) ---------- */
@@ -235,13 +245,13 @@
   overflow: hidden;
   pointer-events: none;
   contain: layout paint;
-  background: rgb(25 26 27 / var(--fundo));
+  background: rgb(232 232 237 / var(--fundo));
   /* No hero, a base do busto some no fundo; no círculo, a máscara já não corta nada */
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
   mask-image: linear-gradient(to bottom, #000 calc(78% + 30% * var(--t)), transparent calc(99% + 30% * var(--t)));
 }
 .viajante.ativo { display: block; }
-.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(94 106 210 / var(--fundo)); }
+.viajante::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 2px solid rgb(0 102 204 / var(--fundo)); }
 .viajante img { position: absolute; max-width: none; height: auto; }
 .viaja.voando .hero .avatar-wrap { visibility: hidden; }
 .viaja:not(.chegou) .logo-foto { opacity: 0; }
