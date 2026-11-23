@@ -1,6 +1,6 @@
 ---
-import { ArrowRight, ArrowDown } from '@lucide/astro';
-import { site } from '../data/site';
+import { ArrowRight, ArrowDown, FileDown } from '@lucide/astro';
+import { site, contato } from '../data/site';
 
 // Nome em letras separadas para a revelação; o texto completo fica no .sr-only.
 const palavras = site.nome.split(' ');
@@ -36,6 +36,11 @@ const frase = site.frase.replace(/\*\*(.+?)\*\*/g, '<strong class="destaque">$1<
         <a href="#projetos" class="ver-projetos btn btn-sec group">
           {site.ctas.projetos}
           <ArrowDown class="size-4 transition-transform duration-(--dur-ui) ease-(--expo) group-hover:translate-y-0.5" aria-hidden="true" />
+        </a>
+        <a href={contato.curriculo.href} download={contato.curriculo.arquivo} class="ver-projetos btn btn-sec">
+          <FileDown class="size-4" aria-hidden="true" />
+          {contato.curriculo.rotulo}
+          <span class="sr-only">(PDF)</span>
         </a>
       </div>
     </div>

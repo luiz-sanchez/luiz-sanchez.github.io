@@ -41,4 +41,5 @@ export const contato = {
   },
   github: { rotulo: 'github.com/luiz-sanchez', href: 'https://github.com/luiz-sanchez' },
   pdf: { rotulo: 'Baixar portfólio em PDF', href: '/luiz-sanchez-portfolio.pdf' },
+  curriculo: { rotulo: 'Baixar currículo', href: '/luiz-sanchez-curriculo.pdf', arquivo: 'Luiz_Sanchez_Curriculo.pdf' },
 };
