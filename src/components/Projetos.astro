@@ -1,5 +1,5 @@
 ---
-import { ExternalLink } from '@lucide/astro';
+import { ExternalLink, ArrowRight } from '@lucide/astro';
 import { projetos, projetosIntro } from '../data/projetos';
 import UniFlow from './mockups/UniFlow.astro';
 import Jukebox from './mockups/Jukebox.astro';
@@ -44,6 +44,12 @@ const paineis: Record<string, [string, string]> = {
               <ul class="mt-7 flex flex-wrap gap-2" aria-label="Tecnologias" data-stagger>
                 {p.tags.map((t) => <li class="pill pill-dark">{t}</li>)}
               </ul>
+              {p.caso && (
+                <a href={p.caso} class="btn btn-primary group mt-7">
+                  Ler o estudo de caso
+                  <ArrowRight class="size-4 transition-transform duration-(--dur-ui) ease-(--expo) group-hover:translate-x-0.5" aria-hidden="true" />
+                </a>
+              )}
               {p.link && (
                 <a
                   href={p.link.href}

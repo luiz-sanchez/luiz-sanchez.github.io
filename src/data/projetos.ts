@@ -6,6 +6,8 @@ export type Projeto = {
   tags: string[];
   link?: { rotulo: string; href: string };
   mockup: 'uniflow' | 'jukebox' | 'glpi';
+  /** Página com o estudo de caso, quando houver */
+  caso?: string;
 };
 
 export const projetosIntro = {
@@ -53,6 +55,7 @@ export const projetos: Projeto[] = [
     ],
     tags: ['ITSM', 'GLPI', 'Processos', 'Treinamento'],
     mockup: 'glpi',
+    caso: '/casos/glpi/',
   },
 ];
 

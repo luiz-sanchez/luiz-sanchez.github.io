@@ -192,12 +192,13 @@
 }
 /* Fora da camada: precisa vencer o utilitário "relative" das seções */
 #conteudo > section:not(:last-child) { position: sticky; top: var(--stick, 0px); }
-#conteudo { timeline-scope: --c2, --c3, --c4, --c5, --c6; }
+#conteudo { timeline-scope: --c2, --c3, --c4, --c5, --c6, --c7; }
 #conteudo > section:nth-child(2) { view-timeline-name: --c2; }
 #conteudo > section:nth-child(3) { view-timeline-name: --c3; }
 #conteudo > section:nth-child(4) { view-timeline-name: --c4; }
 #conteudo > section:nth-child(5) { view-timeline-name: --c5; }
 #conteudo > section:nth-child(6) { view-timeline-name: --c6; }
+#conteudo > section:nth-child(7) { view-timeline-name: --c7; }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -222,6 +223,7 @@
     #conteudo > section:nth-child(3)::before { animation-timeline: --c4; }
     #conteudo > section:nth-child(4)::before { animation-timeline: --c5; }
     #conteudo > section:nth-child(5)::before { animation-timeline: --c6; }
+    #conteudo > section:nth-child(6)::before { animation-timeline: --c7; }
   }
 }
 @keyframes escurece { to { opacity: 0.07; } }

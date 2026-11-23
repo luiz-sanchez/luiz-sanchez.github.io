@@ -1,0 +1,56 @@
+---
+import { SquareTerminal, RefreshCw, Activity } from '@lucide/astro';
+import { lab, labIntro } from '../data/lab';
+
+const icones = { terminal: SquareTerminal, patch: RefreshCw, grafico: Activity };
+---
+<section id="lab" class="py-20 sm:py-28 lg:py-32" aria-labelledby="lab-titulo">
+  <div class="container-x">
+    <div class="reveal max-w-[46rem]">
+      <h2 id="lab-titulo" class="text-[2.2rem] leading-[1.05] sm:text-[2.8rem] lg:text-[3.1rem]">{labIntro.titulo}</h2>
+      <p class="mt-4 text-[1.1rem] leading-relaxed text-muted">{labIntro.texto}</p>
+    </div>
+
+    <!-- Uma linha por trabalho: ícone na cor dele, nome, o que faz e com o quê -->
+    <ul class="lista mt-10 lg:mt-14">
+      {lab.map((t, i) => {
+        const Icone = icones[t.icone];
+        return (
+          <li class="linha reveal" style={`--d:${i * 60}ms`}>
+            <span class="icone" style={`--de:${t.tom[0]};--ate:${t.tom[1]}`} aria-hidden="true"><Icone class="size-6" /></span>
+            <div>
+              <h3 class="nome">{t.titulo}</h3>
+              <p class="desc">{t.descricao}</p>
+              <ul class="mt-4 flex flex-wrap gap-2" aria-label="Tecnologias">
+                {t.tags.map((tag) => <li class="pill pill-soft">{tag}</li>)}
+              </ul>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .lista { border-bottom: 1px solid var(--color-line); }
+  .linha {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--color-line);
+  }
+  @media (min-width: 768px) { .linha { gap: 2rem; padding: 2.25rem 0; } }
+  .icone {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--de), var(--ate));
+  }
+  .nome { font-size: 1.4rem; font-weight: 600; line-height: 1.2; color: var(--color-on-dark); }
+  .desc { margin-top: 0.5rem; max-width: 62ch; color: var(--color-ink-muted); line-height: 1.55; }
+</style>
